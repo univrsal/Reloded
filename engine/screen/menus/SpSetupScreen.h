@@ -1,6 +1,9 @@
-//
-// Created by universal on 14.07.17.
-//
+/**
+ * Created by universallp on 14.07.2017.
+ * This file is part of reloded which is licenced
+ * under the MOZILLA PUBLIC LICENSE 2.0 - mozilla.org/en-US/MPL/2.0/
+ * github.com/univrsal/reloded
+ */
 
 #ifndef RELODED_SPSETUPSCREEN_H
 #define RELODED_SPSETUPSCREEN_H
@@ -39,7 +42,7 @@ public:
     void close(void);
 
 private:
-//    std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
+    std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
     Texture *m_border;
     Texture *m_content;
     Sfx *m_rock;

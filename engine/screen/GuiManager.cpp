@@ -6,6 +6,7 @@ GuiManager::GuiManager()
     m_renderer = NULL;
     m_layout = NULL;
     m_bg = NULL;
+    m_next_screen = GUI_NONE;
 }
 
 
@@ -37,6 +38,11 @@ void GuiManager::draw_gui(void)
         m_current_screen->draw_background();
         m_current_screen->draw_foreground();
     }
+
+    if (m_next_screen >= 0) {
+        set_screen(m_next_screen);
+        m_next_screen = GUI_NONE;
+    }
 }
 
 Screen *GuiManager::get_active_screen()
@@ -61,4 +67,9 @@ void GuiManager::set_screen(Uint8 gui_id)
     }
     m_current_screen->init(&m_input->m_event, m_renderer, m_layout);
 
+}
+
+void GuiManager::queue_screen(Uint8 gui_id)
+{
+    m_next_screen = gui_id;
 }

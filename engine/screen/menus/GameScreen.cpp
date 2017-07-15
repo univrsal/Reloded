@@ -98,7 +98,7 @@ void GameScreen::action_performed(int action_id)
             }
             break;
         case 0: // Singleplayer
-            m_renderer->m_gui_mgr->set_screen(GUI_SP);
+            m_renderer->m_gui_mgr->queue_screen(GUI_SP);
             break;
         case 1: // Local multiplayer
 

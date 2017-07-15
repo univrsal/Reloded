@@ -22,9 +22,9 @@ void Input::handle_input(bool *run_flag, GuiManager *gui_mgr)
             } else if (m_event.key.keysym.sym == SDLK_ESCAPE) {
                 gui_mgr->get_active_screen()->action_performed(ACTION_CANCEL);
             } else if (m_event.key.keysym.sym == SDLK_0) {
-                gui_mgr->set_screen(GUI_GAME);
+                gui_mgr->queue_screen(GUI_GAME);
             } else if (m_event.key.keysym.sym == SDLK_1) {
-                gui_mgr->set_screen(GUI_SP);
+                gui_mgr->queue_screen(GUI_SP);
             }
 
         } else if (m_event.type == SDL_QUIT) {

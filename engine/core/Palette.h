@@ -1,6 +1,9 @@
-//
-// Created by universal on 13.07.17.
-//
+/**
+ * Created by universallp on 13.07.2017.
+ * This file is part of reloded which is licenced
+ * under the MOZILLA PUBLIC LICENSE 2.0 - mozilla.org/en-US/MPL/2.0/
+ * github.com/univrsal/reloded
+ */
 
 #ifndef RELODED_PALETTE_H
 #define RELODED_PALETTE_H

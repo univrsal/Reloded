@@ -1,3 +1,10 @@
+/**
+ * Created by universallp on 14.07.2017.
+ * This file is part of reloded which is licenced
+ * under the MOZILLA PUBLIC LICENSE 2.0 - mozilla.org/en-US/MPL/2.0/
+ * github.com/univrsal/reloded
+ */
+
 #ifndef GUIMANAGER_H
 #define GUIMANAGER_H
 
@@ -31,15 +38,18 @@ public:
 
     void draw_gui(void);
 
+    void queue_screen(Uint8 gui_id);
+
     Screen *get_active_screen();
 
-    void set_screen(Uint8 gui_id);
-
+    int8_t m_next_screen;
     Texture *m_bg;
     Renderer *m_renderer;
     Screen *m_current_screen;
     Input *m_input;
     Layout *m_layout;
+private:
+    void set_screen(Uint8 gui_id);
 };
 
 #endif
