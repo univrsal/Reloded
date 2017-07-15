@@ -9,7 +9,7 @@
 #define RELODED_AUDIO_H
 
 #include "SDL_mixer.h"
-
+#include <stdio.h>
 #define AUDIO_SAMPLE_SIZE 2048
 
 #define AUDIO_CHANNEL_SFX 1
