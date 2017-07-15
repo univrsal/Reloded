@@ -23,6 +23,8 @@ public:
 
     void draw_background(void);
 
+    void draw_foreground(void);
+
     void handle_event(SDL_Event *event);
 
     std::string *m_text;

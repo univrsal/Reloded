@@ -48,7 +48,8 @@ void Font::render_text(Renderer *render, std::string *text, SDL_Rect *dest)
     SDL_Texture *texture = NULL;
     switch (m_mode) {
         case FONT_SHADED:
-            surface = TTF_RenderUTF8_Shaded(m_font_instance, text->c_str(), m_text_color, *render->m_palette->white());
+            surface = TTF_RenderUTF8_Shaded(m_font_instance, text->c_str(), *render->m_palette->black(),
+                                            *render->m_palette->white());
             break;
         case FONT_BLENDED:
             surface = TTF_RenderUTF8_Blended(m_font_instance, text->c_str(), m_text_color);

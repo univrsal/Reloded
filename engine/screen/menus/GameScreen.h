@@ -53,6 +53,7 @@ private:
     std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
     Texture *m_border;
     Texture *m_logo;
+    std::string m_test;
 
     Sfx *m_rock;
     Sfx *m_soft_rock;
