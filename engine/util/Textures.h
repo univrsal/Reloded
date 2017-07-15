@@ -1,0 +1,27 @@
+#ifndef TEXTURES_H
+#define TEXTURES_H
+// Textures
+
+// Main Menu
+#define CONST_PATH_BG "./res/textures/gui/bg.jpg"
+#define CONST_PATH_LOGO "./res/textures/gui/logo.jpg"
+#define CONST_PATH_MENU_BORDER "./res/textures/gui/menu.jpg"
+
+// SP
+#define CONST_PATH_SP_CONTENT "./res/textures/gui/sp.jpg"
+// Buttons
+#define CONST_PATH_BTN_SP "./res/textures/gui/btn_sp.jpg"
+#define CONST_PATH_BTN_LOCAL_MP "./res/textures/gui/btn_local_mp.jpg"
+#define CONST_PATH_BTN_NET_MP "./res/textures/gui/btn_net_mp.jpg"
+
+#define CONST_PATH_BTN_MAP_EDITOR "./res/textures/gui/btn_map_editor.jpg"
+#define CONST_PATH_BTN_SETTINGS "./res/textures/gui/btn_config.jpg"
+
+#define CONST_PATH_BTN_LOAD "./res/textures/gui/btn_load.jpg"
+#define CONST_PATH_BTN_RESET "./res/textures/gui/btn_reset.jpg"
+#define CONST_PATH_BTN_RUN "./res/textures/gui/btn_run.jpg"
+#define CONST_PATH_BTN_CANCEL "./res/textures/gui/btn_cancel.jpg"
+#define CONST_PTAH_BTN_UP "./res/textures/gui/btn_up.jpg"
+#define CONST_PATH_BTN_DOWN "./res/textures/gui/btn_down.jpg"
+
+#endif
