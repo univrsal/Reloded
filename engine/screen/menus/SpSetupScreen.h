@@ -43,11 +43,12 @@ public:
 
 private:
     std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
-    std::string m_test;
+
     Texture *m_border;
     Texture *m_content;
-    Sfx *m_rock;
-    Sfx *m_soft_rock;
+    
+	Sfx *m_rock;
+	Sfx *m_soft_rock;
 };
 
 

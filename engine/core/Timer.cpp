@@ -44,7 +44,7 @@ void Timer::unpause()
 
 uint32_t Timer::get_ticks()
 {
-    uint8_t time = 0;
+	uint32_t time = 0;
 
     if (m_started) {
 

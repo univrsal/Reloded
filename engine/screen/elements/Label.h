@@ -21,6 +21,8 @@ public:
 
     ~Label();
 
+	void close(void);
+
     void draw_background(void);
 
     void draw_foreground(void);

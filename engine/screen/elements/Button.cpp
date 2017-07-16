@@ -35,8 +35,8 @@ Button::Button(int id, int type, int x, int y, const char *texure, const char *t
 
 Button::~Button()
 {
-    close();
-    m_bg = NULL;
+	close();
+	delete m_bg;
 }
 
 void Button::draw_background(void)
@@ -113,9 +113,8 @@ void Button::handle_event(SDL_Event *event)
 
 void Button::close(void)
 {
-    GuiElement::close();
-    m_tooltip.clear();
-    m_bg->free();
-    m_type = 0;
-    m_hover_start = 0;
+	m_tooltip.clear();
+	m_text.clear();
+	m_type = 0;
+	m_hover_start = 0;
 }

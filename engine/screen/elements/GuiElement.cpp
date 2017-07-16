@@ -1,9 +1,14 @@
 #include "GuiElement.h"
 
+GuiElement::~GuiElement()
+{
+	close();
+	m_parent_screen = NULL;
+}
+
 void GuiElement::close(void)
 {
     m_element_id = 0;
-    m_parent_screen = NULL;
     m_dimensions = {0, 0, 0, 0};
     m_scaled_dimensions = {0, 0, 0, 0};
 }

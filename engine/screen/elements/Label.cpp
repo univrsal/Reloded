@@ -19,6 +19,11 @@ Label::Label(int id, SDL_Rect *dim, std::string *text, Screen *parent)
 Label::~Label()
 {
     close();
+	m_text = NULL;
+}
+
+void Label::close(void)
+{
 }
 
 void Label::draw_background(void)
