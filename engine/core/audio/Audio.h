@@ -33,6 +33,14 @@ public:
     void pause_sfx(void);
 
     void unpause_sfx(void);
+	
+	void channel_finished(int channel);
+
+	bool get_is_sound_finished(void);
+	
+	bool m_channel_sfx_finished;
+	bool m_channel_music_finished;
+
 };
 
 

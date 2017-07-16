@@ -32,10 +32,10 @@ void Engine::init(void)
         if (!m_audio.init()) {
             m_return_value = -1;
         } else {
-            m_gui_manager.init(&m_input, &m_renderer);
+            m_gui_manager.init(&m_input, &m_renderer, &m_audio);
             m_gui_manager.queue_screen(GUI_GAME);
             m_frame_timer.start();
-        }
+		}
     }
 }
 
@@ -74,6 +74,8 @@ void Engine::game_loop(void)
         }
     }
 }
+
+
 
 void Engine::close(void)
 {

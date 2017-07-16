@@ -19,6 +19,8 @@ class GuiElement;
 
 class Renderer;
 
+class Audio;
+
 class Layout;
 
 class Tooltip;
@@ -29,7 +31,7 @@ class Screen
 {
 public:
 
-    virtual void init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout) = 0;
+    virtual void init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Audio* audio) = 0;
 
     virtual void draw_background(void) = 0;
 
@@ -44,6 +46,7 @@ public:
     virtual Sfx *get_sfx_for_element(int element_type) = 0;
 
     Tooltip *m_tooltip;
+	Audio* m_audio;
     SDL_Event *m_current_event;
     Renderer *m_renderer;
     Layout *m_layout;

@@ -31,7 +31,7 @@ public:
 
     void draw_foreground(void);
 
-    void init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout);
+    void init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Audio* audio);
 
     void set_active_tooltip(std::string *text, int x, int y);
 

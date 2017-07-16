@@ -6,11 +6,14 @@
 
 bool Audio::init(void)
 {
-    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, AUDIO_SAMPLE_SIZE)) {
+    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, AUDIO_SAMPLE_SIZE)) {
         printf("SDL_Mixer failed to initialize! SDL_Mixer Error %s\n", Mix_GetError());
         return false;
     }
     Mix_AllocateChannels(2);
+
+	m_channel_music_finished = true;
+	m_channel_sfx_finished = true;
     return true;
 }
 
@@ -50,4 +53,25 @@ void Audio::pause_sfx(void)
 void Audio::unpause_sfx(void)
 {
     Mix_Resume(AUDIO_CHANNEL_SFX);
+}
+
+void Audio::channel_finished(int channel)
+{
+	switch (channel)
+	{
+	case AUDIO_CHANNEL_MUSIC:
+		m_channel_music_finished = true;
+		break;
+	case AUDIO_CHANNEL_SFX:
+		m_channel_sfx_finished = true;
+		break;
+	default:
+		break;
+	}
+}
+
+bool Audio::get_is_sound_finished(void)
+{
+	
+	return m_channel_music_finished && m_channel_sfx_finished;
 }

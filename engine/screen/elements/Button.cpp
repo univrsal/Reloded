@@ -74,7 +74,7 @@ void Button::handle_event(SDL_Event *event)
         if (event->button.button == SDL_BUTTON_LEFT) {
             if (is_mouse_over(event->button.x, event->button.y)) {
                 if (!m_pressed)
-                    //   get_parent_screen()->get_sfx_for_element(m_type)->play();
+                    get_parent_screen()->get_sfx_for_element(m_type)->play();
                 m_pressed = true;
             }
         }
@@ -90,7 +90,7 @@ void Button::handle_event(SDL_Event *event)
         if (event->motion.state & SDL_BUTTON_LMASK) {
             if (is_mouse_over(event->button.x, event->button.y)) {
                 if (!m_pressed)
-                    // get_parent_screen()->get_sfx_for_element(m_type)->play();
+                    get_parent_screen()->get_sfx_for_element(m_type)->play();
                 m_pressed = true;
             }
         } else {

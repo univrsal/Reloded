@@ -34,7 +34,7 @@ public:
 
     ~GuiManager();
 
-    void init(Input *input, Renderer *renderer);
+    void init(Input *input, Renderer *renderer, Audio* audio);
 
     void draw_gui(void);
 
@@ -48,6 +48,7 @@ public:
     Screen *m_current_screen;
     Input *m_input;
     Layout *m_layout;
+	Audio* m_audio;
 private:
     void set_screen(Uint8 gui_id);
 };

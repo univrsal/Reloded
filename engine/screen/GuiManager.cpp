@@ -22,8 +22,9 @@ GuiManager::~GuiManager()
     m_renderer = NULL;
 }
 
-void GuiManager::init(Input *input, Renderer *renderer)
+void GuiManager::init(Input *input, Renderer *renderer, Audio* audio)
 {
+	m_audio = audio;
     m_input = input;
     m_renderer = renderer;
     m_layout = new Layout(m_renderer->m_sdl_window);
@@ -39,7 +40,7 @@ void GuiManager::draw_gui(void)
         m_current_screen->draw_foreground();
     }
 
-    if (m_next_screen >= 0) {
+    if (m_next_screen >= 0 && m_audio->get_is_sound_finished()) {
         set_screen(m_next_screen);
         m_next_screen = GUI_NONE;
     }
@@ -65,8 +66,8 @@ void GuiManager::set_screen(Uint8 gui_id)
             m_current_screen = new SpSetupScreen();
             break;
     }
-    m_current_screen->init(&m_input->m_event, m_renderer, m_layout);
-
+    m_current_screen->init(&m_input->m_event, m_renderer, m_layout, m_audio);
+	m_current_screen->action_performed(ACTION_RESIZE);
 }
 
 void GuiManager::queue_screen(Uint8 gui_id)

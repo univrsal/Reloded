@@ -64,12 +64,9 @@ void SpSetupScreen::draw_foreground(void)
     }
 }
 
-void SpSetupScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout)
+void SpSetupScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Audio* audio)
 {
-    m_current_event = NULL;
-    m_renderer = NULL;
-    m_layout = NULL;
-
+	m_audio = audio;
     m_layout = layout;
     m_current_event = sdl_event;
     m_renderer = renderer;
@@ -85,8 +82,8 @@ void SpSetupScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layou
     m_screen_elements.emplace_back(
             new Button(4, BTN_MEDIUM, 546, 331, CONST_PATH_BTN_SETTINGS, LANG_TIP_SETTINGS, this));
 
-    m_rock = new Sfx(SFX_EFFECT, SFX_PATH_ROCK);
-    m_soft_rock = new Sfx(SFX_EFFECT, SFX_PATH_ROCK_SOFT);
+    m_rock = new Sfx(SFX_EFFECT,m_audio, SFX_PATH_ROCK);
+    m_soft_rock = new Sfx(SFX_EFFECT, m_audio, SFX_PATH_ROCK_SOFT);
 
     //Singleplayer specific buttons
 
