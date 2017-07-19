@@ -58,7 +58,7 @@ void Renderer::init(GuiManager *gui_mgr)
     } else {
 
         m_default_font = TTF_OpenFont("./res/fnt/roboto.ttf", FONT_DEFAULT);
-        m_lode_font = TTF_OpenFont("./res/fnt/lode.ttf", FONT_DEFAULT);
+        m_lode_font = TTF_OpenFont("./res/fnt/lode.ttf", 16);
         m_font_helper = new FontHelper(this);
     }
 
@@ -150,9 +150,11 @@ void Renderer::util_fill_rect(int x, int y, int w, int h, const SDL_Color *color
     delete temp_rect;
 }
 
-void Renderer::util_text_lode(std::string *text, int x, int y)
+void Renderer::util_text_lode(std::string *text, int x, int y, const SDL_Color *color)
 {
-    m_font_helper->draw(text, x, y, m_lode_font, m_palette->get_accent(), *m_gui_mgr->m_layout->get_scale_factor());
+    if (color == NULL)
+        color = m_palette->get_accent();
+    m_font_helper->draw(text, x, y, m_lode_font, color, *m_gui_mgr->m_layout->get_scale_factor());
 }
 
 void Renderer::util_text_default(std::string *text, int x, int y)

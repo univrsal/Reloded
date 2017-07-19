@@ -11,7 +11,7 @@ Palette::Palette()
 
     m_foreground = {255, 255, 255, 255};
     m_background = {255, 255, 255, 255};
-    m_accent = {255, 255, 255, 255};
+    m_accent = {255, 191, 0, 255};
 
     m_tooltip_body = {248, 230, 177, 128};
 }

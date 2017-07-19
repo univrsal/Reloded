@@ -82,6 +82,10 @@ void SpSetupScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layou
     m_screen_elements.emplace_back(
             new Button(4, BTN_MEDIUM, 546, 331, CONST_PATH_BTN_SETTINGS, LANG_TIP_SETTINGS, this));
 
+    // Labels
+    m_screen_elements.emplace_back(new Label(5, 241, 53, LABEL_TITLE, LANG_TITLE_SP, this));
+    m_screen_elements.emplace_back(new Label(6, 53, 91, LABEL_GOLD, LANG_GROUP_SP, this));
+
     m_rock = new Sfx(SFX_EFFECT,m_audio, SFX_PATH_ROCK);
     m_soft_rock = new Sfx(SFX_EFFECT, m_audio, SFX_PATH_ROCK_SOFT);
 

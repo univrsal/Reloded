@@ -61,7 +61,7 @@ public:
 
     void util_fill_rect(int x, int y, int w, int h, const SDL_Color *color = NULL);
 
-    void util_text_lode(std::string *text, int x, int y);
+    void util_text_lode(std::string *text, int x, int y, const SDL_Color *color = NULL);
 
     void util_text_default(std::string *text, int x, int y);
 

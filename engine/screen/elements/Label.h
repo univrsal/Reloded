@@ -9,15 +9,18 @@
 #define LABEL_H
 
 #include "GuiElement.h"
+#include "../Screen.h"
 #include <string>
+
+#define LABEL_TITLE 0
+#define LABEL_GOLD 1
+#define LABEL_WHITE 2
 
 class Label :
         public GuiElement
 {
 public:
-    Label(int id, int x, int y, int w, int h, std::string *text, Screen *parent);
-
-    Label(int id, SDL_Rect *dim, std::string *text, Screen *parent);
+    Label(int id, int x, int y, int type, const char *text, Screen *parent);
 
     ~Label();
 
@@ -29,7 +32,9 @@ public:
 
     void handle_event(SDL_Event *event);
 
-    std::string *m_text;
+    std::string m_text;
+
+    SDL_Color *m_color;
 };
 
 #endif

@@ -19,7 +19,8 @@ FontHelper::~FontHelper()
     m_renderer = NULL;
 }
 
-void FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, SDL_Color *fg, SDL_Color *bg, int scale)
+void
+FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, const SDL_Color *bg, int scale)
 {
     SDL_Surface *surface = NULL;
     SDL_Texture *texture = NULL;
@@ -38,8 +39,7 @@ void FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, SDL_Color
         texture = SDL_CreateTextureFromSurface(m_renderer->m_sdl_renderer, surface);
 
         if (texture) {
-            SDL_Rect dest = {x * scale, y * scale, surface->w * scale, surface->h * scale};
-
+            SDL_Rect dest = {x, y, surface->w * scale, surface->h * scale};
             SDL_RenderCopy(m_renderer->m_sdl_renderer, texture, NULL, &dest);
             SDL_DestroyTexture(texture);
             SDL_FreeSurface(surface);
@@ -77,7 +77,7 @@ SDL_Rect FontHelper::get_text_dimension(TTF_Font *font, std::string *text, int s
     return dest;
 }
 
-void FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, SDL_Color *fg, int scale)
+void FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, int scale)
 {
     set_mode(FONT_BLENDED);
     draw(text, x, y, font, fg, NULL, scale);
