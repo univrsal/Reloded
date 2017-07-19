@@ -15,7 +15,7 @@
 #include "../../core/Input.h"
 #include "../elements/Label.h"
 #include "../elements/Button.h"
-#include "../../core/Texture.h"
+#include "../../core/render/Texture.h"
 #include "../../util/Textures.h"
 #include "../../util/Lang.h"
 #include "../../core/audio/Sfx.h"

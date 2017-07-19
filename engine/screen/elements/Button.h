@@ -10,7 +10,7 @@
 
 #include "GuiElement.h"
 #include "SDL.h"
-#include "../../core/Texture.h"
+#include "../../core/render/Texture.h"
 #include "../../core/Tooltip.h"
 #include "../../core/audio/Sfx.h"
 

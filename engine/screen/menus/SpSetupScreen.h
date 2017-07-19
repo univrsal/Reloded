@@ -13,7 +13,7 @@
 #include <memory>
 #include "../../core/Input.h"
 #include "../Screen.h"
-#include "../../core/Texture.h"
+#include "../../core/render/Texture.h"
 #include "../../util/Textures.h"
 #include "../../util/Lang.h"
 #include "../elements/Button.h"

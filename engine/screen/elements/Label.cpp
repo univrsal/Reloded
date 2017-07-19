@@ -28,7 +28,7 @@ void Label::close(void)
 
 void Label::draw_background(void)
 {
-    m_parent_screen->m_renderer->util_draw_text(m_text, m_dimensions.x, m_dimensions.y);
+    m_parent_screen->m_renderer->util_text_lode(m_text, m_dimensions.x, m_dimensions.y);
 }
 
 void Label::handle_event(SDL_Event *event)

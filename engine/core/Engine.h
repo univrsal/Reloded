@@ -9,7 +9,7 @@
 #define ENGINE_H
 
 #include "SDL.h"
-#include "Renderer.h"
+#include "render/Renderer.h"
 #include "Input.h"
 #include "../screen/GuiManager.h"
 #include "audio/Audio.h"

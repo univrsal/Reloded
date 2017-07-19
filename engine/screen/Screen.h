@@ -9,7 +9,7 @@
 #define SCREEN_H
 
 #include "SDL.h"
-#include "../core/Renderer.h"
+#include "../core/render/Renderer.h"
 #include "elements/GuiElement.h"
 #include "Layout.h"
 #include "../core/Tooltip.h"

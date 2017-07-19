@@ -9,10 +9,9 @@
 #define RENDERER_H
 
 #include "SDL.h"
-#include "SDL_ttf.h"
-#include "Font.h"
+#include "FontHelper.h"
 #include "Palette.h"
-#include "Timer.h"
+#include "../Timer.h"
 #include <stdio.h>
 #include <iostream>
 #include <string>
@@ -25,9 +24,9 @@
 
 #define CONST_WINDOW_TITLE "Lode Runner: The Mad Monks' Revenge v0.1"
 
-class Font;
-
 class GuiManager;
+
+class FontHelper;
 
 class Renderer
 {
@@ -62,21 +61,23 @@ public:
 
     void util_fill_rect(int x, int y, int w, int h, const SDL_Color *color = NULL);
 
-    void util_draw_text(std::string *text, int x, int y);
+    void util_text_lode(std::string *text, int x, int y);
 
-    void util_draw_text(std::string *text, SDL_Rect *dest);
+    void util_text_default(std::string *text, int x, int y);
 
-    void util_draw_text_blended(std::string *text, int x, int y);
-
-    SDL_Rect util_get_text_dimensions(std::string *text, Font *font = NULL);
+    SDL_Rect util_text_default_dim(std::string *text, int type = FONT_ROBOTO);
 
     SDL_Renderer *m_sdl_renderer;
     SDL_Window *m_sdl_window;
 
     Palette *m_palette;
-    Font *m_default_font;
     GuiManager *m_gui_mgr;
     bool m_init_success;
+private:
+    TTF_Font *m_default_font;
+    TTF_Font *m_lode_font;
+
+    FontHelper *m_font_helper;
 };
 
 #endif

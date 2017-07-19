@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "../../screen/GuiManager.h"
 
 Renderer::Renderer()
 {
@@ -6,6 +7,8 @@ Renderer::Renderer()
     m_sdl_window = NULL;
     m_init_success = true;
     m_default_font = NULL;
+    m_font_helper = NULL;
+    m_lode_font = NULL;
     m_palette = NULL;
 
 }
@@ -13,9 +16,15 @@ Renderer::Renderer()
 Renderer::~Renderer()
 {
     close();
+
+    delete m_palette;
+    delete m_font_helper;
+
+    m_font_helper = NULL;
     m_sdl_renderer = NULL;
     m_sdl_window = NULL;
     m_default_font = NULL;
+    m_lode_font = NULL;
     m_palette = NULL;
 }
 
@@ -47,8 +56,10 @@ void Renderer::init(GuiManager *gui_mgr)
         printf("Initializing SDL_ttf failed! Error: %s\n", TTF_GetError());
         m_init_success = false;
     } else {
-        m_default_font = new Font("./res/fnt/roboto.ttf");
-        m_default_font->init();
+
+        m_default_font = TTF_OpenFont("./res/fnt/roboto.ttf", FONT_DEFAULT);
+        m_lode_font = TTF_OpenFont("./res/fnt/lode.ttf", FONT_DEFAULT);
+        m_font_helper = new FontHelper(this);
     }
 
     m_gui_mgr = gui_mgr;
@@ -59,7 +70,10 @@ void Renderer::close(void)
 {
     SDL_DestroyRenderer(m_sdl_renderer);
     SDL_DestroyWindow(m_sdl_window);
-    m_palette->~Palette();
+
+    TTF_CloseFont(m_lode_font);
+    TTF_CloseFont(m_default_font);
+
     TTF_Quit();
     SDL_Quit();
 }
@@ -136,26 +150,24 @@ void Renderer::util_fill_rect(int x, int y, int w, int h, const SDL_Color *color
     delete temp_rect;
 }
 
-void Renderer::util_draw_text(std::string *text, int x, int y)
+void Renderer::util_text_lode(std::string *text, int x, int y)
 {
-    m_default_font->render_text(this, text, x, y);
+    m_font_helper->draw(text, x, y, m_lode_font, m_palette->get_accent(), *m_gui_mgr->m_layout->get_scale_factor());
 }
 
-void Renderer::util_draw_text(std::string *text, SDL_Rect *dest)
+void Renderer::util_text_default(std::string *text, int x, int y)
 {
-    m_default_font->render_text(this, text, dest);
+    m_font_helper->draw(text, x, y, m_default_font);
 }
 
-void Renderer::util_draw_text_blended(std::string *text, int x, int y)
+SDL_Rect Renderer::util_text_default_dim(std::string *text, int type)
 {
-    m_default_font->render_text_blended(this, text, x, y);
-}
+    switch (type) {
+        default:
+        case FONT_DEFAULT:
+            return m_font_helper->get_text_dimension(m_default_font, text);
+        case FONT_LODE:
+            return m_font_helper->get_text_dimension(m_default_font, text, *m_gui_mgr->m_layout->get_scale_factor());
 
-SDL_Rect Renderer::util_get_text_dimensions(std::string *text, Font *font)
-{
-    if (font == NULL) {
-        return m_default_font->get_text_dimension(this, text);
-    } else {
-        return font->get_text_dimension(this, text);
     }
 }

@@ -25,7 +25,7 @@ void Tooltip::draw_background(void)
         m_parent_screen->m_renderer->util_fill_rect_shadow(&m_dimensions, m_bg_color);
         int i = 0;
         for (std::vector<std::string *>::iterator it = m_formatted_text.begin(); it != m_formatted_text.end(); ++it) {
-            m_parent_screen->m_renderer->util_draw_text_blended(*it, m_dimensions.x + TOOLTIP_BORDER,
+            m_parent_screen->m_renderer->util_text_default(*it, m_dimensions.x + TOOLTIP_BORDER,
                                                                 m_dimensions.y + TOOLTIP_BORDER +
                                                                 ((TOOLTIP_LINE_SPACE + m_line_height) * i));
             i++;
@@ -74,7 +74,7 @@ void Tooltip::set_text(std::string *text)
         end = text->find(m_delmiter, start);
 
         if (!token.empty())
-            dim = m_parent_screen->m_renderer->util_get_text_dimensions(&token);
+            dim = m_parent_screen->m_renderer->util_text_default_dim(&token);
 
         if (dim.w > width)
             width = dim.w;
@@ -84,7 +84,7 @@ void Tooltip::set_text(std::string *text)
     m_formatted_text.push_back(new std::string(token));
 
     if (!token.empty())
-        dim = m_parent_screen->m_renderer->util_get_text_dimensions(&token);
+        dim = m_parent_screen->m_renderer->util_text_default_dim(&token);
 
     if (dim.w > width)
         width = dim.w;
