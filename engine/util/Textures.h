@@ -17,6 +17,7 @@
 
 // SP
 #define CONST_PATH_SP_CONTENT "./res/textures/gui/sp.jpg"
+
 // Buttons
 #define CONST_PATH_BTN_SP "./res/textures/gui/btn_sp.jpg"
 #define CONST_PATH_BTN_LOCAL_MP "./res/textures/gui/btn_local_mp.jpg"
@@ -29,7 +30,7 @@
 #define CONST_PATH_BTN_RESET "./res/textures/gui/btn_reset.jpg"
 #define CONST_PATH_BTN_RUN "./res/textures/gui/btn_run.jpg"
 #define CONST_PATH_BTN_CANCEL "./res/textures/gui/btn_cancel.jpg"
-#define CONST_PTAH_BTN_UP "./res/textures/gui/btn_up.jpg"
+#define CONST_PATH_BTN_UP "./res/textures/gui/btn_up.jpg"
 #define CONST_PATH_BTN_DOWN "./res/textures/gui/btn_down.jpg"
-
+#define CONST_PATH_BTN_BROWSE "./res/textures/gui/btn_browse.jpg"
 #endif

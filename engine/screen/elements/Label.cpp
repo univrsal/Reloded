@@ -32,19 +32,31 @@ void Label::close(void)
 
 void Label::draw_background(void)
 {
-    SDL_Point *o = m_parent_screen->m_layout->get_content_origin();
-    int scale = *m_parent_screen->m_layout->get_scale_factor();
+    SDL_Point *o = get_parent_screen()->m_layout->get_content_origin();
+    int scale = *get_parent_screen()->m_layout->get_scale_factor();
 
-    m_parent_screen->m_renderer->util_text_lode(&m_text, o->x + m_dimensions.x * scale, o->y + m_dimensions.y * scale,
-                                                m_color);
+    get_parent_screen()->m_renderer->util_text_lode(&m_text, o->x + m_dimensions.x * scale,
+                                                    o->y + m_dimensions.y * scale,
+                                                    m_color);
 }
 
-void Label::handle_event(SDL_Event *event)
+void Label::handle_events(SDL_Event *event)
 {
-
+    if (event->type == SDL_MOUSEWHEEL) {
+        if (event->wheel.y > 0) {
+            get_parent_screen()->action_performed(ACTION_SCROLL_UP);
+        } else {
+            get_parent_screen()->action_performed(ACTION_SCROLL_DOWN);
+        }
+    }
 }
 
 void Label::draw_foreground(void)
 {
 
+}
+
+void Label::set_text(std::string text)
+{
+    m_text = text;
 }

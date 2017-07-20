@@ -24,7 +24,7 @@ public:
 
     ~Tooltip();
 
-    void draw_background(void);
+    void draw(void);
 
     void close(void);
 

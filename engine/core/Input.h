@@ -12,8 +12,9 @@
 #include "../screen/GuiManager.h"
 
 #define ACTION_RESIZE -1
-#define ACTION_CANCEL 100
-
+#define ACTION_CANCEL -2
+#define ACTION_SCROLL_UP -3
+#define ACTION_SCROLL_DOWN -4
 class GuiManager;
 
 class Input

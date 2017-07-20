@@ -10,6 +10,7 @@
 
 #include "GuiElement.h"
 #include "../Screen.h"
+#include "../../core/Input.h"
 #include <string>
 
 #define LABEL_TITLE 0
@@ -30,7 +31,9 @@ public:
 
     void draw_foreground(void);
 
-    void handle_event(SDL_Event *event);
+	void handle_events(SDL_Event *event);
+
+	void set_text(std::string text);
 
     std::string m_text;
 

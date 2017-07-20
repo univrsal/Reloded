@@ -25,7 +25,7 @@ public:
 
     void draw_foreground(void);
 
-    void handle_event(SDL_Event *event);
+    void handle_events(SDL_Event *event);
 
     void close(void);
 

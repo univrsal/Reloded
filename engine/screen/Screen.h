@@ -15,6 +15,8 @@
 #include "../core/Tooltip.h"
 #include <string.h>
 
+class Input;
+
 class GuiElement;
 
 class Renderer;
@@ -31,7 +33,7 @@ class Screen
 {
 public:
 
-    virtual void init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Audio* audio) = 0;
+	virtual void init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Input *input, Audio *audio) = 0;
 
     virtual void draw_background(void) = 0;
 
@@ -39,12 +41,15 @@ public:
 
     virtual void close(void) = 0;
 
+	virtual void handle_events(void) = 0;
+
     virtual void action_performed(int action_id) = 0;
 
     virtual void set_active_tooltip(std::string *text, int x, int y) = 0;
 
     virtual Sfx *get_sfx_for_element(int element_type) = 0;
 
+	Input *m_input;
     Tooltip *m_tooltip;
 	Audio* m_audio;
     SDL_Event *m_current_event;

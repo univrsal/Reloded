@@ -27,7 +27,7 @@ public:
 
 	virtual void close(void);
 
-    virtual void handle_event(SDL_Event *event) = 0;
+	virtual void handle_events(SDL_Event *event) = 0;
 
     void resize(void);
 

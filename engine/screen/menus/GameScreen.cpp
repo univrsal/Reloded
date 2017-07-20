@@ -17,6 +17,7 @@ GameScreen::GameScreen()
 	m_tooltip = NULL;
 	m_rock = NULL;
 	m_soft_rock = NULL;
+    m_input = NULL;
 }
 
 GameScreen::~GameScreen()
@@ -28,6 +29,7 @@ GameScreen::~GameScreen()
 	delete m_rock;
 	delete m_soft_rock;
 
+    m_input = NULL;
 	m_tooltip = NULL;
 	m_logo = NULL;
 	m_border = NULL;
@@ -45,16 +47,12 @@ void GameScreen::draw_background(void)
 
     // Draw gui elements
     std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
-    GuiElement *e = NULL;
 
     for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
-        e = iterator->get();
-
-        e->handle_event(m_current_event);
-        e->draw_background();
+        iterator->get()->draw_background();
     }
 
-    m_tooltip->draw_background();
+    m_tooltip->draw();
 }
 
 void GameScreen::draw_foreground(void)
@@ -67,8 +65,9 @@ void GameScreen::draw_foreground(void)
     }
 }
 
-void GameScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Audio* audio)
+void GameScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Input *input, Audio *audio)
 {
+    m_input = input;
 	m_audio = audio;
     m_layout = layout;
     m_current_event = sdl_event;
@@ -146,5 +145,14 @@ Sfx *GameScreen::get_sfx_for_element(int element_type)
             return m_soft_rock;
         default:
             return NULL;
+    }
+}
+
+void GameScreen::handle_events(void)
+{
+    std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
+
+    for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
+        iterator->get()->handle_events(m_current_event);
     }
 }

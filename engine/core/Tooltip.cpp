@@ -19,7 +19,7 @@ Tooltip::~Tooltip()
     m_dimensions = {0, 0, 0, 0};
 }
 
-void Tooltip::draw_background(void)
+void Tooltip::draw(void)
 {
     if (m_is_visible) {
         m_parent_screen->m_renderer->util_fill_rect_shadow(&m_dimensions, m_bg_color);

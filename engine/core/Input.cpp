@@ -41,5 +41,8 @@ void Input::handle_input(bool *run_flag, GuiManager *gui_mgr)
                     break;
             }
         }
+
+        if (gui_mgr->m_current_screen != NULL)
+            gui_mgr->m_current_screen->handle_events();
     }
 }

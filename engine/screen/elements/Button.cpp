@@ -17,7 +17,7 @@ Button::Button(int id, int type, int x, int y, const char *texure, const char *t
             temp_rect = SDL_Rect{x, y, 40, 40};
             break;
         case BTN_SMALL:
-            temp_rect = SDL_Rect{x, y, 29, 29};
+            temp_rect = SDL_Rect{x, y, 32, 32};
             break;
         case BTN_TINY:
             temp_rect = SDL_Rect{x, y, 22, 20};
@@ -68,7 +68,7 @@ void Button::draw_foreground(void)
 
 }
 
-void Button::handle_event(SDL_Event *event)
+void Button::handle_events(SDL_Event *event)
 {
     if (event->type == SDL_MOUSEBUTTONDOWN) {
         if (event->button.button == SDL_BUTTON_LEFT) {

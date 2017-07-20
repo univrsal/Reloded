@@ -19,6 +19,9 @@
 #include "../elements/Button.h"
 #include "../../core/audio/Sfx.h"
 #include "../../util/Sounds.h"
+#include "../elements/Label.h"
+
+class Label;
 
 class SpSetupScreen : public Screen
 {
@@ -31,9 +34,11 @@ public:
 
     void draw_foreground(void);
 
-    void init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Audio* audio);
+	void init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Input *input, Audio *audio);
 
     void set_active_tooltip(std::string *text, int x, int y);
+
+	void handle_events(void);
 
     Sfx *get_sfx_for_element(int element_type);
 
@@ -44,11 +49,17 @@ public:
 private:
     std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
 
+	int m_current_level;
+	char m_selected_level_format[3];
+	std::string m_selected_level_string;
     Texture *m_border;
     Texture *m_content;
-    
+
+	Label *m_level_label;
 	Sfx *m_rock;
 	Sfx *m_soft_rock;
+	Sfx *m_alarm;
+	Sfx *m_portal;
 };
 
 
