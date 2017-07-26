@@ -1,0 +1,128 @@
+
+Documenation of the level file format for "Lode Runner Online: The Mad
+Monk's Revenge"
+
+--[[ Content
+	 0. Intro
+	 1. Static file header
+	 2. Level name
+	 3. Background Music
+	 4. Background texture offset
+	 5. Tilesets
+
+	10. Reading the format
+]]
+
+--[[ 0. Intro
+
+	This document should give you a basic idea of how LR Online saved
+	it's puzzles to the *.pzl format. 
+
+	Keep in mind that all of this information was obtained by creating
+	two levels with one different property and then viewing both in a
+	hex editor. None of these values are guaranteed to be correct.
+
+	All Entries here start with the adress the values are saved. If y-
+	ou create a puzzle with one level that has no name you should see 
+	the expected values with a hex editor at the given offsets.
+]]
+
+--[[ 1. Static file header
+
+	0x0 (78 Bytes)
+	File header
+
+	All puzzle files are prefixed with this header. It consists of the
+	text "Lode Runner Puzzle Set 1994 Presage, Inc" and 78 Bytes of s-
+	eemingly unused data with most of it being empty.
+]]
+
+--[[ 2. Level name
+
+	0x79 (Variable length)
+	Level name
+
+	0x79 Containes Values from 0 - 255
+	This describes the length of the level name in bytes
+
+	0x7A + Value at 0x79
+	ASCII String of level name
+
+	NOTE:
+	Since this value has a variable length it'll shift all following
+	values! All following adresses assume that the length of this str-
+	ing is 0 Bytes. Since file loading is done in a stream the adress-
+	es aren't that important anyways.
+]]
+
+--[[ 3. Background Music
+
+	0x78 (2 Bytes)
+	Background music id
+
+	Possible Values
+
+	0xDC05 - Fossile World
+	0xE803 - Moss World
+	0xA406 - Phosphorous World
+	0x4006 - Lava World
+	0x0807 - Dark World
+	0x4C04 - Fungus World
+	0x7805 - Ice World
+	0x1405 - Crystal World
+	0x6C07 - Industrial World
+	0xB004 - Ancient World
+	0x3408 - Reef World
+	0xD007 - Astral World
+]]
+
+--[[ 4. Background texture offset
+
+	0x87 (1 Byte)
+	The offset of the background texture
+
+	Possible Values
+
+	0x00 - 0 Offset
+	0x01 - 1 Offset
+	...
+	0x08 - 8 Offset
+]]
+
+--[[ 5. Tileset
+	
+	0x80 (1 Byte)
+	
+	(Testing resulted in 5 bytes changing but the first byte is enough
+	to identify the tile set, the other four are in square brackets)
+
+	Possible Values
+
+	0xF4 [ 01 04 FE 00 ] - Fossile Tiles
+	0x02 [ 00 FF 01 04 ] - Moss Tiles
+	0xBC [ 02 04 FE 00 ] - Phosphorous Tiles
+	0x58 [ 02 04 FE 00 ] - Lava Tiles
+	0x28 [ 02 03 FE 00 ] - Dark Tiles
+	0x64 [ 00 03 FE 00 ] - Fungus Tiles
+	0x90 [ 01 03 FE 00 ] - Ice Tiles
+	0x2C [ 01 03 FE 00 ] - Crystal Tiles
+	0x84 [ 02 93 FE 00 ] - Industrial Tiles
+	0xC8 [ 00 02 FE 00 ] - Ancient Tiles
+	0x4C [ 02 04 FE 00 ] - Reef Tiles
+	0xE8 [ 03 02 FE 00 ] - Astral Tiles
+
+	NOTE:
+	All tile sets except Moss only use 3 Bytes. Moss uses 2 more, keep
+	that in mind while reading data.
+	
+	0x7D (1 Byte)
+	(This byte changed also when switching tile set, but isn't enough
+	to identify tilesets)
+
+	Possible Values
+
+	0x02 - 	Moss Tiles, Ice Tiles
+	0x03 - 	Industrial Tiles, Reef Tiles, Dark Tiles
+	0x05 - 	Fossile Tiles, Phosphorous Tiles, Lava Tiles, Fungus Tiles,
+			Crystal Tiles, Ancient Tiles, Astral Tiles
+]]
