@@ -5,7 +5,6 @@
  * github.com/univrsal/reloded
  */
 
-
 #include "FontHelper.h"
 
 FontHelper::FontHelper(Renderer *renderer)
