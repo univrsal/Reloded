@@ -7,14 +7,39 @@
 
 #include "Puzzle.h"
 
-Puzzle::Puzzle(std::string path)
+
+Puzzle::Puzzle()
 {
-	m_file_path = path;
+	m_file_is_ok = false;
 }
 
 Puzzle::~Puzzle()
 {
-	m_file_path.clear();
+
+}
+
+int Puzzle::get_level_count(void)
+{
+	return m_level_count;
+}
+
+void Puzzle::read_from_file(std::string path)
+{
+	std::ifstream m_file_stream(path.c_str(), std::ios::binary);
+	BYTE b;
+
+	if (m_file_stream.good())
+	{
+		m_file_stream.seekg(LEVEL_COUNT_OFFSET);
+		b = m_file_stream.get();
+		m_level_count = b;
+	}
+	else
+	{
+		printf("Couldn't open puzzle %s! File not found or corrupt.\n", path.c_str());
+	}
+
+	m_file_stream.close();
 }
 
 

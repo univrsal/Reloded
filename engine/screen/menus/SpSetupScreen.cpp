@@ -21,7 +21,8 @@ SpSetupScreen::SpSetupScreen()
     m_alarm = NULL;
     m_level_label = NULL;
     m_input = NULL;
-    m_current_level = 1;
+	m_current_puzzle = NULL;
+    m_level_number = 1;
 }
 
 SpSetupScreen::~SpSetupScreen()
@@ -34,7 +35,9 @@ SpSetupScreen::~SpSetupScreen()
 	delete m_soft_rock;
     delete m_alarm;
     delete m_portal;
+	delete m_current_puzzle;
 
+	m_current_puzzle = NULL;
     m_input = NULL;
     m_level_label = NULL;
     m_portal = NULL;
@@ -78,7 +81,7 @@ void SpSetupScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layou
     m_renderer = renderer;
     m_input = input;
 
-    sprintf(m_selected_level_format, "%03d", m_current_level);
+    sprintf(m_selected_level_format, "%03d", m_level_number);
     m_selected_level_string = std::string(m_selected_level_format);
 
     m_border = new Texture(CONST_PATH_MENU_BORDER, renderer->m_sdl_renderer, m_layout->get_scale_factor());
@@ -120,6 +123,11 @@ void SpSetupScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layou
     m_portal = new Sfx(SFX_EFFECT, m_audio, SFX_PATH_ACCEPT);
 
     m_tooltip = new Tooltip(this);
+
+	// Current Puzzle Pack
+	m_current_puzzle = new Puzzle();
+	m_selected_level_path = "./res/lvl/mmr.PZL";
+	load_puzzle();
 }
 
 void SpSetupScreen::set_active_tooltip(std::string *text, int x, int y)
@@ -143,23 +151,23 @@ void SpSetupScreen::action_performed(int action_id)
             break;
         case 7:
         case ACTION_SCROLL_UP:
-            if (m_current_level < 998)
-                m_current_level++;
-            sprintf(m_selected_level_format, "%03d", m_current_level);
+            if (m_level_number < m_current_puzzle->get_level_count())
+                m_level_number++;
+            sprintf(m_selected_level_format, "%03d", m_level_number);
             m_selected_level_string = std::string(m_selected_level_format);
             m_level_label->set_text(m_selected_level_string);
             break;
         case 8:
         case ACTION_SCROLL_DOWN:
-            if (m_current_level > 1)
-                m_current_level--;
-            sprintf(m_selected_level_format, "%03d", m_current_level);
+            if (m_level_number > 1)
+                m_level_number--;
+            sprintf(m_selected_level_format, "%03d", m_level_number);
             m_selected_level_string = std::string(m_selected_level_format);
             m_level_label->set_text(m_selected_level_string);
             break;
         case 9:
-            m_current_level = 1;
-            sprintf(m_selected_level_format, "%03d", m_current_level);
+            m_level_number = 1;
+            sprintf(m_selected_level_format, "%03d", m_level_number);
             m_selected_level_string = std::string(m_selected_level_format);
             m_level_label->set_text(m_selected_level_string);
             break;
@@ -173,8 +181,13 @@ void SpSetupScreen::close(void)
     m_tooltip->close();
     m_content->free();
     m_border->free();
-
+	
     m_screen_elements.clear();
+}
+
+void SpSetupScreen::load_puzzle(void)
+{
+	m_current_puzzle->read_from_file(m_selected_level_path);
 }
 
 Sfx *SpSetupScreen::get_sfx_for_element(int element_type)

@@ -20,6 +20,7 @@
 #include "../../core/audio/Sfx.h"
 #include "../../util/Sounds.h"
 #include "../elements/Label.h"
+#include "../../io/Puzzle.h"
 
 class Label;
 
@@ -46,12 +47,15 @@ public:
 
     void close(void);
 
+	void load_puzzle(void);
+
 private:
     std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
 
-	int m_current_level;
+	int m_level_number;
 	char m_selected_level_format[3];
 	std::string m_selected_level_string;
+	std::string m_selected_level_path;
     Texture *m_border;
     Texture *m_content;
 
@@ -60,6 +64,8 @@ private:
 	Sfx *m_soft_rock;
 	Sfx *m_alarm;
 	Sfx *m_portal;
+
+	Puzzle* m_current_puzzle;
 };
 
 

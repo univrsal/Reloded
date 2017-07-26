@@ -5,19 +5,33 @@
  * github.com/univrsal/reloded
  */
 
+/**
+ * This class reads *.PZL files and converts them into an object used
+ * by this engine. Read "pzl format.txt" for detailed documentation
+ * on the file format
+ */
 #ifndef PUZZLE_H
 #define PUZZLE_H
 
-#include <string>
+#include "PZLConstants.h"
+#include <stdio.h>
+#include <fstream>
+
+typedef unsigned char BYTE;
 
 class Puzzle
 {
 public:
-	Puzzle(std::string path);
+	Puzzle();
 	~Puzzle();
 
+	int get_level_count(void);
+
+	void read_from_file(std::string path);
+
 private:
-	std::string m_file_path;
+	bool m_file_is_ok;
+	int m_level_count;
 };
 
 #endif

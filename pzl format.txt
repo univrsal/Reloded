@@ -5,10 +5,12 @@ Monk's Revenge"
 --[[ Content
 	 0. Intro
 	 1. Static file header
-	 2. Level name
-	 3. Background Music
-	 4. Background texture offset
-	 5. Tilesets
+	 2. Level Structure
+	 	2.0 Level Header
+	 	2.1 Level name
+	 	2.2 Background Music
+	 	2.3 Background texture offset
+	 	2.4 Tilesets
 
 	10. Reading the format
 ]]
@@ -37,15 +39,39 @@ Monk's Revenge"
 	eemingly unused data with most of it being empty.
 ]]
 
---[[ 2. Level name
+--[[ 2.0 Level Header
+	0x70 (8 Bytes)
+
+	This header containes information about the level that follows af-
+	ter it. It's always 8 bytes long and contains the following data:
+
+	0x70 - The length of the level body (2 Bytes)
+	0x72 - Always 0
+	0x73 - Always 0
+	0x74 - Level number (2 Bytes)
+	0x75 - Level number
+	0x76 - Always 01
+	0x77 - Always 00
+
+	NOTE: The Length of the level body is a little tricky. To get the
+	accurate number you should read in the two bytes separately and
+	add them via bitwise operators (bit_a | bit_b << 8).
+	The number you get out of it is the length of the entire next lev-
+	el in bytes. This number starts at the always 0x0100 offset (0x76)
+	and ends before the next level header.
+]]
+
+--[[ 2.1 Level name
 
 	0x79 (Variable length)
 	Level name
 
 	0x79 Containes Values from 0 - 255
 	This describes the length of the level name in bytes
+	The level name always takes 255 bytes of space but this number co-
+	ntains the amount of used up bytes (aka how much you need to read)
 
-	0x7A + Value at 0x79
+	0x7A (255 bytes)
 	ASCII String of level name
 
 	NOTE:
@@ -55,7 +81,7 @@ Monk's Revenge"
 	es aren't that important anyways.
 ]]
 
---[[ 3. Background Music
+--[[ 2.2 Background Music
 
 	0x78 (2 Bytes)
 	Background music id
@@ -76,7 +102,7 @@ Monk's Revenge"
 	0xD007 - Astral World
 ]]
 
---[[ 4. Background texture offset
+--[[ 2.3 Background texture offset
 
 	0x87 (1 Byte)
 	The offset of the background texture
@@ -89,7 +115,7 @@ Monk's Revenge"
 	0x08 - 8 Offset
 ]]
 
---[[ 5. Tileset
+--[[ 2.4 Tileset
 	
 	0x80 (1 Byte)
 	
