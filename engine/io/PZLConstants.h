@@ -9,5 +9,9 @@
 #define PZLCONSTANTS_H
 
 #define LEVEL_COUNT_OFFSET 0x66
+#define LEVEL_FIRST_HEADER 0x70
+#define LEVEL_HEADER_SPACE 0x06
+#define LEVEL_NAME_LENGTH  0x09
+#define LEVEL_NAME		   0x0A
 
 #endif

@@ -24,14 +24,17 @@ Monk's Revenge"
 	two levels with one different property and then viewing both in a
 	hex editor. None of these values are guaranteed to be correct.
 
-	All Entries here start with the adress the values are saved. If y-
-	ou create a puzzle with one level that has no name you should see 
+	Also a big thanks to Jason Summer who made the Hacker's Editor wh-
+	ich contains a bunch of helpful information about the file format.
+	
+	All Entries here start with the adress the values are saved at. If
+	you create a puzzle with one level that has no name you should see 
 	the expected values with a hex editor at the given offsets.
 ]]
 
 --[[ 1. Static file header
 
-	0x0 (78 Bytes)
+	0x0 (112 Bytes)
 	File header
 
 	All puzzle files are prefixed with this header. It consists of the
@@ -40,30 +43,37 @@ Monk's Revenge"
 ]]
 
 --[[ 2.0 Level Header
+
 	0x70 (8 Bytes)
 
 	This header containes information about the level that follows af-
 	ter it. It's always 8 bytes long and contains the following data:
 
 	0x70 - The length of the level body (2 Bytes)
+	0x71 - ^
 	0x72 - Always 0
-	0x73 - Always 0
+	0x73 - ^
 	0x74 - Level number (2 Bytes)
 	0x75 - Level number
 	0x76 - Always 01
 	0x77 - Always 00
 
-	NOTE: The Length of the level body is a little tricky. To get the
-	accurate number you should read in the two bytes separately and
-	add them via bitwise operators (bit_a | bit_b << 8).
+	NOTE: 
+	The Length of the level body is a little tricky. To get the accur-
+	ate number you should read in the two bytes separately and add th-
+	em via bitwise operators (byte_a | byte_b << 8).
 	The number you get out of it is the length of the entire next lev-
-	el in bytes. This number starts at the always 0x0100 offset (0x76)
+	el in bytes. This number starts at the offset that's always 0x0100
 	and ends before the next level header.
+	
+	So adding 6 to this number results in the size of the entire level
+	including the level header (minus the first two bytes that were r-
+	ead to get the level size). This can be used to skip over a level.
 ]]
 
 --[[ 2.1 Level name
 
-	0x79 (Variable length)
+	0x79 (1 Byte + 255 Bytes)
 	Level name
 
 	0x79 Containes Values from 0 - 255
@@ -73,12 +83,6 @@ Monk's Revenge"
 
 	0x7A (255 bytes)
 	ASCII String of level name
-
-	NOTE:
-	Since this value has a variable length it'll shift all following
-	values! All following adresses assume that the length of this str-
-	ing is 0 Bytes. Since file loading is done in a stream the adress-
-	es aren't that important anyways.
 ]]
 
 --[[ 2.2 Background Music

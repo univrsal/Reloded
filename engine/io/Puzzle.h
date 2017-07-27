@@ -16,6 +16,8 @@
 #include "PZLConstants.h"
 #include <stdio.h>
 #include <fstream>
+#include <vector>
+#include <string>
 
 typedef unsigned char BYTE;
 
@@ -26,12 +28,18 @@ public:
 	~Puzzle();
 
 	int get_level_count(void);
-
 	void read_from_file(std::string path);
+
+	BYTE read_byte(std::ifstream* file);
+	void read_level(std::ifstream* file, int* header_offset);
 
 private:
 	bool m_file_is_ok;
 	int m_level_count;
+
+	std::vector<std::string> m_level_names;
+	std::vector<long> m_level_offsets;
+	std::vector<long> m_level_sizes;
 };
 
 #endif
