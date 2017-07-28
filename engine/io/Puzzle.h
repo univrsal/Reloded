@@ -18,6 +18,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <memory>
 
 typedef unsigned char BYTE;
 
@@ -33,6 +34,9 @@ public:
 	BYTE read_byte(std::ifstream* file);
 	void read_level(std::ifstream* file, int* header_offset);
 
+	std::string* get_level_name(int id);
+
+	void close(void);
 private:
 	std::string read_run_length_string(std::ifstream* file);
 	

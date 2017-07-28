@@ -73,16 +73,19 @@ Monk's Revenge"
 
 --[[ 2.1 Level name
 
-	0x79 (1 Byte + 255 Bytes)
+	0x79 (Variable length)
 	Level name
 
-	0x79 Containes Values from 0 - 255
-	This describes the length of the level name in bytes
-	The level name always takes 255 bytes of space but this number co-
-	ntains the amount of used up bytes (aka how much you need to read)
+	NOTE:
+	Sadly the level name isn't just saved directly but rather compres-
+	sed with run-length encoding (RLE). This means that repeated char-
+	acters will be compressed:
+	"AAAABBBCDEFG" would be compressed into 4A3BCDEFG or in hex:
+	04 41 03 42 43 44 45 46 47
 
-	0x7A (255 bytes)
-	ASCII String of level name
+	There's some additional rules like 0xff is always infront of an u-
+	ncompressed block followed by a compressed block. For further inf-
+	ormation you could look at Puzzle.cpp.
 ]]
 
 --[[ 2.2 Background Music

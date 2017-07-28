@@ -16,7 +16,7 @@ Puzzle::Puzzle()
 
 Puzzle::~Puzzle()
 {
-
+	close();
 }
 
 int Puzzle::get_level_count(void)
@@ -40,7 +40,7 @@ void Puzzle::read_from_file(std::string path)
 			if (!fs.good())
 				break;
 			offset = m_level_offsets[i];
-			printf("READING LEVEL %i at %i\n", i, offset);
+			//printf("READING LEVEL %i at %i\n", i, offset);
 			read_level(&fs, &offset);
 		}
 	}
@@ -64,9 +64,8 @@ void Puzzle::read_level(std::ifstream * file, int* header_offset)
 	// First read in the level name 
 	// It's 11 Bytes after the header
 	file->seekg(*header_offset + LEVEL_NAME);
-	std::string temp = read_run_length_string(file);
-	m_level_names.emplace_back(temp);
-	printf("LEVELNAME %s\n", temp.c_str());
+	
+	m_level_names.push_back(read_run_length_string(file));
 
 	// Then go back to the header to read in the other values
 	file->seekg(*header_offset);
@@ -79,6 +78,22 @@ void Puzzle::read_level(std::ifstream * file, int* header_offset)
 
 	int level_offset = *header_offset + level_size + LEVEL_HEADER_SPACE;
 	m_level_offsets.emplace_back(level_offset);
+}
+
+std::string* Puzzle::get_level_name(int id)
+{
+	if (id >= 0 && id < m_level_names.size())
+		return &m_level_names[id];
+	return NULL;
+}
+
+void Puzzle::close(void)
+{
+	m_file_is_ok = false;
+	m_level_count = 0;
+	m_level_names.clear();
+	m_level_offsets.clear();
+	m_level_sizes.clear();
 }
 
 /**
