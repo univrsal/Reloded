@@ -10,11 +10,15 @@
 
 #include "SDL.h"
 #include "../screen/GuiManager.h"
+#include "../core/Resources.h"
 
 #define ACTION_RESIZE -1
 #define ACTION_CANCEL -2
 #define ACTION_SCROLL_UP -3
 #define ACTION_SCROLL_DOWN -4
+
+class Resources;
+
 class GuiManager;
 
 class Input
@@ -24,7 +28,7 @@ public:
 
     ~Input();
 
-    void handle_input(bool *run_flag, GuiManager *gui_mgr);
+    void handle_input(bool *run_flag, Resources* r);
 
     SDL_Event m_event;
     bool m_unfocused;

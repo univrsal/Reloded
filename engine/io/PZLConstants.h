@@ -12,6 +12,6 @@
 #define LEVEL_FIRST_HEADER 0x70
 #define LEVEL_HEADER_SPACE 0x06
 #define LEVEL_NAME_LENGTH  0x09
-#define LEVEL_NAME		   0x0A
+#define LEVEL_NAME		   0x08
 
 #endif

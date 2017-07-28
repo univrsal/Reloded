@@ -9,7 +9,6 @@ Layout::Layout(SDL_Window *game_window)
 
 Layout::~Layout()
 {
-    m_game_window = NULL;
 }
 
 SDL_Rect *Layout::get_window_size()

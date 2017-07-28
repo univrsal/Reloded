@@ -34,6 +34,8 @@ public:
 	void read_level(std::ifstream* file, int* header_offset);
 
 private:
+	std::string read_run_length_string(std::ifstream* file);
+	
 	bool m_file_is_ok;
 	int m_level_count;
 

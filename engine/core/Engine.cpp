@@ -15,7 +15,8 @@ Engine::Engine()
     m_run_flag = true;
     m_gui_manager = GuiManager();
     m_audio = Audio();
-
+	m_resources = Resources();
+	
     m_frame_timer = Timer();
     m_frame_cap_timer = Timer();
 }
@@ -25,7 +26,6 @@ Engine::~Engine()
     m_frame_timer.~Timer();
     m_renderer.~Renderer();
     m_gui_manager.~GuiManager();
-
 }
 
 void Engine::init(void)
@@ -38,7 +38,8 @@ void Engine::init(void)
         if (!m_audio.init()) {
             m_return_value = -1;
         } else {
-            m_gui_manager.init(&m_input, &m_renderer, &m_audio);
+			m_resources.init(&m_renderer, &m_audio, &m_input, m_gui_manager.m_layout);
+            m_gui_manager.init(&m_resources);
             m_gui_manager.queue_screen(GUI_GAME);
             m_frame_timer.start();
 		}
@@ -54,7 +55,7 @@ void Engine::game_loop(void)
     while (m_run_flag) {
         m_frame_cap_timer.start();
 
-        m_input.handle_input(&m_run_flag, &m_gui_manager);
+        m_input.handle_input(&m_run_flag, &m_resources);
 
         if (!m_input.m_unfocused) {
             m_renderer.clear();

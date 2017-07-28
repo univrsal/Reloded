@@ -13,6 +13,7 @@
 #include "Input.h"
 #include "../screen/GuiManager.h"
 #include "audio/Audio.h"
+#include "Resources.h"
 
 class Renderer;
 
@@ -34,6 +35,8 @@ public:
     Input m_input;
     Audio m_audio;
     GuiManager m_gui_manager;
+
+	Resources m_resources;
     int m_return_value;
     bool m_run_flag;
 private:

@@ -14,10 +14,13 @@
 #include "../util/Textures.h"
 #include "../core/Input.h"
 #include "Layout.h"
+#include "../core/Resources.h"
 
 #define GUI_NONE -1
 #define GUI_GAME 0
 #define GUI_SP 1
+
+class Resources;
 
 class Screen;
 
@@ -34,7 +37,7 @@ public:
 
     ~GuiManager();
 
-    void init(Input *input, Renderer *renderer, Audio* audio);
+    void init(Resources* r);
 
     void draw_gui(void);
 
@@ -44,13 +47,12 @@ public:
 
     int8_t m_next_screen;
     Texture *m_bg;
-    Renderer *m_renderer;
     Screen *m_current_screen;
-    Input *m_input;
-    Layout *m_layout;
-	Audio* m_audio;
+	Resources* m_resources;
+	Layout* m_layout;
 private:
     void set_screen(Uint8 gui_id);
+
 };
 
 #endif

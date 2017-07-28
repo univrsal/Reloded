@@ -64,8 +64,8 @@ void Puzzle::read_level(std::ifstream * file, int* header_offset)
 	// First read in the level name 
 	// It's 11 Bytes after the header
 	file->seekg(*header_offset + LEVEL_NAME);
-	std::string temp;
-	std::getline(*file, temp);
+	std::string temp = read_run_length_string(file);
+	m_level_names.emplace_back(temp);
 	printf("LEVELNAME %s\n", temp.c_str());
 
 	// Then go back to the header to read in the other values
@@ -79,6 +79,60 @@ void Puzzle::read_level(std::ifstream * file, int* header_offset)
 
 	int level_offset = *header_offset + level_size + LEVEL_HEADER_SPACE;
 	m_level_offsets.emplace_back(level_offset);
+}
+
+/**
+ * For whatever reason the Loderun devs thought it would be a good idea
+ * to save the level name with the run-length encoding. Maybe this was
+ * a standard back in the day. Basically if there's the same letter at
+ * least twice in a row it'll be compressed.
+ * AAAAAAH would turn into 06AH (Since 'A' is chained 6 times in a row)
+ * This entire function is a mess but I think there's no standard way
+ * to do this.
+ */
+std::string Puzzle::read_run_length_string(std::ifstream * file)
+{
+	BYTE b;
+	BYTE c;
+	char e;
+	std::string out = "";
+
+	for (int i = 0; i < 255; i++)
+	{
+		b = file->get();
+		
+		if (b == 0xff) // 0xff starts an uncompressed part
+		{
+			c = read_byte(file);
+
+			for (int j = 0; j < c; j++)
+			{
+				e = read_byte(file);
+				out += e;
+			}
+
+			c = read_byte(file); // How often to repeat the character that is
+			e = read_byte(file); // read into e
+
+			for (int j = 0; j < c; j++)
+			{
+				out += e;
+			}
+		}
+		else
+		{
+			e = read_byte(file);
+			for (int j = 0; j < b; j++)
+			{
+				out += e;
+			}
+		}
+
+		if (!file->good() || out.length() >= 255)
+			break;
+	}
+
+	return out;
 }
 
 

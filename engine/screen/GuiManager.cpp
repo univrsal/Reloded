@@ -3,8 +3,7 @@
 GuiManager::GuiManager()
 {
     m_current_screen = NULL;
-    m_renderer = NULL;
-    m_layout = NULL;
+	m_resources = NULL;
     m_bg = NULL;
     m_next_screen = GUI_NONE;
 }
@@ -19,28 +18,26 @@ GuiManager::~GuiManager()
 
     m_layout = NULL;
     m_current_screen = NULL;
-    m_renderer = NULL;
 }
 
-void GuiManager::init(Input *input, Renderer *renderer, Audio* audio)
+void GuiManager::init(Resources* r)
 {
-	m_audio = audio;
-    m_input = input;
-    m_renderer = renderer;
-    m_layout = new Layout(m_renderer->m_sdl_window);
-    m_bg = new Texture(CONST_PATH_BG, renderer->m_sdl_renderer);
+	m_resources = r;
+    m_layout = new Layout(m_resources->window());
+	r->set_layout(m_layout);
+    m_bg = new Texture(CONST_PATH_BG, m_resources->sdl_renderer());
 }
 
 void GuiManager::draw_gui(void)
 {
-    m_bg->draw_tiling(m_renderer->m_sdl_renderer, m_layout->get_window_size());
+    m_bg->draw_tiling(m_resources->sdl_renderer(), m_layout->get_window_size());
 
     if (m_current_screen) {
         m_current_screen->draw_background();
         m_current_screen->draw_foreground();
     }
 
-    if (m_next_screen >= 0 && m_audio->get_is_sound_finished()) {
+    if (m_next_screen >= 0 && m_resources->audio()->get_is_sound_finished()) {
         set_screen(m_next_screen);
         m_next_screen = GUI_NONE;
     }
@@ -66,7 +63,7 @@ void GuiManager::set_screen(Uint8 gui_id)
             m_current_screen = new SpSetupScreen();
             break;
     }
-    m_current_screen->init(&m_input->m_event, m_renderer, m_layout, m_input, m_audio);
+    m_current_screen->init(m_resources->input_event(), m_resources->renderer(), m_layout, m_resources->input(), m_resources->audio());
 	m_current_screen->action_performed(ACTION_RESIZE);
 }
 
