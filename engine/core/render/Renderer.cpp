@@ -145,9 +145,15 @@ void Renderer::util_fill_rect_shadow(const SDL_Rect *rect, const SDL_Color *colo
 void Renderer::util_fill_rect(int x, int y, int w, int h, const SDL_Color *color)
 {
     util_set_color(color);
-    SDL_Rect *temp_rect = new SDL_Rect{x, y, w, h};
-    SDL_RenderFillRect(m_sdl_renderer, temp_rect);
-    delete temp_rect;
+    SDL_Rect temp_rect = SDL_Rect{x, y, w, h};
+    SDL_RenderFillRect(m_sdl_renderer, &temp_rect);
+}
+
+void Renderer::util_fill_rect_scaled(const SDL_Rect * r, const SDL_Color * color)
+{
+	int scale = *m_gui_mgr->m_layout->get_scale_factor();
+	SDL_Rect temp_rect = SDL_Rect{ r->x * scale, r->y * scale, r->w * scale, r->h * scale };
+	util_fill_rect(&temp_rect, color);
 }
 
 void Renderer::util_text_lode(std::string *text, int x, int y, const SDL_Color *color)
@@ -157,9 +163,20 @@ void Renderer::util_text_lode(std::string *text, int x, int y, const SDL_Color *
     m_font_helper->draw(text, x, y, m_lode_font, color, *m_gui_mgr->m_layout->get_scale_factor());
 }
 
+void Renderer::util_text_lode_shadow(std::string * text, int x, int y, const SDL_Color * color)
+{
+	util_text_lode(text, x + 3, y + 3, m_palette->black());
+	util_text_lode(text, x, y, color);
+}
+
 void Renderer::util_text_default(std::string *text, int x, int y)
 {
     m_font_helper->draw(text, x, y, m_default_font);
+}
+
+void Renderer::util_text_default_scaled(std::string * text, int x, int y, const SDL_Color *color)
+{
+	m_font_helper->draw(text, x, y, m_default_font, color == NULL ? m_palette->white() : color, *m_gui_mgr->m_layout->get_scale_factor());
 }
 
 SDL_Rect Renderer::util_text_default_dim(std::string *text, int type)

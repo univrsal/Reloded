@@ -61,9 +61,15 @@ public:
 
     void util_fill_rect(int x, int y, int w, int h, const SDL_Color *color = NULL);
 
+	void util_fill_rect_scaled(const SDL_Rect *r, const SDL_Color *color = NULL);
+
     void util_text_lode(std::string *text, int x, int y, const SDL_Color *color = NULL);
 
+	void util_text_lode_shadow(std::string *text, int x, int y, const SDL_Color *color = NULL);
+
     void util_text_default(std::string *text, int x, int y);
+
+	void util_text_default_scaled(std::string *text, int x, int y, const SDL_Color *color = NULL);
 
     SDL_Rect util_text_default_dim(std::string *text, int type = FONT_ROBOTO);
 

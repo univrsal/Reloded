@@ -14,6 +14,8 @@ Palette::Palette()
     m_accent = {255, 191, 0, 255};
 
     m_tooltip_body = {248, 230, 177, 128};
+
+	m_gray = {44, 44, 40, 255};
 }
 
 Palette::~Palette()
@@ -45,6 +47,11 @@ SDL_Color *Palette::white(void)
 SDL_Color *Palette::black(void)
 {
     return &m_black;
+}
+
+SDL_Color * Palette::gray(void)
+{
+	return &m_gray;
 }
 
 SDL_Color *Palette::get_tooltip_body(void)

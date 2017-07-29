@@ -82,11 +82,11 @@ void Engine::game_loop(void)
     }
 }
 
-
-
 void Engine::close(void)
 {
     m_renderer.~Renderer();
     m_gui_manager.~GuiManager();
     m_input.~Input();
+	m_audio.~Audio();
+	m_resources.~Resources();
 }

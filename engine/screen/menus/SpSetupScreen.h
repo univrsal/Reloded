@@ -22,8 +22,11 @@
 #include "../../util/Sounds.h"
 #include "../elements/Label.h"
 #include "../../io/Puzzle.h"
+#include "../FileBrowser.h"
 
 class Label;
+
+class FileBrowser;
 
 class SpSetupScreen : public Screen
 {
@@ -57,8 +60,11 @@ private:
 
 	int m_level_number;
 	char m_selected_level_format[3];
+	
 	std::string m_selected_level_string;
 	std::string m_selected_level_path;
+	std::string m_level_folder;
+
     Texture *m_border;
     Texture *m_content;
 
@@ -70,7 +76,10 @@ private:
 	Sfx *m_alarm;
 	Sfx *m_portal;
 
+	FileBrowser* m_file_browser;
 	Puzzle* m_current_puzzle;
+
+	bool m_in_file_browser;
 };
 
 

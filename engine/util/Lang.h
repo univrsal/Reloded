@@ -7,8 +7,8 @@
 
 #ifndef LANG_H
 #define LANG_H
-// Tooltips
 
+// Tooltips
 #define LANG_TIP_SP "Lode Runner Play: configures\nthe single-player game"
 #define LANG_TIP_LOCAL_MP "Head-To-Head Play:\nconfigures the two-player\nsingle machine game"
 #define LANG_TIP_NET_MP "Network Play: configures\nthe two-player network\ngame"
@@ -26,5 +26,8 @@
 #define LANG_TIP_PZL_RESET "Default Puzzle Number: reset\nstarting puzzle number to one"
 #define LANG_TIP_SP_CANCEL "Cancel: return to\nhigh score display"
 #define LANG_TIP_SP_GO "Start Play: begin\ngame play"
+
+// File browser
+#define LANG_FB_TITLE "SELECT A FILE"
 
 #endif

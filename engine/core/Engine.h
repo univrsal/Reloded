@@ -37,6 +37,7 @@ public:
     GuiManager m_gui_manager;
 
 	Resources m_resources;
+
     int m_return_value;
     bool m_run_flag;
 private:

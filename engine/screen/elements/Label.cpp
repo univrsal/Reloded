@@ -6,6 +6,7 @@ Label::Label(int id, int x, int y, int type, const char *text, Screen *parent)
     m_text = std::string(text);
     m_parent_screen = parent;
     m_element_id = id;
+	m_shadow = false;
     switch (type) {
         default:
         case LABEL_GOLD:
@@ -14,6 +15,8 @@ Label::Label(int id, int x, int y, int type, const char *text, Screen *parent)
         case LABEL_TITLE:
             m_color = parent->m_renderer->m_palette->black();
             break;
+		case LABEL_WHITE_SHADOW:
+			m_shadow = true;
         case LABEL_WHITE:
             m_color = parent->m_renderer->m_palette->white();
             break;
@@ -35,9 +38,18 @@ void Label::draw_background(void)
     SDL_Point *o = get_parent_screen()->m_layout->get_content_origin();
     int scale = *get_parent_screen()->m_layout->get_scale_factor();
 
-    get_parent_screen()->m_renderer->util_text_lode(&m_text, o->x + m_dimensions.x * scale,
-                                                    o->y + m_dimensions.y * scale,
-                                                    m_color);
+	if (!m_shadow)
+	{
+		get_parent_screen()->m_renderer->util_text_lode(&m_text, o->x + m_dimensions.x * scale,
+			o->y + m_dimensions.y * scale,
+			m_color);
+	}
+	else
+	{
+		get_parent_screen()->m_renderer->util_text_lode_shadow(&m_text, o->x + m_dimensions.x * scale,
+			o->y + m_dimensions.y * scale,
+			m_color);
+	}
 }
 
 void Label::handle_events(SDL_Event *event)

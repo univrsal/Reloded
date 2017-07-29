@@ -22,8 +22,11 @@ SpSetupScreen::SpSetupScreen()
     m_level_label = NULL;
     m_input = NULL;
 	m_current_puzzle = NULL;
+	m_file_browser = NULL;
 	m_level_name_label = NULL;
     m_level_number = 1;
+	
+	m_in_file_browser = false;
 }
 
 SpSetupScreen::~SpSetupScreen()
@@ -37,6 +40,7 @@ SpSetupScreen::~SpSetupScreen()
     delete m_alarm;
     delete m_portal;
 	delete m_current_puzzle;
+	delete m_file_browser;
 
 	m_current_puzzle = NULL;
     m_input = NULL;
@@ -67,12 +71,17 @@ void SpSetupScreen::draw_background(void)
 
 void SpSetupScreen::draw_foreground(void)
 {
-    m_tooltip->draw();
-    std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
+	if (!m_in_file_browser)
+		m_tooltip->draw();
+    
+	std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
 
     for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
         iterator->get()->draw_foreground();
     }
+
+	if (m_in_file_browser)
+		m_file_browser->draw(m_renderer, m_layout);
 }
 
 void SpSetupScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Input *input, Audio *audio)
@@ -114,7 +123,8 @@ void SpSetupScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layou
 
 	// Current Puzzle Pack
 	m_current_puzzle = new Puzzle();
-	m_selected_level_path = "./res/lvl/mmr.PZL";
+	m_level_folder = "./res/lvl";
+	m_selected_level_path = m_level_folder + "/mmr.PZL";
 	load_puzzle();
 
     // Labels
@@ -137,7 +147,8 @@ void SpSetupScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layou
 
     m_tooltip = new Tooltip(this);
 
-
+	m_file_browser = new FileBrowser(FILETYPE_OPEN, m_level_folder, this);
+	m_file_browser->init();
 }
 
 void SpSetupScreen::set_active_tooltip(std::string *text, int x, int y)
@@ -156,6 +167,9 @@ void SpSetupScreen::action_performed(int action_id)
                 iterator->get()->resize();
             }
             break;
+		case 5:
+			m_in_file_browser = true;
+			break;
         case 10:
         case ACTION_CANCEL:
             m_renderer->m_gui_mgr->queue_screen(GUI_GAME);
@@ -189,6 +203,7 @@ void SpSetupScreen::close(void)
 	m_alarm->close();
 	m_portal->close();
 	m_current_puzzle->close();
+	m_file_browser->close();
     m_screen_elements.clear();
 }
 
@@ -207,7 +222,6 @@ void SpSetupScreen::select_puzzle(int id)
 		name = name.substr(0, name.size() - 1);
 		dim = m_renderer->util_text_default_dim(&name, FONT_LODE);
 	}
-	printf("WIDHT: %i\n", dim.w);
 
 	m_level_name_label->set_text(name);
 
@@ -236,9 +250,16 @@ Sfx *SpSetupScreen::get_sfx_for_element(int element_type)
 
 void SpSetupScreen::handle_events(void)
 {
-    std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
+	if (!m_in_file_browser)
+	{
+		std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
 
-    for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
-        iterator->get()->handle_events(m_current_event);
-    }
+		for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
+			iterator->get()->handle_events(m_current_event);
+		}
+	}
+	else
+	{
+		m_file_browser->handle_event(m_current_event);
+	}
 }
