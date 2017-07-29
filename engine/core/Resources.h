@@ -32,7 +32,7 @@ public:
 	Resources();
 	~Resources();
 	
-	void init(Renderer* r, Audio* a, Input* i, Layout* l);
+	void init(Renderer* r, Audio* a, Input* i, Layout* l, Engine* e);
 
 	Renderer* renderer(void);
 	SDL_Renderer* sdl_renderer(void);

@@ -6,22 +6,25 @@ Resources::Resources()
 	m_audio = NULL;
 	m_input = NULL;
 	m_layout = NULL;
+	m_engine = NULL;
 }
 
 Resources::~Resources()
 {
+	m_engine = NULL;
 	m_audio = NULL;
 	m_input = NULL;
 	m_renderer = NULL;
 	m_layout = NULL;
 }
 
-void Resources::init(Renderer * r, Audio * a, Input * i, Layout * l)
+void Resources::init(Renderer * r, Audio * a, Input * i, Layout * l, Engine* e)
 {
 	m_renderer = r;
 	m_audio = a;
 	m_input = i;
 	m_layout = l;
+	m_engine = e;
 }
 
 Renderer * Resources::renderer(void)

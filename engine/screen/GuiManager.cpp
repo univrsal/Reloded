@@ -24,7 +24,7 @@ void GuiManager::init(Resources* r)
 {
 	m_resources = r;
     m_layout = new Layout(m_resources->window());
-	r->set_layout(m_layout);
+	m_resources->set_layout(m_layout);
     m_bg = new Texture(CONST_PATH_BG, m_resources->sdl_renderer());
 }
 
