@@ -73,6 +73,7 @@ SDL_Rect FontHelper::get_text_dimension(TTF_Font *font, std::string *text, int s
     } else {
         printf("Error while creating surface from font in text rendering! ERROR: %s\n", TTF_GetError());
     }
+	SDL_FreeSurface(surface);
     return dest;
 }
 

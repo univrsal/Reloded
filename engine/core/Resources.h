@@ -12,6 +12,8 @@
 #include "render\Renderer.h"
 #include "Input.h"
 
+class Engine;
+
 class GuiManager;
 
 class Renderer;
@@ -44,6 +46,7 @@ public:
 	void set_layout(Layout* l);
 
 private:
+	Engine* m_engine;
 	Renderer* m_renderer;
 	Audio* m_audio;
 	Input* m_input;
