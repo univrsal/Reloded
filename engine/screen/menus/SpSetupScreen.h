@@ -8,12 +8,9 @@
 #ifndef RELODED_SPSETUPSCREEN_H
 #define RELODED_SPSETUPSCREEN_H
 
-
 #include <vector>
 #include <memory>
 #include <algorithm> 
-#include "../../core/Input.h"
-#include "../Screen.h"
 #include "../../core/render/Texture.h"
 #include "../../util/Textures.h"
 #include "../../util/Lang.h"
@@ -23,10 +20,19 @@
 #include "../elements/Label.h"
 #include "../../io/Puzzle.h"
 #include "../FileBrowser.h"
+#include "../../core/Resources.h"
+#include "../Screen.h"
+#include "../../core/Tooltip.h"
 
 class Label;
 
 class FileBrowser;
+
+class Resources;
+
+class Screen;
+
+class GuiElement;
 
 class SpSetupScreen : public Screen
 {
@@ -39,7 +45,7 @@ public:
 
     void draw_foreground(void);
 
-	void init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Input *input, Audio *audio);
+	void init(Resources* r);
 
     void set_active_tooltip(std::string *text, int x, int y);
 

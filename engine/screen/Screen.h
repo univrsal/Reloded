@@ -9,23 +9,11 @@
 #define SCREEN_H
 
 #include "SDL.h"
-#include "../core/render/Renderer.h"
-#include "elements/GuiElement.h"
-#include "Layout.h"
-#include "../core/Tooltip.h"
-#include <string.h>
-
-class Input;
-
-class GuiElement;
-
-class Renderer;
-
-class Audio;
-
-class Layout;
+#include <string>
 
 class Tooltip;
+
+class Resources;
 
 class Sfx;
 
@@ -33,7 +21,7 @@ class Screen
 {
 public:
 
-	virtual void init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Input *input, Audio *audio) = 0;
+	virtual void init(Resources* r) = 0;
 
     virtual void draw_background(void) = 0;
 
@@ -49,12 +37,9 @@ public:
 
     virtual Sfx *get_sfx_for_element(int element_type) = 0;
 
-	Input *m_input;
-    Tooltip *m_tooltip;
-	Audio* m_audio;
-    SDL_Event *m_current_event;
-    Renderer *m_renderer;
-    Layout *m_layout;
+	Resources* m_resources;
+	
+	Tooltip* m_tooltip;
 };
 
 #endif

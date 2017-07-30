@@ -10,13 +10,17 @@
 
 #include "GuiElement.h"
 #include "../Screen.h"
-#include "../../core/Input.h"
+#include "../../core/Resources.h"
 #include <string>
 
 #define LABEL_TITLE 0
 #define LABEL_GOLD 1
 #define LABEL_WHITE 2
 #define LABEL_WHITE_SHADOW 3
+
+class Screen;
+
+class GuiElement;
 
 class Label :
         public GuiElement

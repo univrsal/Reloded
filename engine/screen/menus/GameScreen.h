@@ -10,9 +10,11 @@
 #define GAMESCREEN_H
 
 #include <stdio.h>
+#include <vector>
+#include <memory>
+
 #include "SDL.h"
 #include "../Screen.h"
-#include "../../core/Input.h"
 #include "../elements/Label.h"
 #include "../elements/Button.h"
 #include "../../core/render/Texture.h"
@@ -21,8 +23,11 @@
 #include "../../core/audio/Sfx.h"
 #include "../../util/Sounds.h"
 #include "../GuiManager.h"
-#include <vector>
-#include <memory>
+#include "../../core/Resources.h"
+
+class GuiElement;
+
+class Resoures;
 
 class GameScreen : public Screen
 {
@@ -35,7 +40,7 @@ public:
 
     void draw_foreground(void);
 
-    void init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Input *input, Audio *audio);
+    void init(Resources* r);
 
     void set_active_tooltip(std::string *text, int x, int y);
 

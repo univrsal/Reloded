@@ -9,15 +9,12 @@
 
 GameScreen::GameScreen()
 {
-	m_current_event = NULL;
-	m_renderer = NULL;
-	m_layout = NULL;
 	m_border = NULL;
 	m_logo = NULL;
 	m_tooltip = NULL;
 	m_rock = NULL;
 	m_soft_rock = NULL;
-    m_input = NULL;
+	m_resources = NULL;
 }
 
 GameScreen::~GameScreen()
@@ -29,21 +26,18 @@ GameScreen::~GameScreen()
 	delete m_rock;
 	delete m_soft_rock;
 
-    m_input = NULL;
 	m_tooltip = NULL;
 	m_logo = NULL;
 	m_border = NULL;
 	m_soft_rock = NULL;
 	m_rock = NULL;
-    m_renderer = NULL;
-    m_layout = NULL;
-    m_current_event = NULL;
+	m_resources = NULL;
 }
 
 void GameScreen::draw_background(void)
 {
-    m_border->draw(m_renderer->m_sdl_renderer, m_layout->get_content_origin());
-    m_logo->draw(m_renderer->m_sdl_renderer, m_layout->get_content_origin(), 22, 22);
+    m_border->draw(m_resources->sdl_renderer(), m_resources->origin());
+    m_logo->draw(m_resources->sdl_renderer(), m_resources->origin(), 22, 22);
 
     // Draw gui elements
     std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
@@ -65,16 +59,12 @@ void GameScreen::draw_foreground(void)
     }
 }
 
-void GameScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Input *input, Audio *audio)
+void GameScreen::init(Resources* r)
 {
-    m_input = input;
-	m_audio = audio;
-    m_layout = layout;
-    m_current_event = sdl_event;
-    m_renderer = renderer;
+	m_resources = r;
 
-    m_logo = new Texture(CONST_PATH_LOGO, renderer->m_sdl_renderer, m_layout->get_scale_factor());
-    m_border = new Texture(CONST_PATH_MENU_BORDER, renderer->m_sdl_renderer, m_layout->get_scale_factor());
+    m_logo = new Texture(CONST_PATH_LOGO, m_resources->sdl_renderer(), m_resources->scalef());
+    m_border = new Texture(CONST_PATH_MENU_BORDER, m_resources->sdl_renderer(), m_resources->scalef());
 
     m_screen_elements.emplace_back(new Button(0, BTN_BIG, 48, 285, CONST_PATH_BTN_SP, LANG_TIP_SP, this));
     m_screen_elements.emplace_back(new Button(1, BTN_BIG, 170, 285, CONST_PATH_BTN_LOCAL_MP, LANG_TIP_LOCAL_MP, this));
@@ -84,8 +74,8 @@ void GameScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, 
     m_screen_elements.emplace_back(
             new Button(4, BTN_MEDIUM, 546, 331, CONST_PATH_BTN_SETTINGS, LANG_TIP_SETTINGS, this));
 
-    m_rock = new Sfx(SFX_EFFECT, m_audio, SFX_PATH_ROCK);
-    m_soft_rock = new Sfx(SFX_EFFECT, m_audio, SFX_PATH_ROCK_SOFT);
+    m_rock = new Sfx(SFX_EFFECT, m_resources->audio(), SFX_PATH_ROCK);
+    m_soft_rock = new Sfx(SFX_EFFECT, m_resources->audio(), SFX_PATH_ROCK_SOFT);
 
     m_tooltip = new Tooltip(this);
 }
@@ -107,7 +97,7 @@ void GameScreen::action_performed(int action_id)
             }
             break;
         case 0: // Singleplayer
-            m_renderer->m_gui_mgr->queue_screen(GUI_SP);
+            m_resources->gui_mgr()->queue_screen(GUI_SP);
             break;
         case 1: // Local multiplayer
 
@@ -153,6 +143,6 @@ void GameScreen::handle_events(void)
     std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
 
     for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
-        iterator->get()->handle_events(m_current_event);
+        iterator->get()->handle_events(m_resources->input_event());
     }
 }

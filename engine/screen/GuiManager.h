@@ -22,8 +22,6 @@
 
 class Resources;
 
-class Screen;
-
 class Layout;
 
 class Texture;

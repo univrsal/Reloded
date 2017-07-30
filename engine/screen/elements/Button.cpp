@@ -3,7 +3,7 @@
 Button::Button(int id, int type, int x, int y, const char *texure, const char *tooltip, Screen *parent)
 {
     m_type = type;
-    m_bg = new Texture(texure, parent->m_renderer->m_sdl_renderer, parent->m_layout->get_scale_factor());
+    m_bg = new Texture(texure, parent->m_resources->sdl_renderer(), parent->m_resources->scalef());
     m_pressed = false;
     m_tooltip_shown = false;
     m_hover_start = 0;
@@ -49,7 +49,7 @@ void Button::draw_background(void)
         } else {
             cutout = SDL_Rect{0, 0, get_dimensions()->w, get_dimensions()->h};
         }
-        m_bg->draw(get_parent_screen()->m_renderer->m_sdl_renderer, get_scaled_dimensions(), &cutout);
+        m_bg->draw(get_resources()->sdl_renderer(), get_scaled_dimensions(), &cutout);
 
         if (!m_tooltip.empty() && m_hover_start != 0 && SDL_GetTicks() - m_hover_start > 1000) {
             if (!m_tooltip_shown) {

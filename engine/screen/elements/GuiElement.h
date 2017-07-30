@@ -2,7 +2,6 @@
 #define GUIELEMENT_H
 
 #include "SDL.h"
-#include "../Screen.h"
 
 #define BTN_BIG 0
 #define BTN_MEDIUM 1
@@ -13,6 +12,8 @@
 #define BTN_SMALL_CANCEL 6
 #define BTN_TINY 7
 #define BTN_MICRO 8
+
+class Resources;
 
 class Screen;
 
@@ -31,13 +32,15 @@ public:
 
     void resize(void);
 
-    Screen *get_parent_screen();
+    Screen *get_parent_screen(void);
 
-    SDL_Rect *get_scaled_dimensions();
+	Resources* get_resources();
 
-    SDL_Rect *get_dimensions();
+    SDL_Rect *get_scaled_dimensions(void);
 
-    int get_id();
+    SDL_Rect *get_dimensions(void);
+
+    int get_id(void);
 
     void init(Screen *parent, SDL_Rect dim, int id);
 

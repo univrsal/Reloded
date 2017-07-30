@@ -8,11 +8,14 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "GuiElement.h"
 #include "SDL.h"
+#include "GuiElement.h"
 #include "../../core/render/Texture.h"
-#include "../../core/Tooltip.h"
 #include "../../core/audio/Sfx.h"
+#include "../Screen.h"
+#include "../../core/Resources.h"
+
+class Screen;
 
 class Button : public GuiElement
 {

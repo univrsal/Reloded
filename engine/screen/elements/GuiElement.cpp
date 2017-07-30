@@ -1,4 +1,5 @@
 #include "GuiElement.h"
+#include "../../core/Resources.h"
 
 GuiElement::~GuiElement()
 {
@@ -15,8 +16,8 @@ void GuiElement::close(void)
 
 void GuiElement::resize(void)
 {
-    int scale_val = *get_parent_screen()->m_layout->get_scale_factor();
-    SDL_Point *offset = get_parent_screen()->m_layout->get_content_origin();
+    int scale_val = *get_resources()->scalef();
+    SDL_Point *offset = get_resources()->origin();
     m_scaled_dimensions = SDL_Rect{offset->x + m_dimensions.x * scale_val, offset->y + m_dimensions.y * scale_val,
                                    m_dimensions.w * scale_val, m_dimensions.h * scale_val};
 }
@@ -24,6 +25,11 @@ void GuiElement::resize(void)
 Screen *GuiElement::get_parent_screen()
 {
     return m_parent_screen;
+}
+
+Resources * GuiElement::get_resources()
+{
+	return get_parent_screen()->m_resources;
 }
 
 SDL_Rect *GuiElement::get_scaled_dimensions()

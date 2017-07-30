@@ -9,9 +9,6 @@
 
 SpSetupScreen::SpSetupScreen()
 {
-    m_current_event = NULL;
-    m_renderer = NULL;
-    m_layout = NULL;
     m_border = NULL;
     m_content = NULL;
     m_tooltip = NULL;
@@ -20,12 +17,11 @@ SpSetupScreen::SpSetupScreen()
     m_portal = NULL;
     m_alarm = NULL;
     m_level_label = NULL;
-    m_input = NULL;
 	m_current_puzzle = NULL;
 	m_file_browser = NULL;
 	m_level_name_label = NULL;
+	m_resources = NULL;
     m_level_number = 1;
-	
 	m_in_file_browser = false;
 }
 
@@ -43,23 +39,20 @@ SpSetupScreen::~SpSetupScreen()
 	delete m_file_browser;
 
 	m_current_puzzle = NULL;
-    m_input = NULL;
     m_level_label = NULL;
 	m_level_name_label = NULL;
 	m_portal = NULL;
     m_alarm = NULL;
     m_content = NULL;
-    m_renderer = NULL;
-    m_layout = NULL;
-    m_current_event = NULL;
 	m_rock = NULL;
 	m_soft_rock = NULL;
+	m_resources = NULL;
 }
 
 void SpSetupScreen::draw_background(void)
 {
-    m_border->draw(m_renderer->m_sdl_renderer, m_layout->get_content_origin());
-    m_content->draw(m_renderer->m_sdl_renderer, m_layout->get_content_origin(), 22, 22);
+    m_border->draw(m_resources->sdl_renderer(), m_resources->origin());
+    m_content->draw(m_resources->sdl_renderer(), m_resources->origin(), 22, 22);
 
     // Draw gui elements
     std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
@@ -81,22 +74,19 @@ void SpSetupScreen::draw_foreground(void)
     }
 
 	if (m_in_file_browser)
-		m_file_browser->draw(m_renderer, m_layout);
+		m_file_browser->draw(m_resources->renderer(), m_resources->layout());
 }
 
-void SpSetupScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layout, Input *input, Audio *audio)
+void SpSetupScreen::init(Resources* r)
 {
-	m_audio = audio;
-    m_layout = layout;
-    m_current_event = sdl_event;
-    m_renderer = renderer;
-    m_input = input;
+	m_resources = r;
+
 
     sprintf(m_selected_level_format, "%03d", m_level_number);
     m_selected_level_string = std::string(m_selected_level_format);
 
-    m_border = new Texture(CONST_PATH_MENU_BORDER, renderer->m_sdl_renderer, m_layout->get_scale_factor());
-    m_content = new Texture(CONST_PATH_SP_CONTENT, renderer->m_sdl_renderer, m_layout->get_scale_factor());
+    m_border = new Texture(CONST_PATH_MENU_BORDER, m_resources->sdl_renderer(), m_resources->scalef());
+    m_content = new Texture(CONST_PATH_SP_CONTENT, m_resources->sdl_renderer(), m_resources->scalef());
 
     // Bottom navigation
     m_screen_elements.emplace_back(new Button(0, BTN_BIG, 48, 285, CONST_PATH_BTN_SP, LANG_TIP_SP, this));
@@ -140,10 +130,10 @@ void SpSetupScreen::init(SDL_Event *sdl_event, Renderer *renderer, Layout *layou
 	m_screen_elements.emplace_back(m_level_label);
 	m_screen_elements.emplace_back(m_level_name_label);
 
-    m_rock = new Sfx(SFX_EFFECT, m_audio, SFX_PATH_ROCK);
-    m_soft_rock = new Sfx(SFX_EFFECT, m_audio, SFX_PATH_ROCK_SOFT);
-    m_alarm = new Sfx(SFX_EFFECT, m_audio, SFX_PATH_CANCEL);
-    m_portal = new Sfx(SFX_EFFECT, m_audio, SFX_PATH_ACCEPT);
+    m_rock = new Sfx(SFX_EFFECT, m_resources->audio(), SFX_PATH_ROCK);
+	m_soft_rock = new Sfx(SFX_EFFECT, m_resources->audio(), SFX_PATH_ROCK_SOFT);
+    m_alarm = new Sfx(SFX_EFFECT, m_resources->audio(), SFX_PATH_CANCEL);
+    m_portal = new Sfx(SFX_EFFECT, m_resources->audio(), SFX_PATH_ACCEPT);
 
     m_tooltip = new Tooltip(this);
 
@@ -172,7 +162,7 @@ void SpSetupScreen::action_performed(int action_id)
 			break;
         case 10:
         case ACTION_CANCEL:
-            m_renderer->m_gui_mgr->queue_screen(GUI_GAME);
+            m_resources->gui_mgr()->queue_screen(GUI_GAME);
             break;
         case 7:
         case ACTION_SCROLL_UP:
@@ -216,11 +206,11 @@ void SpSetupScreen::select_puzzle(int id)
 {
 	std::string name = *m_current_puzzle->get_level_name(id - 1);
 	transform(name.begin(), name.end(), name.begin(), ::toupper);
-	SDL_Rect dim = m_renderer->util_text_default_dim(&name, FONT_LODE);
+	SDL_Rect dim = m_resources->renderer()->util_text_default_dim(&name, FONT_LODE);
 	
 	while (dim.w > 169) {
 		name = name.substr(0, name.size() - 1);
-		dim = m_renderer->util_text_default_dim(&name, FONT_LODE);
+		dim = m_resources->renderer()->util_text_default_dim(&name, FONT_LODE);
 	}
 
 	m_level_name_label->set_text(name);
@@ -255,11 +245,11 @@ void SpSetupScreen::handle_events(void)
 		std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
 
 		for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
-			iterator->get()->handle_events(m_current_event);
+			iterator->get()->handle_events(m_resources->input_event());
 		}
 	}
 	else
 	{
-		m_file_browser->handle_event(m_current_event);
+		m_file_browser->handle_event(m_resources->input_event());
 	}
 }

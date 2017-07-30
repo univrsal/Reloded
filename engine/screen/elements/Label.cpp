@@ -10,15 +10,15 @@ Label::Label(int id, int x, int y, int type, const char *text, Screen *parent)
     switch (type) {
         default:
         case LABEL_GOLD:
-            m_color = parent->m_renderer->m_palette->get_accent();
+            m_color = parent->m_resources->palette()->get_accent();
             break;
         case LABEL_TITLE:
-            m_color = parent->m_renderer->m_palette->black();
+            m_color = parent->m_resources->palette()->black();
             break;
 		case LABEL_WHITE_SHADOW:
 			m_shadow = true;
         case LABEL_WHITE:
-            m_color = parent->m_renderer->m_palette->white();
+            m_color = parent->m_resources->palette()->white();
             break;
     }
 }
@@ -35,18 +35,18 @@ void Label::close(void)
 
 void Label::draw_background(void)
 {
-    SDL_Point *o = get_parent_screen()->m_layout->get_content_origin();
-    int scale = *get_parent_screen()->m_layout->get_scale_factor();
+	SDL_Point *o = get_parent_screen()->m_resources->origin();
+    int scale = *get_parent_screen()->m_resources->scalef();
 
 	if (!m_shadow)
 	{
-		get_parent_screen()->m_renderer->util_text_lode(&m_text, o->x + m_dimensions.x * scale,
+		get_resources()->renderer()->util_text_lode(&m_text, o->x + m_dimensions.x * scale,
 			o->y + m_dimensions.y * scale,
 			m_color);
 	}
 	else
 	{
-		get_parent_screen()->m_renderer->util_text_lode_shadow(&m_text, o->x + m_dimensions.x * scale,
+		get_resources()->renderer()->util_text_lode_shadow(&m_text, o->x + m_dimensions.x * scale,
 			o->y + m_dimensions.y * scale,
 			m_color);
 	}

@@ -19,10 +19,12 @@
 #include "Screen.h"
 #include "../core/render/Renderer.h"
 #include "Layout.h"
-#include "elements/GuiElement.h"
 #include "elements/Label.h"
 #include "elements/Button.h"
 #include "../util/Lang.h"
+#include "elements/GuiElement.h"
+
+class GuiElement;
 
 class FileBrowser
 {

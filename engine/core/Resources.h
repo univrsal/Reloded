@@ -12,6 +12,8 @@
 #include "render\Renderer.h"
 #include "Input.h"
 
+class Screen;
+
 class Engine;
 
 class GuiManager;
@@ -24,7 +26,7 @@ class Input;
 
 class Layout;
 
-class Screen;
+class Palette;
 
 class Resources
 {
@@ -33,17 +35,21 @@ public:
 	~Resources();
 	
 	void init(Renderer* r, Audio* a, Input* i, Layout* l, Engine* e);
+	void set_layout(Layout* l);
 
-	Renderer* renderer(void);
+	SDL_Point* origin(void);
 	SDL_Renderer* sdl_renderer(void);
 	SDL_Window* window(void);
+	SDL_Event* input_event(void);
+	int* scalef(void);
+
+	Renderer* renderer(void);
 	Audio* audio(void);
 	Input* input(void);
 	Layout* layout(void);
-	SDL_Event* input_event(void);
 	Screen* active_screen(void);
 	GuiManager* gui_mgr(void);
-	void set_layout(Layout* l);
+	Palette* palette(void);
 
 private:
 	Engine* m_engine;

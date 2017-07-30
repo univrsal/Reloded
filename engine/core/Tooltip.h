@@ -10,7 +10,9 @@
 
 #include <vector>
 #include <string.h>
+#include "SDL.h"
 #include "../screen/Screen.h"
+#include "../core/Resources.h"
 
 #define TOOLTIP_LINE_SPACE 2
 #define TOOLTIP_BORDER 5
