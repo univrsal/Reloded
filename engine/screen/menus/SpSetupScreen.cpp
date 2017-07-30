@@ -166,15 +166,29 @@ void SpSetupScreen::action_performed(int action_id)
             break;
         case 7:
         case ACTION_SCROLL_UP:
-            if (m_level_number < m_current_puzzle->get_level_count())
-                m_level_number++;
-			select_puzzle(m_level_number);
+			if (m_in_file_browser)
+			{
+				m_file_browser->scroll(1);
+			}
+			else
+			{
+				if (m_level_number < m_current_puzzle->get_level_count())
+					m_level_number++;
+				select_puzzle(m_level_number);
+			}
             break;
         case 8:
         case ACTION_SCROLL_DOWN:
-            if (m_level_number > 1)
-                m_level_number--;
-			select_puzzle(m_level_number);
+			if (m_in_file_browser)
+			{
+				m_file_browser->scroll(-1);
+			}
+			else
+			{
+				if (m_level_number > 1)
+					m_level_number--;
+				select_puzzle(m_level_number);
+			}
             break;
         case 9:
             m_level_number = 1;

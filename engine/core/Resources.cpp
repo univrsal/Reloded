@@ -87,6 +87,24 @@ Palette * Resources::palette(void)
 	return m_renderer->m_palette;
 }
 
+bool Resources::util_is_in_rect(SDL_Rect * r, SDL_Point * p)
+{
+	return p->x >= r->x && p->x <= r->x + r->w 
+		&& p->y >= r->y && p->y <= r->y + r->h;
+}
+
+bool Resources::util_is_in_rect(SDL_Rect * r, int x, int y)
+{
+	return x >= r->x && x <= r->x + r->w
+		&& y >= r->y && y <= r->y + r->h;
+}
+
+bool Resources::util_is_in_rect(int x, int y, int w, int h, int x2, int y2)
+{
+	return x2 >= x && x2 <= x + w
+		&& y2 >= y && y2 <= y + h;
+}
+
 void Resources::set_layout(Layout * l)
 {
 	m_layout = l;

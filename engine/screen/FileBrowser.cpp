@@ -39,7 +39,7 @@ FileBrowser::FileBrowser(int type, std::string start_folder, Screen* parent)
 
 void FileBrowser::init(void)
 {
-	m_screen_elements.emplace_back(new Label(0, 260, 35, LABEL_DEFAULT, LANG_FB_TITLE, m_parent));
+	m_screen_elements.emplace_back(new Label(30, 260, 35, LABEL_DEFAULT, LANG_FB_TITLE, m_parent));
 	SDL_Rect* temp = m_parent->m_resources->layout()->get_window_size();
 
 	m_dim.x = temp->w / 2 - m_dim.w / 2;
@@ -50,11 +50,18 @@ void FileBrowser::init(void)
 	std::string line = "test";
 	m_line_height = m_parent->m_resources->renderer()->util_text_default_dim(&line).h + 2;
 	get_files_in_directory(m_current_path);
+	
+	m_scroll_offset = 0;
+	m_scroll_bar = { m_dim.x + m_dim.w - 17, m_dim.y + 3, 10, 0 };
+	m_scroll_bar.h = (m_dim.h - 74) * (((float)FILE_LIST_SPACE) / m_file_list.size());
 }
 
 void FileBrowser::close(void)
 {
 	m_screen_elements.clear();
+	m_file_type.clear();
+	m_file_list.clear();
+	m_parent = NULL;
 }
 
 void FileBrowser::get_files_in_directory(std::string directory)
@@ -111,6 +118,17 @@ void FileBrowser::get_files_in_directory(std::string directory)
 #endif
 }
 
+void FileBrowser::scroll(int dir)
+{
+	if (m_file_list.size() <= FILE_LIST_SPACE)
+		return;
+
+	if (dir < 0)
+		m_scroll_offset = SDL_min(m_file_list.size() - FILE_LIST_SPACE, ++m_scroll_offset);
+	else
+		m_scroll_offset = SDL_max(0, --m_scroll_offset);
+}
+
 std::wstring FileBrowser::utf8toUtf16(const std::string & str)
 {
 	if (str.empty())
@@ -136,8 +154,7 @@ void FileBrowser::handle_event(SDL_Event * e)
 	{
 		if (e->button.button == SDL_BUTTON_LEFT)
 		{
-			if (e->button.x >= m_title_bar.x && e->button.x <= m_title_bar.x + m_title_bar.w && e->button.y >= m_title_bar.y
-				&& e->button.y <= m_title_bar.y + m_title_bar.h)
+			if (m_parent->m_resources->util_is_in_rect(&m_title_bar, e->button.x, e->button.y))
 			{
 				m_offset_x = e->button.x - m_title_bar.x;
 				m_offset_y = e->button.y - m_title_bar.y;
@@ -145,7 +162,8 @@ void FileBrowser::handle_event(SDL_Event * e)
 			}
 		}
 	}
-	else if (e->type == SDL_MOUSEBUTTONUP) {
+	else if (e->type == SDL_MOUSEBUTTONUP)
+	{
 		if (e->button.button == SDL_BUTTON_LEFT)
 		{
 			m_dragging = false;
@@ -159,7 +177,16 @@ void FileBrowser::handle_event(SDL_Event * e)
 			m_title_bar.x = m_dim.x + 2;
 			m_dim.y = e->button.y - m_offset_y;
 			m_title_bar.y = m_dim.y + 2;
+
+			m_scroll_bar.x = m_dim.x + m_dim.w - 17;
+			m_scroll_bar.y = m_dim.y + 32;
 		}
+	}
+	
+	std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
+
+	for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
+		iterator->get()->handle_events(m_parent->m_resources->input_event());
 	}
 }
 
@@ -174,15 +201,38 @@ void FileBrowser::draw(Renderer * r, Layout * l)
 	r->util_draw_rect(m_dim.x + 4, m_dim.y + 28, m_dim.w - 8, m_dim.h - 70, r->m_palette->dark_gray());
 	
 	{ // File list
-		
 		std::vector<std::wstring>::iterator iterator;
 		std::string t;
 		int i = 0;
+		int line_width = 0;
 
-		for (iterator = m_file_list.begin(); iterator != m_file_list.end(); iterator++) {
+		for (iterator = m_file_list.begin() + m_scroll_offset; iterator != m_file_list.end(); iterator++) {
+			bool was_cut = false;
 			t = std::string(iterator->begin(), iterator->end());
+			
+			line_width = r->util_text_default_dim(&t).w; // Cutting filenames that are too long
+			while (line_width > FILE_NAME_MAX_WIDTH) {
+				t = t.substr(0, t.size() - 1);
+				line_width = r->util_text_default_dim(&t).w;
+				was_cut = true;
+			}
+
+			if (was_cut)
+				t.append("...");
+
 			r->util_text_default(&t, m_dim.x + 8, m_dim.y + 32 + (m_line_height * i), m_parent->m_resources->palette()->black());
 			i++;
+
+			if (i >= FILE_LIST_SPACE)
+				break;
+		}
+	}
+
+	{ // Scroll bar
+		if (m_file_list.size() > FILE_LIST_SPACE)
+		{
+			m_scroll_bar.y = m_dim.y + 32 + (m_dim.h - 74 - m_scroll_bar.h) * (((float)m_scroll_offset / (m_file_list.size() - FILE_LIST_SPACE)));
+			r->util_fill_rect(&m_scroll_bar, r->m_palette->dark_gray());
 		}
 	}
 }

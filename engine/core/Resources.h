@@ -51,6 +51,10 @@ public:
 	GuiManager* gui_mgr(void);
 	Palette* palette(void);
 
+	bool util_is_in_rect(SDL_Rect* r, SDL_Point* p);
+	bool util_is_in_rect(SDL_Rect* r, int x, int y);
+	bool util_is_in_rect(int x, int y, int w, int h, int x2, int y2);
+
 private:
 	Engine* m_engine;
 	Renderer* m_renderer;

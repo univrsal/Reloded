@@ -11,6 +11,9 @@
 #define FILETYPE_OPEN 0
 #define FILETYPE_SAVE 1
 
+#define FILE_LIST_SPACE 11
+#define FILE_NAME_MAX_WIDTH 350
+
 #include <string.h>
 #include <vector>
 #include <memory>
@@ -46,6 +49,8 @@ public:
 
 	void get_files_in_directory(std::string directory);
 
+	void scroll(int dir);
+
 	std::wstring utf8toUtf16(const std::string & str);
 
 	void handle_event(SDL_Event* e);
@@ -64,9 +69,13 @@ private:
 	Screen* m_parent;
 	SDL_Rect m_dim;
 	SDL_Rect m_title_bar;
+	SDL_Rect m_scroll_bar;
+
 	bool m_dragging;
 	bool m_valid_dir;
+
 	int m_offset_x, m_offset_y;
+	int m_scroll_offset;
 	int m_line_height;
 };
 
