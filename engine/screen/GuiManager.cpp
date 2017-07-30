@@ -63,6 +63,7 @@ void GuiManager::set_screen(Uint8 gui_id)
             m_current_screen = new SpSetupScreen();
             break;
     }
+
     m_current_screen->init(m_resources);
 	m_current_screen->action_performed(ACTION_RESIZE);
 }

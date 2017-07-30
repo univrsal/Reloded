@@ -41,7 +41,7 @@ private:
     int m_line_height;
     std::vector<std::string *> m_formatted_text;
     SDL_Color *m_bg_color;
-
+	SDL_Color *m_fg_color;
     const std::string m_delmiter = "\n";
 };
 

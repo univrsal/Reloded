@@ -19,7 +19,7 @@
 #define CONST_WINDOW_WIDTH 640
 #define CONST_WINDOW_HEIGHT 400
 
-#define CONST_FPS 30
+#define CONST_FPS 60
 #define CONST_TICKS_PER_FRAME 1000 / CONST_FPS
 
 #define CONST_WINDOW_TITLE "Lode Runner: The Mad Monks' Revenge v0.1"
@@ -67,9 +67,7 @@ public:
 
 	void util_text_lode_shadow(std::string *text, int x, int y, const SDL_Color *color = NULL);
 
-    void util_text_default(std::string *text, int x, int y);
-
-	void util_text_default_scaled(std::string *text, int x, int y, const SDL_Color *color = NULL);
+    void util_text_default(std::string *text, int x, int y, const SDL_Color *color = NULL);
 
     SDL_Rect util_text_default_dim(std::string *text, int type = FONT_ROBOTO);
 

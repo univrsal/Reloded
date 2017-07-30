@@ -17,6 +17,7 @@
 #define LABEL_GOLD 1
 #define LABEL_WHITE 2
 #define LABEL_WHITE_SHADOW 3
+#define LABEL_DEFAULT 4
 
 class Screen;
 
@@ -45,6 +46,7 @@ public:
     SDL_Color *m_color;
 private:
 	bool m_shadow;
+	int m_type;
 };
 
 #endif

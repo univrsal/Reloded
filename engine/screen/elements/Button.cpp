@@ -70,40 +70,58 @@ void Button::draw_foreground(void)
 
 void Button::handle_events(SDL_Event *event)
 {
-    if (event->type == SDL_MOUSEBUTTONDOWN) {
-        if (event->button.button == SDL_BUTTON_LEFT) {
-            if (is_mouse_over(event->button.x, event->button.y)) {
+    if (event->type == SDL_MOUSEBUTTONDOWN)
+	{
+        if (event->button.button == SDL_BUTTON_LEFT)
+		{
+            if (is_mouse_over(event->button.x, event->button.y))
+			{
                 if (!m_pressed)
                     get_parent_screen()->get_sfx_for_element(m_type)->play();
                 m_pressed = true;
             }
         }
-    } else if (event->type == SDL_MOUSEBUTTONUP) {
-        if (event->button.button == SDL_BUTTON_LEFT) {
+    } 
+	else if (event->type == SDL_MOUSEBUTTONUP)
+	{
+        if (event->button.button == SDL_BUTTON_LEFT)
+		{
 
-            if (m_pressed && is_mouse_over(event->button.x, event->button.y)) {
+            if (m_pressed && is_mouse_over(event->button.x, event->button.y))
+			{
                 get_parent_screen()->action_performed(m_element_id);
             }
             m_pressed = false;
         }
-    } else if (event->type == SDL_MOUSEMOTION) {
-        if (event->motion.state & SDL_BUTTON_LMASK) {
-            if (is_mouse_over(event->button.x, event->button.y)) {
+    } 
+	else if (event->type == SDL_MOUSEMOTION)
+	{
+        if (event->motion.state & SDL_BUTTON_LMASK)
+		{
+            if (is_mouse_over(event->button.x, event->button.y))
+			{
                 if (!m_pressed)
                     get_parent_screen()->get_sfx_for_element(m_type)->play();
                 m_pressed = true;
             }
-        } else {
+        } 
+		else 
+		{
             m_pressed = false;
         }
     }
 
-    if (!m_tooltip.empty() && is_mouse_over(event->button.x, event->button.y) == 1) {
-        if (m_hover_start == 0) {
+    if (!m_tooltip.empty() && is_mouse_over(event->button.x, event->button.y) == 1)
+	{
+        if (m_hover_start == 0)
+		{
             m_hover_start = SDL_GetTicks();
         }
-    } else {
-        if (m_hover_start != 0) {
+    }
+	else
+	{
+        if (m_hover_start != 0)
+		{
             m_hover_start = 0;
             m_parent_screen->set_active_tooltip(NULL, 0, 0);
             m_tooltip_shown = false;

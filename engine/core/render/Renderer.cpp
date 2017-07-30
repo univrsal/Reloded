@@ -169,14 +169,9 @@ void Renderer::util_text_lode_shadow(std::string * text, int x, int y, const SDL
 	util_text_lode(text, x, y, color);
 }
 
-void Renderer::util_text_default(std::string *text, int x, int y)
+void Renderer::util_text_default(std::string *text, int x, int y, const SDL_Color *color)
 {
-    m_font_helper->draw(text, x, y, m_default_font);
-}
-
-void Renderer::util_text_default_scaled(std::string * text, int x, int y, const SDL_Color *color)
-{
-	m_font_helper->draw(text, x, y, m_default_font, color == NULL ? m_palette->white() : color, *m_gui_mgr->m_layout->get_scale_factor());
+    m_font_helper->draw(text, x, y, m_default_font, color == NULL ? m_palette->white() : color);
 }
 
 SDL_Rect Renderer::util_text_default_dim(std::string *text, int type)
@@ -184,9 +179,8 @@ SDL_Rect Renderer::util_text_default_dim(std::string *text, int type)
     switch (type) {
         default:
         case FONT_DEFAULT:
-            return m_font_helper->get_text_dimension(m_default_font, text);
+            return m_font_helper->get_text_dimension(m_default_font, text, *m_gui_mgr->m_layout->get_scale_factor());
         case FONT_LODE:
             return m_font_helper->get_text_dimension(m_default_font, text, *m_gui_mgr->m_layout->get_scale_factor());
-
     }
 }
