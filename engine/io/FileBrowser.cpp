@@ -9,7 +9,7 @@ FileBrowser::FileBrowser()
 	m_title_bar = {};
 	m_title = "Choose a file";
 	m_dragging = false;
-	m_valid_dir = false;
+
 	m_offset_x = m_offset_y = 0;
 	m_line_height = 0;
 }
@@ -22,12 +22,12 @@ FileBrowser::FileBrowser(int type, std::string start_folder, Screen* parent)
 	m_dim = { 0, 0, 400, 300 };
 	m_title_bar = { 2, 2, m_dim.w - 4, 22};
 	m_dragging = false;
-	m_valid_dir = false;
+
 	m_offset_x = m_offset_y = 0;
 	m_line_height = 0;
 	m_selected = 0;
 
-	switch (type)
+    switch (m_type)
 	{
 	case FILETYPE_SAVE:
 		m_title = "Save file";
@@ -41,7 +41,6 @@ FileBrowser::FileBrowser(int type, std::string start_folder, Screen* parent)
 
 void FileBrowser::init(void)
 {
-	m_screen_elements.emplace_back(new Label(30, 260, 35, LABEL_DEFAULT, LANG_FB_TITLE, m_parent));
 	SDL_Rect* temp = m_parent->m_resources->layout()->get_window_size();
 
 	m_dim.x = temp->w / 2 - m_dim.w / 2;
@@ -51,6 +50,10 @@ void FileBrowser::init(void)
 
 	std::string line = "test";
 	m_line_height = m_parent->m_resources->renderer()->util_text_default_dim(&line).h + 2;
+
+    m_path_text = new Textbox(m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2, 10, 100, 20, std::string(""),
+                              m_parent);
+    m_screen_elements.emplace_back(m_path_text);
 }
 
 void FileBrowser::refresh(void)
@@ -61,7 +64,6 @@ void FileBrowser::refresh(void)
 
 	m_selected_file.clear();
 	m_file_list.clear();
-	m_file_type.clear();
 
 	get_files_in_directory(m_current_path);
 
@@ -75,7 +77,6 @@ void FileBrowser::refresh(void)
 void FileBrowser::close(void)
 {
 	m_screen_elements.clear();
-	m_file_type.clear();
 	m_file_list.clear();
 	m_parent = NULL;
 }
@@ -97,8 +98,6 @@ void FileBrowser::get_files_in_directory(std::string directory)
 		// We still need the option to go back
 		m_file_list.push_back(".");
 		m_file_list.push_back("..");
-		m_file_type.push_back(true);
-		m_file_type.push_back(true);
 		return;
 	}
 	else
@@ -107,7 +106,6 @@ void FileBrowser::get_files_in_directory(std::string directory)
 			std::wstring file_name(data.cFileName);
 			std::string std_string(file_name.begin(), file_name.end());
 			m_file_list.push_back(std_string);
-			m_file_type.push_back((data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0);
 		} while (FindNextFile(hFind, &data));
 
 		FindClose(hFind);
@@ -121,7 +119,6 @@ void FileBrowser::get_files_in_directory(std::string directory)
 	if (dir != NULL) {
 		while ((dirent = readdir(dir))) {
 			m_file_list.push_back(std::string(dirent->d_name));
-			m_file_type.push_back(dirent->d_type == DT_DIR);
 		}
 		// Linux doesn't return the file list ordered
 		std::sort(m_file_list.begin(), m_file_list.end());
@@ -130,8 +127,6 @@ void FileBrowser::get_files_in_directory(std::string directory)
 		//We'll still need these
 		m_file_list.push_back(".");
 		m_file_list.push_back("..");
-		m_file_type.push_back(true);
-		m_file_type.push_back(true);
 	}
 
 	closedir(dir);
@@ -220,7 +215,7 @@ void FileBrowser::handle_event(SDL_Event * e)
 							}
 							else if (m_selected > 0) // first element is always "./"
 							{
-								if (m_file_type[m_selected]) // When true: selection is a directory
+                                if (is_dir(m_selected_file)) // When true: selection is a directory
 								{
 									go_to(m_selected_file);
 								}
@@ -257,6 +252,9 @@ void FileBrowser::handle_event(SDL_Event * e)
 
 			m_scroll_bar.x = m_dim.x + m_dim.w - 17;
 			m_scroll_bar.y = m_list_dim.y + 3;
+
+            // Move Elements
+            m_path_text->set_pos(m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2);
 		}
 
 		if (m_parent->m_resources->util_is_in_rect(m_list_dim.x, m_list_dim.y, m_list_dim.w - 15, m_list_dim.h,
@@ -318,18 +316,18 @@ void FileBrowser::draw(Renderer * r, Layout * l)
 		std::string line = m_current_path;
 
 		// Current path
-		line_width = r->util_text_default_dim(&line).w; // Cutting filenames that are too long
-		while (line_width > m_dim.w - 8) {
-			line = line.substr(1, line.size());
-			line_width = r->util_text_default_dim(&line).w;
-			was_cut = true;
-		}
-
-		if (was_cut)
-			line = "..." + line;
-
-		r->util_text_default(&line, m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2,
-							 m_parent->m_resources->palette()->black());
+//		line_width = r->util_text_default_dim(&line).w; // Cutting filenames that are too long
+//		while (line_width > m_dim.w - 20) {
+//			line = line.substr(1, line.size());
+//			line_width = r->util_text_default_dim(&line).w;
+//			was_cut = true;
+//		}
+//
+//		if (was_cut)
+//			line = "..." + line;
+//
+//		r->util_text_default(&line, m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2,
+//							 m_parent->m_resources->palette()->black());
 
 		for (int i = m_scroll_offset; i < m_file_list.size() + m_scroll_offset; i++) {
 			line = m_file_list[i];
@@ -347,8 +345,8 @@ void FileBrowser::draw(Renderer * r, Layout * l)
 
 			if (j == m_mouse_over)
 				r->util_draw_rect(m_list_dim.x + 2, m_list_dim.y + 3 + m_line_height * j, m_list_dim.w - 20, m_line_height, m_parent->m_resources->palette()->dark_gray());
-			
-			if (m_file_type[i]) // Mark directories with '/'
+
+            if (is_dir(line)) // Mark directories with '/'
 				line.append("/");
 
 			if (was_cut)
@@ -369,9 +367,32 @@ void FileBrowser::draw(Renderer * r, Layout * l)
 			r->util_fill_rect(&m_scroll_bar, r->m_palette->dark_gray());
 		}
 	}
+
+    { // Input elements
+        std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
+
+        for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
+            iterator->get()->draw_background();
+            iterator->get()->draw_foreground();
+        }
+    }
 }
 
 FileBrowser::~FileBrowser()
 {
 	close();
+}
+
+bool FileBrowser::is_dir(std::string file)
+{
+#ifdef _WIN32
+
+#else
+    std::string temp_path = m_current_path + "/" + file;
+    DIR *d = opendir(temp_path.c_str());
+    bool result = d != NULL;
+    if (d)
+        closedir(d);
+    return result;
+#endif
 }

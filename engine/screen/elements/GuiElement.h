@@ -46,6 +46,8 @@ public:
 
     bool is_mouse_over(const int &x, const int &y);
 
+    void set_pos(int x, int y);
+
 protected:
     Screen *m_parent_screen;
     SDL_Rect m_dimensions;

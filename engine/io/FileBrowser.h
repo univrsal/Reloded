@@ -34,10 +34,13 @@
 #include "../screen/Layout.h"
 #include "../screen/elements/Label.h"
 #include "../screen/elements/Button.h"
+#include "../screen/elements/Textbox.h"
 #include "../util/Lang.h"
 #include "../screen/elements/GuiElement.h"
 
 class GuiElement;
+
+class Textbox;
 
 class FileBrowser
 {
@@ -51,6 +54,7 @@ public:
 	void refresh(void);
 	void close(void);
 
+    bool is_dir(std::string file);
 	void get_files_in_directory(std::string directory);
 	void go_up();
 	void go_to(std::string dir);
@@ -66,12 +70,12 @@ public:
 private:
 	std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
 	std::vector<std::string> m_file_list;
-	std::vector<bool> m_file_type;
 
-	int m_type;
 	std::string m_title;
 	std::string m_current_path;
 	std::string m_selected_file;
+
+    Textbox *m_path_text;
 
 	Screen* m_parent;
 	SDL_Rect m_dim;
@@ -80,8 +84,8 @@ private:
 	SDL_Rect m_list_dim;
 
 	bool m_dragging;
-	bool m_valid_dir;
 
+    int m_type;
 	int m_offset_x, m_offset_y;
 	int m_scroll_offset;
 	int m_line_height;

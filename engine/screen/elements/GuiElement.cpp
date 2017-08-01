@@ -60,3 +60,9 @@ bool GuiElement::is_mouse_over(const int &x, const int &y)
     return x > get_scaled_dimensions()->x && x < get_scaled_dimensions()->x + get_scaled_dimensions()->w
            && y > get_scaled_dimensions()->y && y < get_scaled_dimensions()->y + get_scaled_dimensions()->h;
 }
+
+void GuiElement::set_pos(int x, int y)
+{
+    m_dimensions.x = x;
+    m_dimensions.y = y;
+}
