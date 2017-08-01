@@ -23,16 +23,19 @@
 #include <Windows.h>
 #else
 #include <dirent.h>
+#include <sys/types.h>
+#include <errno.h>
+#include <algorithm>
 #endif
 
 #include "SDL.h"
-#include "Screen.h"
+#include "../screen/Screen.h"
 #include "../core/render/Renderer.h"
-#include "Layout.h"
-#include "elements/Label.h"
-#include "elements/Button.h"
+#include "../screen/Layout.h"
+#include "../screen/elements/Label.h"
+#include "../screen/elements/Button.h"
 #include "../util/Lang.h"
-#include "elements/GuiElement.h"
+#include "../screen/elements/GuiElement.h"
 
 class GuiElement;
 
@@ -53,7 +56,9 @@ public:
 	void go_to(std::string dir);
 	void scroll(int dir);
 
+#ifdef _WIN32
 	std::wstring utf8toUtf16(const std::string & str);
+#endif
 
 	void handle_event(SDL_Event* e);
 	void draw(Renderer* r, Layout* l);

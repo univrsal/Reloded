@@ -114,27 +114,26 @@ void FileBrowser::get_files_in_directory(std::string directory)
 	}
 #else
 	DIR *dir;
-	class dirent *ent;
-	class stat st;
+	struct dirent *dirent;
 
-	dir = opendir(directory);
-	while ((ent = readdir(dir)) != NULL) {
-		const string file_name = ent->d_name;
-		const string full_file_name = directory + "/" + file_name;
+	dir = opendir(directory.c_str());
 
-		if (file_name[0] == '.')
-			continue;
-
-		if (stat(full_file_name.c_str(), &st) == -1)
-			continue;
-
-		const bool is_directory = (st.st_mode & S_IFDIR) != 0;
-
-		if (is_directory)
-			continue;
-
-		out.push_back(full_file_name);
+	if (dir != NULL) {
+		while ((dirent = readdir(dir))) {
+			m_file_list.push_back(std::string(dirent->d_name));
+			m_file_type.push_back(dirent->d_type == DT_DIR);
+		}
+		// Linux doesn't return the file list ordered
+		std::sort(m_file_list.begin(), m_file_list.end());
+	} else {
+		printf("Error DIR* for %s was null!\n", directory.c_str());
+		//We'll still need these
+		m_file_list.push_back(".");
+		m_file_list.push_back("..");
+		m_file_type.push_back(true);
+		m_file_type.push_back(true);
 	}
+
 	closedir(dir);
 #endif
 }
@@ -159,7 +158,7 @@ void FileBrowser::scroll(int dir)
 {
 	if (m_file_list.size() <= FILE_LIST_SPACE)
 		return;
-	int new_offset = m_scroll_offset;
+	int new_offset;
 
 	if (dir < 0)
 	{
@@ -173,6 +172,7 @@ void FileBrowser::scroll(int dir)
 	}
 }
 
+#ifdef _WIN32
 std::wstring FileBrowser::utf8toUtf16(const std::string & str)
 {
 	if (str.empty())
@@ -191,6 +191,7 @@ std::wstring FileBrowser::utf8toUtf16(const std::string & str)
 
 	return std::wstring(&buffer[0], charsConverted);
 }
+#endif
 
 void FileBrowser::handle_event(SDL_Event * e)
 {
@@ -258,7 +259,8 @@ void FileBrowser::handle_event(SDL_Event * e)
 			m_scroll_bar.y = m_list_dim.y + 3;
 		}
 
-		if (m_parent->m_resources->util_is_in_rect(m_list_dim.x, m_list_dim.y, m_list_dim.w - 25, m_list_dim.h, e->button.x, e->button.y))
+		if (m_parent->m_resources->util_is_in_rect(m_list_dim.x, m_list_dim.y, m_list_dim.w - 15, m_list_dim.h,
+												   e->button.x, e->button.y))
 		{
 			int m_y = e->button.y - m_list_dim.y;
 			m_mouse_over = SDL_min(m_y / m_line_height, m_file_list.size());
@@ -278,7 +280,7 @@ void FileBrowser::handle_event(SDL_Event * e)
 		}
 		else if (e->key.keysym.sym == SDLK_DOWN)
 		{
-			m_selected = SDL_min(m_selected + 1, m_file_list.size());
+			m_selected = SDL_min(m_selected + 1, m_file_list.size() - 1);
 			if (m_selected > m_scroll_offset + FILE_LIST_SPACE - 1)
 				scroll(-1);
 		}
@@ -326,7 +328,8 @@ void FileBrowser::draw(Renderer * r, Layout * l)
 		if (was_cut)
 			line = "..." + line;
 
-		r->util_text_default(&line, m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2, m_parent->m_resources->palette()->dark_gray());
+		r->util_text_default(&line, m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2,
+							 m_parent->m_resources->palette()->black());
 
 		for (int i = m_scroll_offset; i < m_file_list.size() + m_scroll_offset; i++) {
 			line = m_file_list[i];

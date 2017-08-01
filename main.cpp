@@ -16,6 +16,4 @@ int main(int argc, char **argv)
     engine.game_loop();
     engine.close();
     return engine.m_return_value;
-
-    return 0;
 }

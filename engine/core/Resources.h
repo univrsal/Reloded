@@ -9,7 +9,7 @@
 #define RESOURCES_H
 
 #include "SDL.h"
-#include "render\Renderer.h"
+#include "render/Renderer.h"
 #include "Input.h"
 
 class Screen;

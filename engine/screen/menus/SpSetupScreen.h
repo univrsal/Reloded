@@ -19,7 +19,7 @@
 #include "../../util/Sounds.h"
 #include "../elements/Label.h"
 #include "../../io/Puzzle.h"
-#include "../FileBrowser.h"
+#include "../../io/FileBrowser.h"
 #include "../../core/Resources.h"
 #include "../Screen.h"
 #include "../../core/Tooltip.h"
