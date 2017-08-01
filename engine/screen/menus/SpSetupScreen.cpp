@@ -113,8 +113,12 @@ void SpSetupScreen::init(Resources* r)
 
 	// Current Puzzle Pack
 	m_current_puzzle = new Puzzle();
-	m_level_folder = "./res/lvl";
+	
+	m_level_folder = std::string(SDL_GetBasePath()).append("res/lvl");
+	std::replace(m_level_folder.begin(), m_level_folder.end(), '\\', '/'); // Eeew windows get your Filesystem right
+
 	m_selected_level_path = m_level_folder + "/mmr.PZL";
+	printf("LEVELPATH %s\n", m_selected_level_path.c_str());
 	load_puzzle();
 
     // Labels
@@ -159,6 +163,7 @@ void SpSetupScreen::action_performed(int action_id)
             break;
 		case 5:
 			m_in_file_browser = true;
+			m_file_browser->refresh();
 			break;
         case 10:
         case ACTION_CANCEL:

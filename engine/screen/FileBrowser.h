@@ -44,11 +44,13 @@ public:
 
 	~FileBrowser();
 	
-	void init();
+	void init(void);
+	void refresh(void);
 	void close(void);
 
 	void get_files_in_directory(std::string directory);
-
+	void go_up();
+	void go_to(std::string dir);
 	void scroll(int dir);
 
 	std::wstring utf8toUtf16(const std::string & str);
@@ -58,7 +60,7 @@ public:
 
 private:
 	std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
-	std::vector<std::wstring> m_file_list;
+	std::vector<std::string> m_file_list;
 	std::vector<bool> m_file_type;
 
 	int m_type;
@@ -70,6 +72,7 @@ private:
 	SDL_Rect m_dim;
 	SDL_Rect m_title_bar;
 	SDL_Rect m_scroll_bar;
+	SDL_Rect m_list_dim;
 
 	bool m_dragging;
 	bool m_valid_dir;
@@ -77,6 +80,8 @@ private:
 	int m_offset_x, m_offset_y;
 	int m_scroll_offset;
 	int m_line_height;
+	int m_mouse_over;
+	int m_selected;
 };
 
 #endif
