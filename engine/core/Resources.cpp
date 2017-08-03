@@ -105,6 +105,20 @@ bool Resources::util_is_in_rect(int x, int y, int w, int h, int x2, int y2)
 		&& y2 >= y && y2 <= y + h;
 }
 
+void Resources::util_cut_string(std::string& s, int max_width)
+{
+	int w = m_renderer->util_text_default_dim(&s).w;
+	bool was_cut = false;
+	while (w > max_width) {
+		s = s.substr(0, s.size() - 1);
+		w = m_renderer->util_text_default_dim(&s).w;
+		was_cut = true;
+	}
+
+	if (was_cut)
+		s.append("...");
+}
+
 void Resources::set_layout(Layout * l)
 {
 	m_layout = l;

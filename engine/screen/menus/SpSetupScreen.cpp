@@ -156,6 +156,10 @@ void SpSetupScreen::action_performed(int action_id)
     std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
 
     switch (action_id) {
+		case ACTION_LIST_ITEM_CLICKED:
+			if (m_in_file_browser)
+				m_file_browser->update_dir();
+			break;
         case ACTION_RESIZE:
             for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
                 iterator->get()->resize();
@@ -171,29 +175,16 @@ void SpSetupScreen::action_performed(int action_id)
             break;
         case 7:
         case ACTION_SCROLL_UP:
-			if (m_in_file_browser)
-			{
-				m_file_browser->scroll(1);
-			}
-			else
-			{
-				if (m_level_number < m_current_puzzle->get_level_count())
-					m_level_number++;
-				select_puzzle(m_level_number);
-			}
+			if (m_level_number < m_current_puzzle->get_level_count())
+				m_level_number++;
+			select_puzzle(m_level_number);
             break;
         case 8:
         case ACTION_SCROLL_DOWN:
-			if (m_in_file_browser)
-			{
-				m_file_browser->scroll(-1);
-			}
-			else
-			{
-				if (m_level_number > 1)
-					m_level_number--;
-				select_puzzle(m_level_number);
-			}
+			if (m_level_number > 1)
+				m_level_number--;
+			select_puzzle(m_level_number);
+			
             break;
         case 9:
             m_level_number = 1;
@@ -265,6 +256,15 @@ void SpSetupScreen::handle_events(void)
 
 		for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
 			iterator->get()->handle_events(m_resources->input_event());
+		}
+
+		if (m_resources->input_event()->type == SDL_MOUSEWHEEL) {
+			if (m_resources->input_event()->wheel.y > 0) {
+				action_performed(ACTION_SCROLL_UP);
+			}
+			else {
+				action_performed(ACTION_SCROLL_DOWN);
+			}
 		}
 	}
 	else

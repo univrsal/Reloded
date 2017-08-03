@@ -1,3 +1,10 @@
+/**
+ * Created by universallp on 26.07.2017.
+ * This file is part of reloded which is licenced
+ * under the MOZILLA PUBLIC LICENSE 2.0 - mozilla.org/en-US/MPL/2.0/
+ * github.com/univrsal/reloded
+ */
+
 #include "Label.h"
 
 Label::Label(int id, int x, int y, int type, const char *text, Screen *parent)
@@ -66,13 +73,7 @@ void Label::draw_background(void)
 
 void Label::handle_events(SDL_Event *event)
 {
-    if (event->type == SDL_MOUSEWHEEL) {
-        if (event->wheel.y > 0) {
-            get_parent_screen()->action_performed(ACTION_SCROLL_UP);
-        } else {
-            get_parent_screen()->action_performed(ACTION_SCROLL_DOWN);
-        }
-    }
+
 }
 
 void Label::draw_foreground(void)

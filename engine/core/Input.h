@@ -12,11 +12,6 @@
 #include "../screen/GuiManager.h"
 #include "../core/Resources.h"
 
-#define ACTION_RESIZE -1
-#define ACTION_CANCEL -2
-#define ACTION_SCROLL_UP -3
-#define ACTION_SCROLL_DOWN -4
-
 class Resources;
 
 class GuiManager;

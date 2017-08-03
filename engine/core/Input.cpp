@@ -5,7 +5,6 @@ Input::Input()
     m_unfocused = false;
 }
 
-
 Input::~Input()
 {
 }

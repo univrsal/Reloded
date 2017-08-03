@@ -12,7 +12,6 @@
 #define FILETYPE_SAVE 1
 
 #define FILE_LIST_SPACE 11
-#define FILE_NAME_MAX_WIDTH 350
 
 #include <string.h>
 #include <vector>
@@ -35,12 +34,15 @@
 #include "../screen/elements/Label.h"
 #include "../screen/elements/Button.h"
 #include "../screen/elements/Textbox.h"
+#include "../screen/elements/ListBox.h"
 #include "../util/Lang.h"
 #include "../screen/elements/GuiElement.h"
 
 class GuiElement;
 
 class Textbox;
+
+class ListBox;
 
 class FileBrowser
 {
@@ -58,7 +60,7 @@ public:
 	void get_files_in_directory(std::string directory);
 	void go_up();
 	void go_to(std::string dir);
-	void scroll(int dir);
+	void update_dir(void);
 
 #ifdef _WIN32
 	std::wstring utf8toUtf16(const std::string & str);
@@ -76,21 +78,16 @@ private:
 	std::string m_selected_file;
 
     Textbox *m_path_text;
+	ListBox *m_list_box;
 
 	Screen* m_parent;
 	SDL_Rect m_dim;
 	SDL_Rect m_title_bar;
-	SDL_Rect m_scroll_bar;
-	SDL_Rect m_list_dim;
 
 	bool m_dragging;
 
-    int m_type;
+    uint8_t m_type;
 	int m_offset_x, m_offset_y;
-	int m_scroll_offset;
-	int m_line_height;
-	int m_mouse_over;
-	int m_selected;
 };
 
 #endif

@@ -11,6 +11,7 @@
 #include "SDL.h"
 #include "render/Renderer.h"
 #include "Input.h"
+#include <string>
 
 class Screen;
 
@@ -54,6 +55,8 @@ public:
 	bool util_is_in_rect(SDL_Rect* r, SDL_Point* p);
 	bool util_is_in_rect(SDL_Rect* r, int x, int y);
 	bool util_is_in_rect(int x, int y, int w, int h, int x2, int y2);
+
+	void util_cut_string(std::string& s, int max_width);
 
 private:
 	Engine* m_engine;

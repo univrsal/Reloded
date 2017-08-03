@@ -1,3 +1,10 @@
+/**
+* Created by universallp on 14.07.2017.
+* This file is part of reloded which is licenced
+* under the MOZILLA PUBLIC LICENSE 2.0 - mozilla.org/en-US/MPL/2.0/
+* github.com/univrsal/reloded
+*/
+
 #include "GuiElement.h"
 #include "../../core/Resources.h"
 
@@ -61,7 +68,7 @@ bool GuiElement::is_mouse_over(const int &x, const int &y)
            && y > get_scaled_dimensions()->y && y < get_scaled_dimensions()->y + get_scaled_dimensions()->h;
 }
 
-void GuiElement::set_pos(int x, int y)
+void GuiElement::set_pos(const int& x, const int& y)
 {
     m_dimensions.x = x;
     m_dimensions.y = y;
