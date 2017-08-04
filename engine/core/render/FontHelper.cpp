@@ -18,8 +18,7 @@ FontHelper::~FontHelper()
     m_renderer = NULL;
 }
 
-void
-FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, const SDL_Color *bg, int scale)
+void FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, const SDL_Color *bg, int scale)
 {
     SDL_Surface *surface = NULL;
     SDL_Texture *texture = NULL;

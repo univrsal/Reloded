@@ -34,13 +34,17 @@ public:
 
 	void set_max(int max);
 
+	void start_pos(void);
+
+	void end_pos(void);
+
 	void set_pos(const int& x, const int& y);
 
 	float get_progress(void);
 
 	void close(void);
 	
-	int get_offset(void);
+	uint16_t get_offset(void);
 
 private:
 	SDL_Rect m_scroll_button_dim;

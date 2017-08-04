@@ -62,10 +62,16 @@ void GuiElement::init(Screen *parent, SDL_Rect dim, int id)
     m_element_id = id;
 }
 
-bool GuiElement::is_mouse_over(const int &x, const int &y)
+bool GuiElement::is_mouse_over_scaled(const int &x, const int &y)
 {
     return x > get_scaled_dimensions()->x && x < get_scaled_dimensions()->x + get_scaled_dimensions()->w
-           && y > get_scaled_dimensions()->y && y < get_scaled_dimensions()->y + get_scaled_dimensions()->h;
+        && y > get_scaled_dimensions()->y && y < get_scaled_dimensions()->y + get_scaled_dimensions()->h;
+}
+
+bool GuiElement::is_mouse_over(const int & x, const int & y)
+{
+	return x > get_dimensions()->x && x < get_dimensions()->x + get_dimensions()->w
+		&& y > get_dimensions()->y && y < get_dimensions()->y + get_dimensions()->h;
 }
 
 void GuiElement::set_pos(const int& x, const int& y)

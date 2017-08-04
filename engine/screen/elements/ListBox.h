@@ -34,7 +34,11 @@ public:
 
 	void close(void);
 
-	std::vector<std::string> get_items(void);
+	void clear(void);
+
+	void add(std::string item);
+
+	std::vector<std::string>* get_list(void);
 
 	void set_list(std::vector<std::string> items);
 
@@ -45,7 +49,10 @@ public:
 	std::string get_selected(void);
 
 	uint16_t get_index(void);
+
+	uint16_t get_item_count(void);
 private:
+	void select_item(uint16_t i);
 	SDL_Rect get_dim_for_item(int i);
 	uint16_t get_max_scroll(void);
 	float get_coverage(void);

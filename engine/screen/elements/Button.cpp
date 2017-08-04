@@ -74,7 +74,7 @@ void Button::handle_events(SDL_Event *event)
 	{
         if (event->button.button == SDL_BUTTON_LEFT)
 		{
-            if (is_mouse_over(event->button.x, event->button.y))
+            if (is_mouse_over_scaled(event->button.x, event->button.y))
 			{
                 if (!m_pressed)
                     get_parent_screen()->get_sfx_for_element(m_type)->play();
@@ -87,7 +87,7 @@ void Button::handle_events(SDL_Event *event)
         if (event->button.button == SDL_BUTTON_LEFT)
 		{
 
-            if (m_pressed && is_mouse_over(event->button.x, event->button.y))
+            if (m_pressed && is_mouse_over_scaled(event->button.x, event->button.y))
 			{
                 get_parent_screen()->action_performed(m_element_id);
             }
@@ -98,7 +98,7 @@ void Button::handle_events(SDL_Event *event)
 	{
         if (event->motion.state & SDL_BUTTON_LMASK)
 		{
-            if (is_mouse_over(event->button.x, event->button.y))
+            if (is_mouse_over_scaled(event->button.x, event->button.y))
 			{
                 if (!m_pressed)
                     get_parent_screen()->get_sfx_for_element(m_type)->play();
@@ -111,7 +111,7 @@ void Button::handle_events(SDL_Event *event)
         }
     }
 
-    if (!m_tooltip.empty() && is_mouse_over(event->button.x, event->button.y) == 1)
+    if (!m_tooltip.empty() && is_mouse_over_scaled(event->button.x, event->button.y) == 1)
 	{
         if (m_hover_start == 0)
 		{

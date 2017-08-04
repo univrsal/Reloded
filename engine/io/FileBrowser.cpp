@@ -5,6 +5,7 @@ FileBrowser::FileBrowser()
 	m_type = FILETYPE_OPEN;
 	m_current_path = std::string("./");
 	m_parent = NULL;
+	m_file_list = NULL;
 	m_dim = {};
 	m_title_bar = {};
 	m_title = "Choose a file";
@@ -45,29 +46,25 @@ void FileBrowser::init(void)
 	m_title_bar.x = m_dim.x + 2;
 	m_title_bar.y = m_dim.y + 2;
 
-    m_path_text = new Textbox(30, m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2, 100, 20, std::string(""),
-                              m_parent);
+    m_path_text = new Textbox(30, m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2, 100, 20, std::string(""), m_parent);
 	m_list_box = new ListBox(31, m_dim.x + 4, m_path_text->get_dimensions()->y + m_path_text->get_dimensions()->h + 2, m_dim.w - 8, FILE_LIST_SPACE, m_parent);
     
 	m_screen_elements.emplace_back(m_path_text);
 	m_screen_elements.emplace_back(m_list_box);
+	m_file_list = m_list_box->get_list();
 }
 
 void FileBrowser::refresh(void)
 {
 	printf("CURRENT PATH %s\n", m_current_path.c_str());
 
-	m_selected_file.clear();
-	m_file_list.clear();
-
+	m_list_box->clear();
 	get_files_in_directory(m_current_path);
-	m_list_box->set_list(m_file_list);
 }
 
 void FileBrowser::close(void)
 {
 	m_screen_elements.clear();
-	m_file_list.clear();
 	m_parent = NULL;
 }
 
@@ -86,8 +83,8 @@ void FileBrowser::get_files_in_directory(std::string directory)
 	{
 		printf("Error while reading directory %s! File Handle was invalid\n", path.c_str());
 		// We still need the option to go back
-		m_file_list.push_back(".");
-		m_file_list.push_back("..");
+		m_list_box->add("./");
+		m_list_box->add("../");
 		return;
 	}
 	else
@@ -95,7 +92,9 @@ void FileBrowser::get_files_in_directory(std::string directory)
 		do {
 			std::wstring file_name(data.cFileName);
 			std::string std_string(file_name.begin(), file_name.end());
-			m_file_list.push_back(std_string);
+			if (is_dir(std_string))
+				std_string.append("/");
+			m_list_box->add(std_string);
 		} while (FindNextFile(hFind, &data));
 
 		FindClose(hFind);
@@ -105,18 +104,21 @@ void FileBrowser::get_files_in_directory(std::string directory)
 	struct dirent *dirent;
 
 	dir = opendir(directory.c_str());
-
+	std::string name;
 	if (dir != NULL) {
 		while ((dirent = readdir(dir))) {
-			m_file_list.push_back(std::string(dirent->d_name));
+			name = std::string(dirent->d_name);
+			if (is_dir(name))
+				name.append("/");
+			m_list_box->add(name);
 		}
 		// Linux doesn't return the file list ordered
-		std::sort(m_file_list.begin(), m_file_list.end());
+		std::sort(m_file_list->begin(), m_file_list->end());
 	} else {
 		printf("Error DIR* for %s was null!\n", directory.c_str());
 		//We'll still need these
-		m_file_list.push_back(".");
-		m_file_list.push_back("..");
+		m_list_box->add("./");
+		m_list_box->add("../");
 	}
 
 	closedir(dir);
@@ -128,14 +130,29 @@ void FileBrowser::go_up()
 	auto pos = m_current_path.rfind('/');
 	if (pos != std::string::npos)
 	{
-		m_current_path.erase(pos);
+		if (pos == m_current_path.length() - 1) // Paths can look like this: /path/to/ so to get to /path we'll have to cut twice
+		{
+			m_current_path.erase(pos);
+			pos = m_current_path.rfind('/');
+			if (pos != std::string::npos)
+				m_current_path.erase(pos);
+		}
+		else
+		{
+			m_current_path.erase(pos);
+		}
+
 		refresh();
 	}
 }
 
 void FileBrowser::go_to(std::string dir)
 {
-	m_current_path.append("/").append(dir);
+	auto pos = m_current_path.rfind('/');
+	if (pos != m_current_path.length() - 1) // Current path doesn't already end with '/'
+		m_current_path.append("/").append(dir);
+	else
+		m_current_path.append(dir);
 	refresh();
 }
 
@@ -143,13 +160,16 @@ void FileBrowser::update_dir(void)
 {
 	std::string new_dir = m_list_box->get_selected();
 
-	if (new_dir.compare("..") == 0)
+	if (new_dir.compare("../") == 0)
 	{
 		go_up();
 	}
-	else
+	else if (new_dir.compare("./") == 1)
 	{
-		go_to(new_dir);
+		if (is_dir(m_list_box->get_selected()))
+			go_to(m_list_box->get_selected());
+		else
+			m_parent->action_performed(ACTION_FILE_SELECTED);
 	}
 }
 
@@ -242,14 +262,24 @@ FileBrowser::~FileBrowser()
 
 bool FileBrowser::is_dir(std::string file)
 {
+	std::string temp_path = m_current_path + "/" + file;
+	bool result = false;
 #ifdef _WIN32
-	return false;
+	struct stat s;
+	
+	if (stat(temp_path.c_str(), &s) == 0)
+	{
+		result = s.st_mode & S_IFDIR;
+	}
+	else
+	{
+		printf("Error while checking %s for file type!\n", temp_path.c_str());
+	}
 #else
-    std::string temp_path = m_current_path + "/" + file;
     DIR *d = opendir(temp_path.c_str());
-    bool result = d != NULL;
+    result = d != NULL;
     if (d)
         closedir(d);
-    return result;
 #endif
+	return result;
 }

@@ -71,7 +71,7 @@ public:
 
 private:
 	std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
-	std::vector<std::string> m_file_list;
+	std::vector<std::string>* m_file_list;
 
 	std::string m_title;
 	std::string m_current_path;

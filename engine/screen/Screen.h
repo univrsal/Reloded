@@ -16,6 +16,7 @@
 #define ACTION_SCROLL_UP -3
 #define ACTION_SCROLL_DOWN -4
 #define ACTION_LIST_ITEM_CLICKED -5
+#define ACTION_FILE_SELECTED -6
 
 class Tooltip;
 

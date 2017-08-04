@@ -43,7 +43,7 @@ void ListBox::draw_foreground(void)
 	int list_line = 0;
 	SDL_Rect item_dim;
 	
-	for (int i = m_scroll_bar->get_offset(); i < m_list_items.size(); i++)
+	for (int i = m_scroll_bar->get_offset(); i < get_item_count(); i++)
 	{
 		temp_line = m_list_items[i];
 		item_dim = get_dim_for_item(list_line);
@@ -70,26 +70,42 @@ void ListBox::handle_events(SDL_Event * e)
 	if (e->type == SDL_MOUSEMOTION)
 	{
 		if (is_mouse_over(e->button.x, e->button.y))
-		{
 			m_mouse_over_item = SDL_min((e->button.y - get_dimensions()->y) / m_item_height, m_max_items);
-		}
 		else
-		{
 			m_mouse_over_item = -1;
-		}
 	}
 	else if (e->type == SDL_MOUSEBUTTONDOWN)
 	{
 		if (m_mouse_over_item >= 0)
 		{
-			if (m_selected_item == m_mouse_over_item + m_scroll_bar->get_progress())
-			{
+			if (m_selected_item == m_mouse_over_item + m_scroll_bar->get_offset())
 				m_parent_screen->action_performed(ACTION_LIST_ITEM_CLICKED);
-			}
 			else
-			{
-				m_selected_item = SDL_min(m_mouse_over_item + m_scroll_bar->get_progress(), m_list_items.size() - 1);
-			}
+				select_item(m_mouse_over_item + m_scroll_bar->get_offset());
+			printf("SELECTED [%i]: %s\n", m_selected_item, m_list_items[m_selected_item].c_str());
+		}
+	}
+	else if (e->type == SDL_KEYDOWN)
+	{
+		switch (e->key.keysym.sym)
+		{
+		case SDLK_UP:
+			select_item(m_selected_item - 1);
+		case SDLK_PAGEUP:
+			m_scroll_bar->scroll(SCROLL_UP);
+			break;
+		case SDLK_DOWN:
+			select_item(m_selected_item + 1);
+		case SDLK_PAGEDOWN:
+			m_scroll_bar->scroll(SCROLL_DOWN);
+			break;
+		case SDLK_HOME:
+			m_scroll_bar->start_pos();
+			select_item(0);
+			break;
+		case SDLK_END:
+			m_scroll_bar->end_pos();
+			select_item(get_item_count() - 1);
 		}
 	}
 }
@@ -100,9 +116,24 @@ void ListBox::close(void)
 	m_scroll_bar = NULL;
 }
 
-std::vector<std::string> ListBox::get_items(void)
+void ListBox::clear(void)
 {
-	return m_list_items;
+	m_selected_item = 0;
+	m_list_items.clear();
+	m_scroll_bar->set_bar_height(1.f);
+	m_scroll_bar->start_pos();
+}
+
+void ListBox::add(std::string item)
+{
+	m_list_items.emplace_back(item);
+	m_scroll_bar->set_max(get_max_scroll());
+	m_scroll_bar->set_bar_height(get_coverage());
+}
+
+std::vector<std::string>* ListBox::get_list(void)
+{
+	return &m_list_items;
 }
 
 void ListBox::set_list(std::vector<std::string> items)
@@ -130,7 +161,17 @@ std::string ListBox::get_selected(void)
 
 uint16_t ListBox::get_index(void)
 {
-	return SDL_max(0, SDL_min(m_list_items.size() - 1, m_selected_item));
+	return SDL_max(0, SDL_min(get_item_count() - 1, m_selected_item));
+}
+
+uint16_t ListBox::get_item_count(void)
+{
+	return (int) m_list_items.size();
+}
+
+void ListBox::select_item(uint16_t i)
+{
+	m_selected_item = SDL_max(0, SDL_min(get_item_count() - 1, i));
 }
 
 SDL_Rect ListBox::get_dim_for_item(int i)
@@ -140,10 +181,12 @@ SDL_Rect ListBox::get_dim_for_item(int i)
 
 uint16_t ListBox::get_max_scroll(void)
 {
-	return SDL_max(m_list_items.size() - m_max_items, 0);
+	if (is_empty())
+		return 0;
+	return SDL_max(get_item_count() - m_max_items, 0);
 }
 
 float ListBox::get_coverage(void)
 {
-	return is_empty() ? 1.f : (((float) m_max_items) / m_list_items.size());
+	return (is_empty() || get_max_scroll() == 0) ? 1.f : (((float) m_max_items) / get_item_count());
 }

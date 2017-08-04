@@ -51,9 +51,11 @@ public:
 
     void init(Screen *parent, SDL_Rect dim, int id);
 
-    bool is_mouse_over(const int &x, const int &y);
+    bool is_mouse_over_scaled(const int &x, const int &y);
 
-    void set_pos(const int& x, const int& y);
+	bool is_mouse_over(const int &x, const int &y);
+    
+	void set_pos(const int& x, const int& y);
 
 protected:
     Screen *m_parent_screen;

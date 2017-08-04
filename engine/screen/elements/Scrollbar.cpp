@@ -70,16 +70,29 @@ void Scrollbar::set_max(int max)
 	m_max_scroll = max;
 }
 
+void Scrollbar::start_pos(void)
+{
+	m_scroll_button_dim.y = get_dimensions()->y;
+	m_progress = 0;
+}
+
+void Scrollbar::end_pos(void)
+{
+	m_progress = m_max_scroll;
+	m_scroll_button_dim.y = get_dimensions()->y + (get_dimensions()->h - m_scroll_button_dim.h) * get_progress();
+}
+
 void Scrollbar::set_pos(const int & x, const int & y)
 {
-	GuiElement::set_pos(x, y);
 	m_scroll_button_dim.x = x;
-	m_scroll_button_dim.y = y + get_offset();
+	int old_y_pos = m_scroll_button_dim.y - get_dimensions()->y;
+	GuiElement::set_pos(x, y);
+	m_scroll_button_dim.y = y + old_y_pos;
 }
 
 float Scrollbar::get_progress(void)
 {
-	return ((float) m_progress) / m_max_scroll;
+	return m_max_scroll == 0 ? 0.f : ((float) m_progress) / m_max_scroll;
 }
 
 void Scrollbar::close(void)
@@ -87,7 +100,7 @@ void Scrollbar::close(void)
 	m_scroll_button_dim = {};
 }
 
-int Scrollbar::get_offset(void)
+uint16_t Scrollbar::get_offset(void)
 {
 	return m_progress;
 }
