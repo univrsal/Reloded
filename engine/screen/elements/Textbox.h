@@ -29,8 +29,11 @@ public:
 
     void handle_events(SDL_Event *event);
 
+	void set_text(std::string s);
+
 private:
     std::string m_text;
+	std::string m_cut_text;
 
     bool m_focused;
 };

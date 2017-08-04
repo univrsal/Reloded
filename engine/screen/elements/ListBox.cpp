@@ -51,7 +51,7 @@ void ListBox::draw_foreground(void)
 		if (i == m_selected_item)
 			r->util_fill_rect(&item_dim);
 
-		get_resources()->util_cut_string(temp_line, m_item_width - 15);
+		get_resources()->util_cut_string(temp_line, m_item_width - 15, true);
 
 		if (list_line == m_mouse_over_item)
 			r->util_draw_rect(&item_dim, get_resources()->palette()->dark_gray());

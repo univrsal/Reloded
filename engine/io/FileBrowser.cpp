@@ -46,7 +46,7 @@ void FileBrowser::init(void)
 	m_title_bar.x = m_dim.x + 2;
 	m_title_bar.y = m_dim.y + 2;
 
-    m_path_text = new Textbox(30, m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2, 100, 20, std::string(""), m_parent);
+    m_path_text = new Textbox(30, m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2, m_dim.w - 8, 20, m_current_path, m_parent);
 	m_list_box = new ListBox(31, m_dim.x + 4, m_path_text->get_dimensions()->y + m_path_text->get_dimensions()->h + 2, m_dim.w - 8, FILE_LIST_SPACE, m_parent);
     
 	m_screen_elements.emplace_back(m_path_text);
@@ -60,6 +60,7 @@ void FileBrowser::refresh(void)
 
 	m_list_box->clear();
 	get_files_in_directory(m_current_path);
+	m_path_text->set_text(m_current_path);
 }
 
 void FileBrowser::close(void)

@@ -56,7 +56,7 @@ public:
 	bool util_is_in_rect(SDL_Rect* r, int x, int y);
 	bool util_is_in_rect(int x, int y, int w, int h, int x2, int y2);
 
-	void util_cut_string(std::string& s, int max_width);
+	void util_cut_string(std::string& s, int max_width, bool front);
 
 private:
 	Engine* m_engine;
