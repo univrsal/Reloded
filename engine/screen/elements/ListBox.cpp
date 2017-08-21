@@ -76,7 +76,7 @@ void ListBox::handle_events(SDL_Event * e)
 	}
 	else if (e->type == SDL_MOUSEBUTTONDOWN)
 	{
-		if (m_mouse_over_item >= 0)
+		if (m_mouse_over_item >= 0 && get_resources()->util_is_in_rect(get_dimensions(), e->button.x, e->button.y))
 		{
 			if (m_selected_item == m_mouse_over_item + m_scroll_bar->get_offset())
 				m_parent_screen->action_performed(ACTION_LIST_ITEM_CLICKED);

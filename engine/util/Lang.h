@@ -29,5 +29,6 @@
 
 // File browser
 #define LANG_FB_TITLE "SELECT A FILE"
-
+#define LANG_FB_OPEN "Open"
+#define LANG_FB_CANCEL "Cancel"
 #endif

@@ -79,3 +79,23 @@ void GuiElement::set_pos(const int& x, const int& y)
     m_dimensions.x = x;
     m_dimensions.y = y;
 }
+
+int GuiElement::get_left()
+{
+	return m_dimensions.x;
+}
+
+int GuiElement::get_right()
+{
+	return m_dimensions.x + m_dimensions.w;
+}
+
+int GuiElement::get_top()
+{
+	return m_dimensions.y;
+}
+
+int GuiElement::get_bottom()
+{
+	return m_dimensions.y + m_dimensions.h;
+}

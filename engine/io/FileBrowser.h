@@ -20,6 +20,7 @@
 
 #ifdef _WIN32
 #include <Windows.h>
+#include <sys/stat.h>
 #else
 #include <dirent.h>
 #include <sys/types.h>
@@ -43,6 +44,8 @@ class GuiElement;
 class Textbox;
 
 class ListBox;
+
+class Button;
 
 class FileBrowser
 {
@@ -79,8 +82,10 @@ private:
 
     Textbox *m_path_text;
 	ListBox *m_list_box;
+	Button *m_accept;
+	Button *m_cancel;
 
-	Screen* m_parent;
+	Screen *m_parent;
 	SDL_Rect m_dim;
 	SDL_Rect m_title_bar;
 

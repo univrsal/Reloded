@@ -6,6 +6,9 @@ FileBrowser::FileBrowser()
 	m_current_path = std::string("./");
 	m_parent = NULL;
 	m_file_list = NULL;
+	m_path_text = NULL;
+	m_accept = NULL;
+	m_cancel = NULL;
 	m_dim = {};
 	m_title_bar = {};
 	m_title = "Choose a file";
@@ -22,7 +25,9 @@ FileBrowser::FileBrowser(int type, std::string start_folder, Screen* parent)
 	m_dim = { 0, 0, 400, 300 };
 	m_title_bar = { 2, 2, m_dim.w - 4, 22};
 	m_dragging = false;
-
+	m_path_text = NULL;
+	m_accept = NULL;
+	m_cancel = NULL;
 	m_offset_x = m_offset_y = 0;
 
     switch (m_type)
@@ -47,10 +52,16 @@ void FileBrowser::init(void)
 	m_title_bar.y = m_dim.y + 2;
 
     m_path_text = new Textbox(30, m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2, m_dim.w - 8, 20, m_current_path, m_parent);
-	m_list_box = new ListBox(31, m_dim.x + 4, m_path_text->get_dimensions()->y + m_path_text->get_dimensions()->h + 2, m_dim.w - 8, FILE_LIST_SPACE, m_parent);
+	m_list_box = new ListBox(31, m_dim.x + 4, m_path_text->get_bottom() + 2, m_dim.w - 8, FILE_LIST_SPACE, m_parent);
     
+	m_accept = new Button(ACTION_LIST_ITEM_CLICKED, m_dim.x + 4, m_list_box->get_bottom() + 2, LANG_FB_OPEN, m_parent);
+	m_cancel = new Button(ACTION_CANCEL, m_accept->get_right() + 2, m_accept->get_top(), LANG_FB_CANCEL, m_parent);
+
 	m_screen_elements.emplace_back(m_path_text);
 	m_screen_elements.emplace_back(m_list_box);
+	m_screen_elements.emplace_back(m_accept);
+	m_screen_elements.emplace_back(m_cancel);
+
 	m_file_list = m_list_box->get_list();
 }
 
@@ -227,7 +238,9 @@ void FileBrowser::handle_event(SDL_Event * e)
 
             // Move Elements
             m_path_text->set_pos(m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2);
-			m_list_box->set_pos(m_dim.x + 4, m_path_text->get_dimensions()->y + m_path_text->get_dimensions()->h + 2);
+			m_list_box->set_pos(m_dim.x + 4, m_path_text->get_bottom() + 2);
+			m_accept->set_pos(m_dim.x + 4, m_list_box->get_bottom() + 2);
+			m_cancel->set_pos(m_accept->get_right() + 2, m_accept->get_top());
 		}
 	}
 	
@@ -268,6 +281,9 @@ bool FileBrowser::is_dir(std::string file)
 #ifdef _WIN32
 	struct stat s;
 	
+	if (temp_path[temp_path.size() - 1] == '/')
+		temp_path = temp_path.substr(0, temp_path.size() - 1);
+
 	if (stat(temp_path.c_str(), &s) == 0)
 	{
 		result = s.st_mode & S_IFDIR;

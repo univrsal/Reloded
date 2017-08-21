@@ -15,6 +15,9 @@
 #include "audio/Audio.h"
 #include "Resources.h"
 
+#if WIN32
+#define snprintf sprintf_s
+#endif
 class Renderer;
 
 class Engine

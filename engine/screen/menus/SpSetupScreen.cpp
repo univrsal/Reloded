@@ -161,7 +161,8 @@ void SpSetupScreen::action_performed(int action_id)
 				m_file_browser->update_dir();
 			break;
         case ACTION_RESIZE:
-            for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
+            for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++)
+			{
                 iterator->get()->resize();
             }
             break;
@@ -171,7 +172,14 @@ void SpSetupScreen::action_performed(int action_id)
 			break;
         case 10:
         case ACTION_CANCEL:
-            m_resources->gui_mgr()->queue_screen(GUI_GAME);
+			if (m_in_file_browser)
+			{
+				m_in_file_browser = false;
+			}
+			else
+			{
+				m_resources->gui_mgr()->queue_screen(GUI_GAME);
+			}
             break;
         case 7:
         case ACTION_SCROLL_UP:

@@ -19,6 +19,7 @@
 #define BTN_SMALL_CANCEL 6
 #define BTN_TINY 7
 #define BTN_MICRO 8
+#define BTN_DIALOG 9
 
 class Resources;
 
@@ -56,6 +57,14 @@ public:
 	bool is_mouse_over(const int &x, const int &y);
     
 	void set_pos(const int& x, const int& y);
+
+	int get_left(void);
+
+	int get_top(void);
+
+	int get_right(void);
+	
+	int get_bottom(void);
 
 protected:
     Screen *m_parent_screen;

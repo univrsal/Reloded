@@ -21,6 +21,8 @@ class Button : public GuiElement
 {
 public:
     Button(int id, int type, int x, int y, const char *texure, const char *tooltip, Screen *parent);
+	
+	Button(int id, int x, int y, const char* text, Screen* parent);
 
     ~Button();
 
@@ -37,9 +39,11 @@ protected:
     Texture *m_bg;
     int m_type;
     bool m_pressed;
+	bool m_hovered;
     bool m_tooltip_shown;
     std::string m_text;
     std::string m_tooltip;
+	SDL_Point m_text_pos;
     int m_hover_start;
 };
 
