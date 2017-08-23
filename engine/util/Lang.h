@@ -26,6 +26,7 @@
 #define LANG_TIP_PZL_RESET "Default Puzzle Number: reset\nstarting puzzle number to one"
 #define LANG_TIP_SP_CANCEL "Cancel: return to\nhigh score display"
 #define LANG_TIP_SP_GO "Start Play: begin\ngame play"
+#define LANG_INVALID_PZL "INVALID *.PZL FILE"
 
 // File browser
 #define LANG_FB_TITLE "SELECT A FILE"

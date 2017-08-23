@@ -14,6 +14,7 @@
 #define PUZZLE_H
 
 #include "PZLConstants.h"
+#include "../util/Lang.h"
 #include <stdio.h>
 #include <fstream>
 #include <vector>
@@ -42,6 +43,8 @@ private:
 	
 	bool m_file_is_ok;
 	int m_level_count;
+	
+	std::string m_invalid_file;
 
 	std::vector<std::string> m_level_names;
 	std::vector<long> m_level_offsets;

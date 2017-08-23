@@ -141,7 +141,7 @@ void SpSetupScreen::init(Resources* r)
 
     m_tooltip = new Tooltip(this);
 
-	m_file_browser = new FileBrowser(FILETYPE_OPEN, m_level_folder, this);
+	m_file_browser = new FileBrowser(FILETYPE_OPEN, m_level_folder, ".pzl", this);
 	m_file_browser->init();
 }
 
@@ -159,6 +159,16 @@ void SpSetupScreen::action_performed(int action_id)
 		case ACTION_LIST_ITEM_CLICKED:
 			if (m_in_file_browser)
 				m_file_browser->update_dir();
+			break;
+		case ACTION_FILE_SELECTED:
+			if (m_in_file_browser)
+			{
+				m_in_file_browser = false;
+				m_level_folder = m_file_browser->get_path();
+				m_selected_level_path = m_level_folder + "/" + m_file_browser->get_file();
+				load_puzzle();
+				select_level(1);
+			}
 			break;
         case ACTION_RESIZE:
             for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++)
@@ -185,18 +195,18 @@ void SpSetupScreen::action_performed(int action_id)
         case ACTION_SCROLL_UP:
 			if (m_level_number < m_current_puzzle->get_level_count())
 				m_level_number++;
-			select_puzzle(m_level_number);
+			select_level(m_level_number);
             break;
         case 8:
         case ACTION_SCROLL_DOWN:
 			if (m_level_number > 1)
 				m_level_number--;
-			select_puzzle(m_level_number);
+			select_level(m_level_number);
 			
             break;
         case 9:
             m_level_number = 1;
-			select_puzzle(m_level_number);
+			select_level(m_level_number);
             break;
     }
 }
@@ -220,7 +230,7 @@ void SpSetupScreen::load_puzzle(void)
 	m_current_puzzle->read_from_file(m_selected_level_path);
 }
 
-void SpSetupScreen::select_puzzle(int id)
+void SpSetupScreen::select_level(int id)
 {
 	std::string name = *m_current_puzzle->get_level_name(id - 1);
 	transform(name.begin(), name.end(), name.begin(), ::toupper);

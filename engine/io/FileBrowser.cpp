@@ -13,11 +13,11 @@ FileBrowser::FileBrowser()
 	m_title_bar = {};
 	m_title = "Choose a file";
 	m_dragging = false;
-
+	m_filter = "";
 	m_offset_x = m_offset_y = 0;
 }
 
-FileBrowser::FileBrowser(int type, std::string start_folder, Screen* parent)
+FileBrowser::FileBrowser(int type, std::string start_folder, std::string filter, Screen* parent)
 {
 	m_type = type;
 	m_current_path = start_folder;
@@ -29,6 +29,9 @@ FileBrowser::FileBrowser(int type, std::string start_folder, Screen* parent)
 	m_accept = NULL;
 	m_cancel = NULL;
 	m_offset_x = m_offset_y = 0;
+
+	m_filter = filter;
+	std::transform(m_filter.begin(), m_filter.end(), m_filter.begin(), ::tolower);
 
     switch (m_type)
 	{
@@ -180,7 +183,7 @@ void FileBrowser::update_dir(void)
 	{
 		if (is_dir(m_list_box->get_selected()))
 			go_to(m_list_box->get_selected());
-		else
+		else if (matches_filter(m_list_box->get_selected()))
 			m_parent->action_performed(ACTION_FILE_SELECTED);
 	}
 }
@@ -299,4 +302,21 @@ bool FileBrowser::is_dir(std::string file)
         closedir(d);
 #endif
 	return result;
+}
+
+std::string FileBrowser::get_file()
+{
+	return m_list_box->get_selected();
+}
+
+std::string FileBrowser::get_path()
+{
+	return m_current_path;
+}
+
+bool FileBrowser::matches_filter(std::string file)
+{
+	std::transform(file.begin(), file.end(), file.begin(), ::tolower);
+	return m_filter.empty() || file.size() >= m_filter.size() &&
+		file.compare(file.size() - m_filter.size(), m_filter.size(), m_filter) == 0;
 }

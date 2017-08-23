@@ -17,6 +17,7 @@
 #include <vector>
 #include <memory>
 #include <stdio.h>
+#include <algorithm>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -25,7 +26,6 @@
 #include <dirent.h>
 #include <sys/types.h>
 #include <errno.h>
-#include <algorithm>
 #endif
 
 #include "SDL.h"
@@ -51,7 +51,7 @@ class FileBrowser
 {
 public:
 	FileBrowser();
-	FileBrowser(int type, std::string start_folder, Screen* parent);
+	FileBrowser(int type, std::string start_folder, std::string filter, Screen* parent);
 
 	~FileBrowser();
 	
@@ -65,12 +65,17 @@ public:
 	void go_to(std::string dir);
 	void update_dir(void);
 
+	bool matches_filter(std::string file);
+
 #ifdef _WIN32
 	std::wstring utf8toUtf16(const std::string & str);
 #endif
 
 	void handle_event(SDL_Event* e);
 	void draw(Renderer* r, Layout* l);
+
+	std::string get_file(void);
+	std::string get_path(void);
 
 private:
 	std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
@@ -79,6 +84,8 @@ private:
 	std::string m_title;
 	std::string m_current_path;
 	std::string m_selected_file;
+	
+	std::string m_filter;
 
     Textbox *m_path_text;
 	ListBox *m_list_box;

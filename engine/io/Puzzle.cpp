@@ -11,7 +11,7 @@
 Puzzle::Puzzle()
 {
 	m_file_is_ok = false;
-	
+	m_invalid_file = std::string(LANG_INVALID_PZL);
 }
 
 Puzzle::~Puzzle()
@@ -34,20 +34,27 @@ void Puzzle::read_from_file(std::string path)
 		m_level_count = read_byte(&fs);
 		int offset = 0;
 		m_level_offsets.emplace_back(LEVEL_FIRST_HEADER);
-
+		bool flag = true;
 		for (int i = 0; i < m_level_count; i++)
 		{
 			if (!fs.good())
+			{
+				flag = false;
 				break;
+			}
 			offset = m_level_offsets[i];
 			//printf("READING LEVEL %i at %i\n", i, offset);
 			read_level(&fs, &offset);
 		}
+
+		m_file_is_ok = flag;
 	}
 	else
 	{
 		printf("Couldn't open puzzle %s! File not found or corrupt.\n", path.c_str());
+		m_file_is_ok = false;
 	}
+
 
 	fs.close();
 }
@@ -82,6 +89,9 @@ void Puzzle::read_level(std::ifstream * file, int* header_offset)
 
 std::string* Puzzle::get_level_name(int id)
 {
+	if (!m_file_is_ok)
+		return &m_invalid_file;
+
 	if (id >= 0 && id < m_level_names.size())
 		return &m_level_names[id];
 	return NULL;
