@@ -18,11 +18,11 @@
 class Sfx
 {
 public:
-    Sfx(int type, Audio* audio, std::string path);
+	Sfx(uint8_t type, Audio* audio, std::string path);
 
     ~Sfx();
 
-    void set_channel(int c);
+	void set_channel(uint8_t c);
 
     void close(void);
 
@@ -32,7 +32,7 @@ private:
     Mix_Music *m_music;
     Mix_Chunk *m_effect;
 	Audio* m_audio;
-    int m_channel, m_type;
+	uint8_t m_channel, m_type;
 };
 
 

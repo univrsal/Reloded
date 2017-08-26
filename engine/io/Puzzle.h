@@ -29,20 +29,20 @@ public:
 	Puzzle();
 	~Puzzle();
 
-	int get_level_count(void);
+	uint16_t get_level_count(void);
 	void read_from_file(std::string path);
 
 	BYTE read_byte(std::ifstream* file);
 	void read_level(std::ifstream* file, int* header_offset);
 
-	std::string* get_level_name(int id);
+	std::string* get_level_name(uint16_t id);
 
 	void close(void);
 private:
 	std::string read_run_length_string(std::ifstream* file);
 	
 	bool m_file_is_ok;
-	int m_level_count;
+	uint16_t m_level_count;
 	
 	std::string m_invalid_file;
 

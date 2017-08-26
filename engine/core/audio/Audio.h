@@ -34,7 +34,7 @@ public:
 
     void unpause_sfx(void);
 	
-	void channel_finished(int channel);
+	void channel_finished(uint8_t channel);
 
 	bool get_is_sound_finished(void);
 	

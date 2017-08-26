@@ -51,7 +51,7 @@ class FileBrowser
 {
 public:
 	FileBrowser();
-	FileBrowser(int type, std::string start_folder, std::string filter, Screen* parent);
+	FileBrowser(uint8_t type, std::string start_folder, std::string filter, Screen* parent);
 
 	~FileBrowser();
 	
@@ -99,7 +99,7 @@ private:
 	bool m_dragging;
 
     uint8_t m_type;
-	int m_offset_x, m_offset_y;
+	uint16_t m_offset_x, m_offset_y;
 };
 
 #endif

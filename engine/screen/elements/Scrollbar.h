@@ -17,7 +17,7 @@
 class Scrollbar : public GuiElement
 {
 public:
-	Scrollbar(int id, int x, int y, int h, int max, Screen *parent);
+	Scrollbar(int8_t id, int x, int y, int h, int max, Screen *parent);
 
 	~Scrollbar();
 

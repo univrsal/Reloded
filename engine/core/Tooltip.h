@@ -38,7 +38,7 @@ private:
     Screen *m_parent_screen;
     SDL_Rect m_dimensions;
     bool m_is_visible;
-    int m_line_height;
+    uint8_t m_line_height;
     std::vector<std::string *> m_formatted_text;
     SDL_Color *m_bg_color;
 	SDL_Color *m_fg_color;

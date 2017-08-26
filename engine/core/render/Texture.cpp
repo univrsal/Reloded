@@ -14,7 +14,7 @@ Texture::Texture(const char *path, SDL_Renderer *renderer)
     load(path, renderer);
 }
 
-Texture::Texture(const char *path, SDL_Renderer *renderer, int *scale)
+Texture::Texture(const char *path, SDL_Renderer *renderer, uint8_t *scale)
 {
     m_sdl_texture = NULL;
     load(path, renderer);

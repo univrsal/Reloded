@@ -9,10 +9,11 @@
 
 Engine::Engine()
 {
-    m_renderer = Renderer();
+	m_run_flag = true;
+	m_return_value = 0;
+	
+	m_renderer = Renderer();
     m_input = Input();
-    m_return_value = 0;
-    m_run_flag = true;
     m_gui_manager = GuiManager();
     m_audio = Audio();
 	m_resources = Resources();
@@ -31,6 +32,7 @@ Engine::~Engine()
 void Engine::init(void)
 {
     m_renderer.init(&m_gui_manager);
+	m_input.init(&m_run_flag, &m_resources);
 
     if (!m_renderer.m_init_success) {
         m_return_value = -1;
@@ -55,7 +57,7 @@ void Engine::game_loop(void)
     while (m_run_flag) {
         m_frame_cap_timer.start();
 
-        m_input.handle_input(&m_run_flag, &m_resources);
+        m_input.handle_input();
 
         if (!m_input.m_unfocused) {
             m_renderer.clear();

@@ -48,7 +48,7 @@ Screen *GuiManager::get_active_screen()
     return m_current_screen;
 }
 
-void GuiManager::set_screen(Uint8 gui_id)
+void GuiManager::set_screen(uint8_t gui_id)
 {
     if (m_current_screen != NULL) {
         m_current_screen->close();
@@ -62,13 +62,16 @@ void GuiManager::set_screen(Uint8 gui_id)
         case GUI_SP:
             m_current_screen = new SpSetupScreen();
             break;
+		case GUI_LB:
+
+			break;
     }
 
     m_current_screen->init(m_resources);
 	m_current_screen->action_performed(ACTION_RESIZE);
 }
 
-void GuiManager::queue_screen(Uint8 gui_id)
+void GuiManager::queue_screen(uint8_t gui_id)
 {
     m_next_screen = gui_id;
 }

@@ -1,6 +1,6 @@
 #include "Button.h"
 
-Button::Button(int id, int type, int x, int y, const char *texure, const char *tooltip, Screen *parent)
+Button::Button(int8_t id, uint8_t type, int x, int y, const char *texure, const char *tooltip, Screen *parent)
 {
     m_type = type;
     m_bg = new Texture(texure, parent->m_resources->sdl_renderer(), parent->m_resources->scalef());
@@ -36,7 +36,7 @@ Button::Button(int id, int type, int x, int y, const char *texure, const char *t
     init(parent, temp_rect, id);
 }
 
-Button::Button(int id, int x, int y, const char* text, Screen* parent)
+Button::Button(int8_t id, int x, int y, const char* text, Screen* parent)
 {
 	SDL_Rect temp_rect;
 	m_bg = NULL;

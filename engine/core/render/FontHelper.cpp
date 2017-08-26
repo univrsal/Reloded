@@ -18,7 +18,7 @@ FontHelper::~FontHelper()
     m_renderer = NULL;
 }
 
-void FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, const SDL_Color *bg, int scale)
+void FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, const SDL_Color *bg, uint8_t scale)
 {
     SDL_Surface *surface = NULL;
     SDL_Texture *texture = NULL;
@@ -54,12 +54,12 @@ void FontHelper::set_mode(int m)
     m_mode = m;
 }
 
-void FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, int scale)
+void FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, uint8_t scale)
 {
     draw(text, x, y, font, m_renderer->m_palette->black(), m_renderer->m_palette->white(), scale);
 }
 
-SDL_Rect FontHelper::get_text_dimension(TTF_Font *font, std::string *text, int scale)
+SDL_Rect FontHelper::get_text_dimension(TTF_Font *font, std::string *text, uint8_t scale)
 {
     SDL_Surface *surface = NULL;
     surface = TTF_RenderUTF8_Shaded(font, text->c_str(), *m_renderer->m_palette->black(),
@@ -76,7 +76,7 @@ SDL_Rect FontHelper::get_text_dimension(TTF_Font *font, std::string *text, int s
     return dest;
 }
 
-void FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, int scale)
+void FontHelper::draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, uint8_t scale)
 {
     set_mode(FONT_BLENDED);
     draw(text, x, y, font, fg, NULL, scale);

@@ -20,9 +20,9 @@ class Screen;
 class Button : public GuiElement
 {
 public:
-    Button(int id, int type, int x, int y, const char *texure, const char *tooltip, Screen *parent);
+	Button(int8_t id, uint8_t type, int x, int y, const char *texure, const char *tooltip, Screen *parent);
 	
-	Button(int id, int x, int y, const char* text, Screen* parent);
+	Button(int8_t id, int x, int y, const char* text, Screen* parent);
 
     ~Button();
 
@@ -37,7 +37,7 @@ public:
 protected:
 
     Texture *m_bg;
-    int m_type;
+    uint8_t m_type;
     bool m_pressed;
 	bool m_hovered;
     bool m_tooltip_shown;

@@ -22,7 +22,7 @@ class Screen;
 class ListBox : public GuiElement
 {
 public:
-	ListBox(int id, int x, int y, int w, int max_items, Screen* parent);
+	ListBox(uint8_t id, int x, int y, int w, int max_items, Screen* parent);
 
 	~ListBox();
 
@@ -53,7 +53,7 @@ public:
 	uint16_t get_item_count(void);
 private:
 	void select_item(uint16_t i);
-	SDL_Rect get_dim_for_item(int i);
+	SDL_Rect get_dim_for_item(uint16_t i);
 	uint16_t get_max_scroll(void);
 	float get_coverage(void);
 

@@ -19,6 +19,7 @@
 #define GUI_NONE -1
 #define GUI_GAME 0
 #define GUI_SP 1
+#define GUI_LB 2
 
 class Resources;
 
@@ -39,7 +40,7 @@ public:
 
     void draw_gui(void);
 
-    void queue_screen(Uint8 gui_id);
+    void queue_screen(uint8_t gui_id);
 
     Screen *get_active_screen();
 
@@ -49,7 +50,7 @@ public:
 	Resources* m_resources;
 	Layout* m_layout;
 private:
-    void set_screen(Uint8 gui_id);
+	void set_screen(uint8_t gui_id);
 
 };
 

@@ -27,7 +27,7 @@ class Label :
         public GuiElement
 {
 public:
-    Label(int id, int x, int y, int type, const char *text, Screen *parent);
+    Label(int8_t id, int x, int y, uint8_t type, const char *text, Screen *parent);
 
     ~Label();
 
@@ -46,7 +46,7 @@ public:
     SDL_Color *m_color;
 private:
 	bool m_shadow;
-	int m_type;
+	uint8_t m_type;
 };
 
 #endif

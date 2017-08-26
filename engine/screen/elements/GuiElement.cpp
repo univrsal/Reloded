@@ -49,12 +49,12 @@ SDL_Rect *GuiElement::get_dimensions()
     return &m_dimensions;
 }
 
-int GuiElement::get_id()
+int8_t GuiElement::get_id()
 {
     return m_element_id;
 }
 
-void GuiElement::init(Screen *parent, SDL_Rect dim, int id)
+void GuiElement::init(Screen *parent, SDL_Rect dim, int8_t id)
 {
     m_parent_screen = parent;
     m_dimensions = dim;

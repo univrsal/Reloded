@@ -5,7 +5,7 @@
 #include "Sfx.h"
 
 
-Sfx::Sfx(int type, Audio* audio, std::string path)
+Sfx::Sfx(uint8_t type, Audio* audio, std::string path)
 {
     m_music = NULL;
     m_effect = NULL;
@@ -31,7 +31,7 @@ Sfx::~Sfx()
     m_effect = NULL;
 }
 
-void Sfx::set_channel(int c)
+void Sfx::set_channel(uint8_t c)
 {
     m_channel = c;
 }

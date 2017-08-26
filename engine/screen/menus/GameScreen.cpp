@@ -80,13 +80,13 @@ void GameScreen::init(Resources* r)
     m_tooltip = new Tooltip(this);
 }
 
-void GameScreen::set_active_tooltip(std::string *text, int x, int y)
+void GameScreen::set_active_tooltip(std::string *text, uint16_t x, uint16_t y)
 {
     m_tooltip->set_text(text);
     m_tooltip->set_pos(x, y);
 }
 
-void GameScreen::action_performed(int action_id)
+void GameScreen::action_performed(int8_t action_id)
 {
     std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
     switch (action_id) {
@@ -126,7 +126,7 @@ void GameScreen::close(void)
     m_screen_elements.clear();
 }
 
-Sfx *GameScreen::get_sfx_for_element(int element_type)
+Sfx *GameScreen::get_sfx_for_element(uint8_t element_type)
 {
     switch (element_type) {
         case BTN_BIG:

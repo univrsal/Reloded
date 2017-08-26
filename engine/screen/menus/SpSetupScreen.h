@@ -47,13 +47,13 @@ public:
 
 	void init(Resources* r);
 
-    void set_active_tooltip(std::string *text, int x, int y);
+	void set_active_tooltip(std::string *text, uint16_t x, uint16_t y);
 
 	void handle_events(void);
 
-    Sfx *get_sfx_for_element(int element_type);
+	Sfx *get_sfx_for_element(uint8_t element_type);
 
-    void action_performed(int action_id);
+	void action_performed(int8_t action_id);
 
     void close(void);
 
@@ -64,7 +64,7 @@ public:
 private:
     std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
 
-	int m_level_number;
+	uint16_t m_level_number;
 	char m_selected_level_format[3];
 	
 	std::string m_selected_level_string;

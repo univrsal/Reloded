@@ -28,6 +28,14 @@
 #define LANG_TIP_SP_GO "Start Play: begin\ngame play"
 #define LANG_INVALID_PZL "INVALID *.PZL FILE"
 
+// Level Browser
+#define LANG_LB_PREV "Show the level before this\none within the level group"
+#define LANG_LB_NEXT "Show the leve lafter this one\nwithin the level group"
+#define LANG_LB_LEVEL_NAME "This is the title of the\ncurrently selected level"
+#define LANB_LB_PREVIEW "This is a schematic of the\ncurrently selected level"
+#define LANG_LB_CANCEL "Cancel: return to\nmain menu"
+#define LANG_LB_RUN "Okay: begin play fromt he currently selected level"
+
 // File browser
 #define LANG_FB_TITLE "SELECT A FILE"
 #define LANG_FB_OPEN "Open"

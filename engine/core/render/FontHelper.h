@@ -34,17 +34,17 @@ public:
 
     void set_mode(int m);
 
-    void draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, const SDL_Color *bg, int scale = 1);
+	void draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, const SDL_Color *bg, uint8_t scale = 1);
 
-    void draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, int scale = 1);
+    void draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, uint8_t scale = 1);
 
-    void draw(std::string *text, int x, int y, TTF_Font *font, int scale = 1);
+	void draw(std::string *text, int x, int y, TTF_Font *font, uint8_t scale = 1);
 
-    SDL_Rect get_text_dimension(TTF_Font *font, std::string *text, int scale = 1);
+	SDL_Rect get_text_dimension(TTF_Font *font, std::string *text, uint8_t scale = 1);
 
 private:
     Renderer *m_renderer;
-    int m_mode;
+	uint8_t m_mode;
 };
 
 

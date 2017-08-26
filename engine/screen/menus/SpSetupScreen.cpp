@@ -35,7 +35,6 @@ SpSetupScreen::~SpSetupScreen()
 	delete m_soft_rock;
     delete m_alarm;
     delete m_portal;
-	delete m_current_puzzle;
 	delete m_file_browser;
 
 	m_current_puzzle = NULL;
@@ -113,9 +112,9 @@ void SpSetupScreen::init(Resources* r)
 
 	// Current Puzzle Pack
 	m_current_puzzle = new Puzzle();
+	m_resources->set_puzzle(m_current_puzzle);
 	
-	m_level_folder = std::string(SDL_GetBasePath()).append("res/lvl");
-	std::replace(m_level_folder.begin(), m_level_folder.end(), '\\', '/'); // Eeew windows get your Filesystem right
+	m_level_folder = m_resources->util_res_dir("lvl");
 
 	m_selected_level_path = m_level_folder + "/mmr.PZL";
 	printf("LEVELPATH %s\n", m_selected_level_path.c_str());
@@ -145,13 +144,13 @@ void SpSetupScreen::init(Resources* r)
 	m_file_browser->init();
 }
 
-void SpSetupScreen::set_active_tooltip(std::string *text, int x, int y)
+void SpSetupScreen::set_active_tooltip(std::string *text, uint16_t x, uint16_t y)
 {
     m_tooltip->set_text(text);
     m_tooltip->set_pos(x, y);
 }
 
-void SpSetupScreen::action_performed(int action_id)
+void SpSetupScreen::action_performed(int8_t action_id)
 {
     std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
 
@@ -220,7 +219,6 @@ void SpSetupScreen::close(void)
     m_border->free();
 	m_alarm->close();
 	m_portal->close();
-	m_current_puzzle->close();
 	m_file_browser->close();
     m_screen_elements.clear();
 }
@@ -248,7 +246,7 @@ void SpSetupScreen::select_level(int id)
 	m_level_label->set_text(m_selected_level_string);
 }
 
-Sfx *SpSetupScreen::get_sfx_for_element(int element_type)
+Sfx *SpSetupScreen::get_sfx_for_element(uint8_t element_type)
 {
     switch (element_type) {
         case BTN_BIG:

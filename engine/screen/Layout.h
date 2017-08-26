@@ -11,8 +11,8 @@
 #include "SDL.h"
 #include <stdio.h>
 
-#define LAYOUT_CONTENT_W 640
-#define LAYOUT_CONTENT_H 400
+#define DEFAULT_W 640
+#define DEFAULT_H 400
 
 class Layout
 {
@@ -21,18 +21,25 @@ public:
 
     ~Layout();
 
-    SDL_Rect *get_window_size();
+	SDL_Rect *get_window_size(void);
 
-    SDL_Rect *get_content_size();
+	SDL_Rect *get_content_size(void);
 
-    SDL_Point *get_content_origin();
+	SDL_Point *get_content_origin(void);
 
-    int *get_scale_factor();
+	uint8_t *get_scale_factor(void);
 
-    void resize();
+	void set_content_dim(uint16_t w, uint16_t h);
+
+	void reset_content_dim(void);
+
+	void resize(void);
 
 private:
-    int m_scale_factor;
+	uint16_t m_content_w;
+	uint16_t m_content_h;
+
+    uint8_t m_scale_factor;
     SDL_Window *m_game_window;
     SDL_Point m_content_origin;
     SDL_Rect m_window_rect;

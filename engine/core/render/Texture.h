@@ -17,7 +17,7 @@ class Texture
 public:
     Texture(const char *path, SDL_Renderer *renderer);
 
-    Texture(const char *path, SDL_Renderer *renderer, int *scale);
+    Texture(const char *path, SDL_Renderer *renderer, uint8_t *scale);
 
     Texture();
 
@@ -42,7 +42,7 @@ public:
 private:
     SDL_Texture *m_sdl_texture;
     SDL_Rect m_dimensions;
-    int *m_scale;
+	uint8_t *m_scale;
 };
 
 #endif

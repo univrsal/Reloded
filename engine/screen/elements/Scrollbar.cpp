@@ -7,7 +7,7 @@
 
 #include "Scrollbar.h"
 
-Scrollbar::Scrollbar(int id, int x, int y, int h, int max, Screen *parent)
+Scrollbar::Scrollbar(int8_t id, int x, int y, int h, int max, Screen *parent)
 {
 	SDL_Rect temp_rect = { x, y, 10, h };
 	m_scroll_button_dim = { x, y, 10, 0 };

@@ -8,7 +8,7 @@
 
 #include "Textbox.h"
 
-Textbox::Textbox(int id, int x, int y, int w, int h, std::string text, Screen *parent)
+Textbox::Textbox(int8_t id, int x, int y, int w, int h, std::string text, Screen *parent)
 {
     m_dimensions = SDL_Rect {x, y, w, h};
     m_parent_screen = parent;

@@ -7,7 +7,7 @@
 
 #include "Label.h"
 
-Label::Label(int id, int x, int y, int type, const char *text, Screen *parent)
+Label::Label(int8_t id, int x, int y, uint8_t type, const char *text, Screen *parent)
 {
     m_dimensions = SDL_Rect {x, y, 0, 0};
     m_text = std::string(text);

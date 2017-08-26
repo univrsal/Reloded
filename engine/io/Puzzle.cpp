@@ -10,16 +10,17 @@
 
 Puzzle::Puzzle()
 {
+	m_level_count = 0;
 	m_file_is_ok = false;
 	m_invalid_file = std::string(LANG_INVALID_PZL);
 }
 
 Puzzle::~Puzzle()
 {
-	close();
+	
 }
 
-int Puzzle::get_level_count(void)
+uint16_t Puzzle::get_level_count(void)
 {
 	return m_level_count;
 }
@@ -55,7 +56,6 @@ void Puzzle::read_from_file(std::string path)
 		m_file_is_ok = false;
 	}
 
-
 	fs.close();
 }
 
@@ -87,7 +87,7 @@ void Puzzle::read_level(std::ifstream * file, int* header_offset)
 	m_level_offsets.emplace_back(level_offset);
 }
 
-std::string* Puzzle::get_level_name(int id)
+std::string* Puzzle::get_level_name(uint16_t id)
 {
 	if (!m_file_is_ok)
 		return &m_invalid_file;

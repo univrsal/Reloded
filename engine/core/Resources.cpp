@@ -7,6 +7,8 @@ Resources::Resources()
 	m_input = NULL;
 	m_layout = NULL;
 	m_engine = NULL;
+	m_puzzle = NULL;
+	m_puzzle = NULL;
 }
 
 Resources::~Resources()
@@ -16,6 +18,13 @@ Resources::~Resources()
 	m_input = NULL;
 	m_renderer = NULL;
 	m_layout = NULL;
+	
+	if (m_puzzle != NULL)
+	{
+		m_puzzle->close();
+		delete m_puzzle;
+	}
+	m_puzzle = NULL;
 }
 
 void Resources::init(Renderer * r, Audio * a, Input * i, Layout * l, Engine* e)
@@ -32,6 +41,7 @@ Renderer * Resources::renderer(void)
 	return m_renderer;
 }
 
+// Top left corner of screen with offset after scaling
 SDL_Point * Resources::origin(void)
 {
 	return m_layout->get_content_origin();
@@ -67,7 +77,7 @@ SDL_Event * Resources::input_event(void)
 	return &m_input->m_event;
 }
 
-int * Resources::scalef(void)
+uint8_t * Resources::scalef(void)
 {
 	return m_layout->get_scale_factor();
 }
@@ -87,6 +97,16 @@ Palette * Resources::palette(void)
 	return m_renderer->m_palette;
 }
 
+Puzzle * Resources::puzzle(void)
+{
+	return m_puzzle;
+}
+
+void Resources::set_puzzle(Puzzle * p)
+{
+	m_puzzle = p;
+}
+
 bool Resources::util_is_in_rect(SDL_Rect * r, SDL_Point * p)
 {
 	return p->x >= r->x && p->x <= r->x + r->w 
@@ -103,6 +123,28 @@ bool Resources::util_is_in_rect(int x, int y, int w, int h, int x2, int y2)
 {
 	return x2 >= x && x2 <= x + w
 		&& y2 >= y && y2 <= y + h;
+}
+
+int Resources::level_id(void)
+{
+	return m_selected_level;
+}
+
+void Resources::set_level_id(int i)
+{
+	m_selected_level = i;
+}
+
+std::string Resources::util_run_dir(void)
+{
+	std::string path = std::string(SDL_GetBasePath());
+	std::replace(path.begin(), path.end(), '\\', '/');
+	return path;
+}
+
+std::string Resources::util_res_dir(const char* sub_dir)
+{
+	return util_run_dir().append("res/").append(sub_dir);
 }
 
 void Resources::util_cut_string(std::string& s, int max_width, bool front)

@@ -11,7 +11,10 @@
 #include "SDL.h"
 #include "render/Renderer.h"
 #include "Input.h"
+#include "../io/Puzzle.h"
 #include <string>
+
+class Puzzle;
 
 class Screen;
 
@@ -42,7 +45,7 @@ public:
 	SDL_Renderer* sdl_renderer(void);
 	SDL_Window* window(void);
 	SDL_Event* input_event(void);
-	int* scalef(void);
+	uint8_t* scalef(void);
 
 	Renderer* renderer(void);
 	Audio* audio(void);
@@ -52,11 +55,20 @@ public:
 	GuiManager* gui_mgr(void);
 	Palette* palette(void);
 
+	Puzzle* puzzle(void);
+	void set_puzzle(Puzzle* p);
+
+	int level_id(void);
+	void set_level_id(int i);
+
 	bool util_is_in_rect(SDL_Rect* r, SDL_Point* p);
 	bool util_is_in_rect(SDL_Rect* r, int x, int y);
 	bool util_is_in_rect(int x, int y, int w, int h, int x2, int y2);
 
 	void util_cut_string(std::string& s, int max_width, bool front);
+
+	std::string util_run_dir(void);
+	std::string util_res_dir(const char* sub_dir);
 
 private:
 	Engine* m_engine;
@@ -64,6 +76,8 @@ private:
 	Audio* m_audio;
 	Input* m_input;
 	Layout* m_layout;
+	Puzzle* m_puzzle;
+	uint16_t m_selected_level;
 };
 
 #endif

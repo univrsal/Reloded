@@ -17,7 +17,7 @@
 class Textbox : public GuiElement
 {
 public:
-    Textbox(int id, int x, int y, int w, int h, std::string text, Screen *parent);
+	Textbox(int8_t id, int x, int y, int w, int h, std::string text, Screen *parent);
 
     virtual ~Textbox();
 

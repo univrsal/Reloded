@@ -38,11 +38,11 @@ public:
 
 	virtual void handle_events(void) = 0;
 
-    virtual void action_performed(int action_id) = 0;
+	virtual void action_performed(int8_t action_id) = 0;
 
-    virtual void set_active_tooltip(std::string *text, int x, int y) = 0;
+	virtual void set_active_tooltip(std::string *text, uint16_t x, uint16_t y) = 0;
 
-    virtual Sfx *get_sfx_for_element(int element_type) = 0;
+	virtual Sfx *get_sfx_for_element(uint8_t element_type) = 0;
 
 	Resources* m_resources;
 	

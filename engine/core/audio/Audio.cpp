@@ -55,7 +55,7 @@ void Audio::unpause_sfx(void)
     Mix_Resume(AUDIO_CHANNEL_SFX);
 }
 
-void Audio::channel_finished(int channel)
+void Audio::channel_finished(uint8_t channel)
 {
 	switch (channel)
 	{

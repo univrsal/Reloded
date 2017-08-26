@@ -17,7 +17,7 @@ FileBrowser::FileBrowser()
 	m_offset_x = m_offset_y = 0;
 }
 
-FileBrowser::FileBrowser(int type, std::string start_folder, std::string filter, Screen* parent)
+FileBrowser::FileBrowser(uint8_t type, std::string start_folder, std::string filter, Screen* parent)
 {
 	m_type = type;
 	m_current_path = start_folder;
@@ -289,7 +289,7 @@ bool FileBrowser::is_dir(std::string file)
 
 	if (stat(temp_path.c_str(), &s) == 0)
 	{
-		result = s.st_mode & S_IFDIR;
+		result = (s.st_mode & S_IFDIR) > 0 ? true : false;
 	}
 	else
 	{

@@ -48,9 +48,9 @@ public:
 
     SDL_Rect *get_dimensions(void);
 
-    int get_id(void);
+	int8_t get_id(void);
 
-    void init(Screen *parent, SDL_Rect dim, int id);
+	void init(Screen *parent, SDL_Rect dim, int8_t id);
 
     bool is_mouse_over_scaled(const int &x, const int &y);
 
@@ -70,7 +70,7 @@ protected:
     Screen *m_parent_screen;
     SDL_Rect m_dimensions;
     SDL_Rect m_scaled_dimensions;
-    int m_element_id;
+    int8_t m_element_id;
 };
 
 #endif

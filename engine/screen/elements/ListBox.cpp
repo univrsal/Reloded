@@ -6,7 +6,7 @@
  * github.com/univrsal/reloded
  */
 
-ListBox::ListBox(int id, int x, int y, int w, int max_items, Screen* parent)
+ListBox::ListBox(uint8_t id, int x, int y, int w, int max_items, Screen* parent)
 {
 	std::string line = "test";
 	m_item_height = parent->m_resources->renderer()->util_text_default_dim(&line).h + 2;
@@ -174,7 +174,7 @@ void ListBox::select_item(uint16_t i)
 	m_selected_item = SDL_max(0, SDL_min(get_item_count() - 1, i));
 }
 
-SDL_Rect ListBox::get_dim_for_item(int i)
+SDL_Rect ListBox::get_dim_for_item(uint16_t i)
 {
 	return SDL_Rect{ get_dimensions()->x + 3, get_dimensions()->y + 2 + (m_item_height * i), m_item_width, m_item_height };
 }

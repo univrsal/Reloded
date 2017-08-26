@@ -19,14 +19,19 @@ class GuiManager;
 class Input
 {
 public:
-    Input();
+	Input();
 
     ~Input();
 
-    void handle_input(bool *run_flag, Resources* r);
+	void init(bool* flag, Resources* r);
+    void handle_input(void);
 
     SDL_Event m_event;
-    bool m_unfocused;
+	bool m_unfocused;
+
+private:
+	Resources* m_resources;
+	bool *m_run_flag;
 };
 
 #endif
