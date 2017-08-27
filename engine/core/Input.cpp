@@ -24,7 +24,7 @@ void Input::handle_input(void)
             if (m_event.key.keysym.sym == SDLK_q) {
 				*m_run_flag = false;
             } else if (m_event.key.keysym.sym == SDLK_F11) {
-				bool is_fullscreen = SDL_GetWindowFlags(m_resources->window()) & SDL_WINDOW_FULLSCREEN;
+				bool is_fullscreen = (bool) SDL_GetWindowFlags(m_resources->window()) & SDL_WINDOW_FULLSCREEN;
 				SDL_SetWindowFullscreen(m_resources->window(), is_fullscreen ? 0 : SDL_WINDOW_FULLSCREEN);
             } else if (m_event.key.keysym.sym == SDLK_ESCAPE) {
                 m_resources->active_screen()->action_performed(ACTION_CANCEL);
@@ -39,8 +39,10 @@ void Input::handle_input(void)
         } else if (m_event.type == SDL_WINDOWEVENT) {
             switch (m_event.window.event) {
                 case SDL_WINDOWEVENT_RESIZED:
-					m_resources->gui_mgr()->m_layout->resize();
-					m_resources->gui_mgr()->get_active_screen()->action_performed(ACTION_RESIZE);
+                    if (m_resources->gui_mgr()->m_layout != NULL)
+					    m_resources->gui_mgr()->m_layout->resize();
+                    if (m_resources->gui_mgr()->get_active_screen() != NULL)
+					    m_resources->gui_mgr()->get_active_screen()->action_performed(ACTION_RESIZE);
                     m_unfocused = true;
                     break;
                 case SDL_WINDOWEVENT_MOVED:
