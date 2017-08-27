@@ -125,14 +125,14 @@ bool Resources::util_is_in_rect(int x, int y, int w, int h, int x2, int y2)
 		&& y2 >= y && y2 <= y + h;
 }
 
-int Resources::level_id(void)
+uint16_t Resources::level_id(void)
 {
 	return m_selected_level;
 }
 
 void Resources::set_level_id(int i)
 {
-	m_selected_level = i;
+	m_selected_level = (uint16_t) i;
 }
 
 std::string Resources::util_run_dir(void)
@@ -172,4 +172,10 @@ void Resources::util_cut_string(std::string& s, int max_width, bool front)
 void Resources::set_layout(Layout * l)
 {
 	m_layout = l;
+}
+
+std::string Resources::get_current_level_name(void) {
+    std::string name = *m_puzzle->get_level_name(m_selected_level);
+    std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+    return name;
 }

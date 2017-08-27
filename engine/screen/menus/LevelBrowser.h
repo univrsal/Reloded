@@ -3,8 +3,12 @@
 #include "../../util/Textures.h"
 #include "../../core/render/Texture.h"
 #include "../../core/Resources.h"
+#include "../elements/Label.h"
+#include "../elements/Button.h"
 
 class Resources;
+
+class Label;
 
 class LevelBrowser :
 	public Screen
@@ -21,8 +25,17 @@ public:
 
 	void handle_events(void);
 
+	void action_performed(int8_t action_id);
+
+	void set_active_tooltip(std::string *text, uint16_t x, uint16_t y);
+
+	void close(void);
+
 	Sfx *get_sfx_for_element(uint8_t element_type);
 private:
+	std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
+
+    Label *m_level_name;
 	Texture *m_border;
 };
 

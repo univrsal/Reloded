@@ -17,12 +17,14 @@ void Layout::set_content_dim(uint16_t w, uint16_t h)
 {
 	m_content_w = w;
 	m_content_h = h;
+    resize();
 }
 
 void Layout::reset_content_dim(void)
 {
 	m_content_w = DEFAULT_W;
 	m_content_h = DEFAULT_H;
+    resize();
 }
 
 SDL_Rect *Layout::get_window_size(void)

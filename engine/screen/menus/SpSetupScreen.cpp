@@ -80,7 +80,6 @@ void SpSetupScreen::init(Resources* r)
 {
 	m_resources = r;
 
-
     sprintf(m_selected_level_format, "%03d", m_level_number);
     m_selected_level_string = std::string(m_selected_level_format);
 
@@ -100,7 +99,7 @@ void SpSetupScreen::init(Resources* r)
     m_screen_elements.emplace_back(new Button(5, BTN_SMALL, 46, 44, CONST_PATH_BTN_LOAD, LANG_TIP_PZL_GROUP, this));
     m_screen_elements.emplace_back(
             new Button(6, BTN_SMALL, 91, 44, CONST_PATH_BTN_RESET, LANG_TIP_RESET_PZL_GROUP, this));
-    m_screen_elements.emplace_back(new Button(6, BTN_SMALL, 500, 44, CONST_PATH_BTN_BROWSE, LANG_TIP_BROWSE_PZL, this));
+    m_screen_elements.emplace_back(new Button(12, BTN_SMALL, 500, 44, CONST_PATH_BTN_BROWSE, LANG_TIP_BROWSE_PZL, this));
     m_screen_elements.emplace_back(new Button(7, BTN_MICRO, 534, 45, CONST_PATH_BTN_UP, LANG_TIP_PZL_UP, this));
     m_screen_elements.emplace_back(new Button(8, BTN_MICRO, 534, 61, CONST_PATH_BTN_DOWN, LANG_TIP_PZL_DOWN, this));
     m_screen_elements.emplace_back(new Button(9, BTN_SMALL, 562, 44, CONST_PATH_BTN_RESET, LANG_TIP_PZL_RESET, this));
@@ -127,7 +126,7 @@ void SpSetupScreen::init(Resources* r)
 	m_level_label = new Label(14, 365, 92, LABEL_GOLD, m_selected_level_string.c_str(), this);
 	
 	std::string* name = m_current_puzzle->get_level_name(m_level_number - 1);
-	transform(name->begin(), name->end(), name->begin(), ::toupper);
+	std::transform(name->begin(), name->end(), name->begin(), ::toupper);
 	m_level_name_label = new Label(15, 407, 92, LABEL_GOLD, name->c_str(), this);
 	
 	m_screen_elements.emplace_back(m_level_label);
@@ -175,10 +174,20 @@ void SpSetupScreen::action_performed(int8_t action_id)
                 iterator->get()->resize();
             }
             break;
+        case 6:
+            m_level_folder = m_resources->util_res_dir("lvl");
+            m_selected_level_path = m_level_folder + "/mmr.PZL";
+            load_puzzle();
+            select_level(1);
+            break;
 		case 5:
 			m_in_file_browser = true;
 			m_file_browser->refresh();
 			break;
+        case 12:
+            m_resources->set_level_id(m_level_number - 1);
+            m_resources->gui_mgr()->queue_screen(GUI_LB);
+            break;
         case 10:
         case ACTION_CANCEL:
 			if (m_in_file_browser)
@@ -228,10 +237,10 @@ void SpSetupScreen::load_puzzle(void)
 	m_current_puzzle->read_from_file(m_selected_level_path);
 }
 
-void SpSetupScreen::select_level(int id)
+void SpSetupScreen::select_level(uint16_t id)
 {
 	std::string name = *m_current_puzzle->get_level_name(id - 1);
-	transform(name.begin(), name.end(), name.begin(), ::toupper);
+    std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	SDL_Rect dim = m_resources->renderer()->util_text_default_dim(&name, FONT_LODE);
 	
 	while (dim.w > 169) {

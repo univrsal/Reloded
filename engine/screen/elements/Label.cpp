@@ -48,27 +48,29 @@ void Label::draw_background(void)
 	SDL_Point *o = get_parent_screen()->m_resources->origin();
     int scale = *get_parent_screen()->m_resources->scalef();
 
-	if (m_type == LABEL_DEFAULT)
+	if (!m_text.empty())
 	{
-		get_resources()->renderer()->util_text_default(&m_text, o->x + m_dimensions.x * scale,
-			o->y + m_dimensions.y  * scale, m_color);
-	}
-	else
-	{
-		if (!m_shadow)
+		if (m_type == LABEL_DEFAULT)
 		{
-			get_resources()->renderer()->util_text_lode(&m_text, o->x + m_dimensions.x * scale,
-				o->y + m_dimensions.y * scale,
-				m_color);
+			get_resources()->renderer()->util_text_default(&m_text, o->x + m_dimensions.x * scale,
+														   o->y + m_dimensions.y  * scale, m_color);
 		}
 		else
 		{
-			get_resources()->renderer()->util_text_lode_shadow(&m_text, o->x + m_dimensions.x * scale,
-				o->y + m_dimensions.y * scale,
-				m_color);
+			if (!m_shadow)
+			{
+				get_resources()->renderer()->util_text_lode(&m_text, o->x + m_dimensions.x * scale,
+															o->y + m_dimensions.y * scale,
+															m_color);
+			}
+			else
+			{
+				get_resources()->renderer()->util_text_lode_shadow(&m_text, o->x + m_dimensions.x * scale,
+																   o->y + m_dimensions.y * scale,
+																   m_color);
+			}
 		}
 	}
-
 }
 
 void Label::handle_events(SDL_Event *event)

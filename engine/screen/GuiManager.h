@@ -11,6 +11,7 @@
 #include "Screen.h"
 #include "menus/GameScreen.h"
 #include "menus/SpSetupScreen.h"
+#include "menus/LevelBrowser.h"
 #include "../util/Textures.h"
 #include "../core/Input.h"
 #include "Layout.h"

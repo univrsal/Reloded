@@ -179,7 +179,7 @@ void FileBrowser::update_dir(void)
 	{
 		go_up();
 	}
-	else if (new_dir.compare("./") == 1)
+	else if (new_dir.compare("./") != 0)
 	{
 		if (is_dir(m_list_box->get_selected()))
 			go_to(m_list_box->get_selected());

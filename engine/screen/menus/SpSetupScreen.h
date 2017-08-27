@@ -59,7 +59,7 @@ public:
 
 	void load_puzzle(void);
 
-	void select_level(int id);
+	void select_level(uint16_t id);
 
 private:
     std::vector<std::unique_ptr<GuiElement>> m_screen_elements;

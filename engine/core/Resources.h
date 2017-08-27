@@ -58,8 +58,9 @@ public:
 	Puzzle* puzzle(void);
 	void set_puzzle(Puzzle* p);
 
-	int level_id(void);
+	uint16_t level_id(void);
 	void set_level_id(int i);
+    std::string get_current_level_name();
 
 	bool util_is_in_rect(SDL_Rect* r, SDL_Point* p);
 	bool util_is_in_rect(SDL_Rect* r, int x, int y);
