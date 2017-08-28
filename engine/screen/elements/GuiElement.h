@@ -10,6 +10,8 @@
 
 #include "SDL.h"
 
+#define DEBUG_DRAW_OUTLINE 1
+
 #define BTN_BIG 0
 #define BTN_MEDIUM 1
 #define BTN_MEDIUM_ACCEPT 2
@@ -32,7 +34,7 @@ public:
 
 	virtual void draw_background(void) = 0;
 
-    virtual void draw_foreground(void) = 0;
+    void draw_foreground(void);
 
 	virtual void close(void);
 

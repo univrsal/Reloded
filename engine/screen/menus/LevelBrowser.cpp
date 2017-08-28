@@ -29,8 +29,13 @@ void LevelBrowser::init(Resources * r)
     printf("LVL: %s\n", m_resources->get_current_level_name().c_str());
     m_level_name = new Label(2, 25, 239, LABEL_GOLD, m_resources->get_current_level_name().c_str(), this);
 
+    m_screen_elements.emplace_back(new Panel(3, 25, 239, 350, 14, LANG_LB_LEVEL_NAME, this));
+    m_screen_elements.emplace_back(new Panel(4, 22, 22, 345, 197, LANG_LB_PREVIEW, this));
+
     m_screen_elements.emplace_back(m_level_name);
     m_tooltip = new Tooltip(this);
+
+
 }
 
 void LevelBrowser::draw_foreground(void)

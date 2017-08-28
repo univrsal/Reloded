@@ -99,3 +99,9 @@ int GuiElement::get_bottom()
 {
 	return m_dimensions.y + m_dimensions.h;
 }
+
+void GuiElement::draw_foreground(void)
+{
+    if (DEBUG_DRAW_OUTLINE)
+        get_resources()->renderer()->util_draw_rect(get_scaled_dimensions());
+}

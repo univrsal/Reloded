@@ -8,7 +8,7 @@ set(SOURCE_FILES main.cpp engine/screen/elements/Button.cpp engine/core/Engine.c
         engine/core/render/Texture.cpp engine/core/Tooltip.cpp engine/core/render/Palette.cpp engine/core/render/Palette.h engine/core/render/FontHelper.cpp engine/core/Timer.cpp
         engine/core/Timer.h engine/screen/menus/SpSetupScreen.cpp engine/screen/menus/SpSetupScreen.h engine/core/audio/Audio.cpp engine/core/audio/Audio.h engine/core/audio/Sfx.cpp
         engine/core/audio/Sfx.h engine/io/Puzzle.cpp engine/core/Resources.cpp engine/io/FileBrowser.cpp engine/screen/elements/Textbox.cpp
-        engine/screen/menus/LevelBrowser.cpp engine/screen/elements/ListBox.cpp engine/screen/elements/Scrollbar.cpp)
+        engine/screen/menus/LevelBrowser.cpp engine/screen/elements/ListBox.cpp engine/screen/elements/Scrollbar.cpp engine/screen/elements/Panel.cpp engine/screen/elements/Panel.h)
 add_executable(reloded ${SOURCE_FILES})
 
 INCLUDE(FindPkgConfig)

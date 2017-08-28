@@ -9,10 +9,12 @@
 
 Label::Label(int8_t id, int x, int y, uint8_t type, const char *text, Screen *parent)
 {
-    m_dimensions = SDL_Rect {x, y, 0, 0};
+
     m_text = std::string(text);
-    m_parent_screen = parent;
-    m_element_id = id;
+    SDL_Rect temp = parent->m_resources->renderer()->util_text_default_dim(&m_text, FONT_LODE);
+    temp.x = x;
+    temp.y = y;
+
 	m_shadow = false;
     switch (type) {
         default:
@@ -29,7 +31,7 @@ Label::Label(int8_t id, int x, int y, uint8_t type, const char *text, Screen *pa
             m_color = parent->m_resources->palette()->white();
             break;
     }
-
+    init(parent, temp, id);
 	m_type = type;
 }
 
@@ -45,8 +47,8 @@ void Label::close(void)
 
 void Label::draw_background(void)
 {
-	SDL_Point *o = get_parent_screen()->m_resources->origin();
-    int scale = *get_parent_screen()->m_resources->scalef();
+	SDL_Point *o = get_resources()->origin();
+    int scale = *get_resources()->scalef();
 
 	if (!m_text.empty())
 	{
@@ -86,4 +88,7 @@ void Label::draw_foreground(void)
 void Label::set_text(std::string text)
 {
     m_text = text;
+    SDL_Rect temp = get_resources()->renderer()->util_text_default_dim(&m_text, FONT_LODE);
+    m_dimensions.w = temp.w;
+    m_dimensions.h = temp.h;
 }

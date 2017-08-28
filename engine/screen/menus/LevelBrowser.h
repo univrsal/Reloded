@@ -5,6 +5,7 @@
 #include "../../core/Resources.h"
 #include "../elements/Label.h"
 #include "../elements/Button.h"
+#include "../elements/Panel.h"
 
 class Resources;
 

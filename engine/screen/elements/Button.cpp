@@ -72,13 +72,11 @@ void Button::draw_background(void)
         }
         m_bg->draw(get_resources()->sdl_renderer(), get_scaled_dimensions(), &cutout);
 
-        if (!m_tooltip.empty() && m_hover_start != 0 && SDL_GetTicks() - m_hover_start > 1000) {
-            if (!m_tooltip_shown) {
-                int x, y;
-                SDL_GetMouseState(&x, &y);
-                m_parent_screen->set_active_tooltip(&m_tooltip, x + 15, y);
-                m_tooltip_shown = true;
-            }
+        if (!m_tooltip_shown && !m_tooltip.empty() && m_hover_start != 0 && SDL_GetTicks() - m_hover_start > 1000) {
+            int x, y;
+            SDL_GetMouseState(&x, &y);
+            m_parent_screen->set_active_tooltip(&m_tooltip, x + 15, y);
+            m_tooltip_shown = true;
         }
     }
 	else
@@ -152,7 +150,7 @@ void Button::handle_events(SDL_Event *event)
         if (m_hover_start != 0)
 		{
             m_hover_start = 0;
-            m_parent_screen->set_active_tooltip(NULL, 0, 0);
+            get_parent_screen()->set_active_tooltip(NULL, 0, 0);
             m_tooltip_shown = false;
         }
     }

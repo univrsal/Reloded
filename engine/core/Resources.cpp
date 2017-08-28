@@ -174,7 +174,8 @@ void Resources::set_layout(Layout * l)
 	m_layout = l;
 }
 
-std::string Resources::get_current_level_name(void) {
+std::string Resources::get_current_level_name(void)
+{
     std::string name = *m_puzzle->get_level_name(m_selected_level);
     std::transform(name.begin(), name.end(), name.begin(), ::toupper);
     return name;
