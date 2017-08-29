@@ -12,7 +12,7 @@ Textbox::Textbox(int8_t id, int x, int y, int w, int h, std::string text, Screen
 {
     m_dimensions = SDL_Rect {x, y, w, h};
     m_parent_screen = parent;
-	set_text(text);
+    set_text(text);
     m_element_id = id;
     m_focused = false;
 }
@@ -51,8 +51,8 @@ void Textbox::handle_events(SDL_Event *event)
 
 void Textbox::set_text(std::string s)
 {
-	m_text = s;
-	m_cut_text = m_text;
-	get_resources()->util_cut_string(m_cut_text, get_dimensions()->w - 22, false);
+    m_text = s;
+    m_cut_text = m_text;
+    get_resources()->util_cut_string(m_cut_text, get_dimensions()->w - 22, false);
 }
 

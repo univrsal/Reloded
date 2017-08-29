@@ -44,7 +44,7 @@ public:
 
     Screen *get_parent_screen(void);
 
-	Resources* get_resources();
+	Resources *get_resources();
 
 	const SDL_Rect *get_scaled_dimensions(void);
 
@@ -59,15 +59,15 @@ public:
     bool is_mouse_over_scaled(const int &x, const int &y);
 
 	bool is_mouse_over(const int &x, const int &y);
-    
-	void set_pos(const int& x, const int& y);
+
+	void set_pos(const int &x, const int &y);
 
 	int get_left(void);
 
 	int get_top(void);
 
 	int get_right(void);
-	
+
 	int get_bottom(void);
 
 protected:

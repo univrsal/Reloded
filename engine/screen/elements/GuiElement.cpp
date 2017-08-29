@@ -10,8 +10,8 @@
 
 GuiElement::~GuiElement()
 {
-	close();
-	m_parent_screen = NULL;
+    close();
+    m_parent_screen = NULL;
 }
 
 void GuiElement::close(void)
@@ -36,7 +36,7 @@ Screen *GuiElement::get_parent_screen()
 
 Resources * GuiElement::get_resources()
 {
-	return get_parent_screen()->m_resources;
+    return get_parent_screen()->m_resources;
 }
 
 const SDL_Rect *GuiElement::get_scaled_dimensions()
@@ -70,8 +70,8 @@ bool GuiElement::is_mouse_over_scaled(const int &x, const int &y)
 
 bool GuiElement::is_mouse_over(const int & x, const int & y)
 {
-	return x > get_dimensions()->x && x < get_dimensions()->x + get_dimensions()->w
-		&& y > get_dimensions()->y && y < get_dimensions()->y + get_dimensions()->h;
+    return x > get_dimensions()->x && x < get_dimensions()->x + get_dimensions()->w
+           && y > get_dimensions()->y && y < get_dimensions()->y + get_dimensions()->h;
 }
 
 void GuiElement::set_pos(const int& x, const int& y)
@@ -82,22 +82,22 @@ void GuiElement::set_pos(const int& x, const int& y)
 
 int GuiElement::get_left()
 {
-	return m_dimensions.x;
+    return m_dimensions.x;
 }
 
 int GuiElement::get_right()
 {
-	return m_dimensions.x + m_dimensions.w;
+    return m_dimensions.x + m_dimensions.w;
 }
 
 int GuiElement::get_top()
 {
-	return m_dimensions.y;
+    return m_dimensions.y;
 }
 
 int GuiElement::get_bottom()
 {
-	return m_dimensions.y + m_dimensions.h;
+    return m_dimensions.y + m_dimensions.h;
 }
 
 void GuiElement::draw_foreground(void)

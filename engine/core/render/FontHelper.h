@@ -34,7 +34,8 @@ public:
 
     void set_mode(int m);
 
-	void draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, const SDL_Color *bg, uint8_t scale = 1);
+	void
+	draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, const SDL_Color *bg, uint8_t scale = 1);
 
     void draw(std::string *text, int x, int y, TTF_Font *font, const SDL_Color *fg, uint8_t scale = 1);
 

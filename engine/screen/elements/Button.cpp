@@ -31,33 +31,33 @@ Button::Button(int8_t id, uint8_t type, int x, int y, const char *texure, const 
             break;
     }
 
-	m_hovered = false;
+    m_hovered = false;
 
     init(parent, temp_rect, id);
 }
 
 Button::Button(int8_t id, int x, int y, const char* text, Screen* parent)
 {
-	SDL_Rect temp_rect;
-	m_bg = NULL;
-	m_type = BTN_DIALOG;
-	m_pressed = false;
-	m_tooltip_shown = false;
-	m_hovered = false;
-	m_hover_start = 0;
-	m_text = std::string(text);
-	SDL_Rect text_dim = parent->m_resources->renderer()->util_text_default_dim(&m_text);
-	temp_rect = { x, y, text_dim.w + 10, text_dim.h + 4 };
-	temp_rect.w = temp_rect.w < 100 ? 100 : temp_rect.w;
-	m_text_pos.x = temp_rect.w / 2 - text_dim.w / 2;
-	m_text_pos.y = temp_rect.h / 2 - text_dim.h / 2;
-	init(parent, temp_rect, id);
+    SDL_Rect temp_rect;
+    m_bg = NULL;
+    m_type = BTN_DIALOG;
+    m_pressed = false;
+    m_tooltip_shown = false;
+    m_hovered = false;
+    m_hover_start = 0;
+    m_text = std::string(text);
+    SDL_Rect text_dim = parent->m_resources->renderer()->util_text_default_dim(&m_text);
+    temp_rect = {x, y, text_dim.w + 10, text_dim.h + 4};
+    temp_rect.w = temp_rect.w < 100 ? 100 : temp_rect.w;
+    m_text_pos.x = temp_rect.w / 2 - text_dim.w / 2;
+    m_text_pos.y = temp_rect.h / 2 - text_dim.h / 2;
+    init(parent, temp_rect, id);
 }
 
 Button::~Button()
 {
-	close();
-	delete m_bg;
+    close();
+    delete m_bg;
 }
 
 void Button::draw_background(void)
@@ -79,12 +79,14 @@ void Button::draw_background(void)
             m_tooltip_shown = true;
         }
     }
-	else
-	{
-		SDL_Color* color = m_hovered ? get_resources()->palette()->dark_gray() : get_resources()->palette()->black();
-		get_resources()->renderer()->util_draw_rect(get_dimensions(), color);
-		get_resources()->renderer()->util_text_default(&m_text, get_dimensions()->x + m_text_pos.x, get_dimensions()->y + m_text_pos.y, get_resources()->palette()->black());
-	}
+    else
+    {
+        SDL_Color *color = m_hovered ? get_resources()->palette()->dark_gray() : get_resources()->palette()->black();
+        get_resources()->renderer()->util_draw_rect(get_dimensions(), color);
+        get_resources()->renderer()->util_text_default(&m_text, get_dimensions()->x + m_text_pos.x,
+                                                       get_dimensions()->y + m_text_pos.y,
+                                                       get_resources()->palette()->black());
+    }
 }
 
 
@@ -95,60 +97,61 @@ void Button::draw_foreground(void)
 
 void Button::handle_events(SDL_Event *event)
 {
-	m_hovered = m_type == BTN_DIALOG ? is_mouse_over(event->button.x, event->button.y) : is_mouse_over_scaled(event->button.x, event->button.y);
+    m_hovered = m_type == BTN_DIALOG ? is_mouse_over(event->button.x, event->button.y) : is_mouse_over_scaled(
+            event->button.x, event->button.y);
 
     if (event->type == SDL_MOUSEBUTTONDOWN)
-	{
+    {
         if (event->button.button == SDL_BUTTON_LEFT)
-		{
-			if (m_hovered)
-			{
-				if (!m_pressed && get_parent_screen()->get_sfx_for_element(m_type) != NULL)
+        {
+            if (m_hovered)
+            {
+                if (!m_pressed && get_parent_screen()->get_sfx_for_element(m_type) != NULL)
                     get_parent_screen()->get_sfx_for_element(m_type)->play();
                 m_pressed = true;
             }
         }
-    } 
-	else if (event->type == SDL_MOUSEBUTTONUP)
-	{
+    }
+    else if (event->type == SDL_MOUSEBUTTONUP)
+    {
         if (event->button.button == SDL_BUTTON_LEFT)
-		{
+        {
 
-			if (m_hovered)
-			{
+            if (m_hovered)
+            {
                 get_parent_screen()->action_performed(m_element_id);
             }
             m_pressed = false;
         }
-    } 
-	else if (event->type == SDL_MOUSEMOTION)
-	{
+    }
+    else if (event->type == SDL_MOUSEMOTION)
+    {
         if (event->motion.state & SDL_BUTTON_LMASK)
-		{
-			if (m_hovered)
-			{
-				if (!m_pressed && get_parent_screen()->get_sfx_for_element(m_type) != NULL)
+        {
+            if (m_hovered)
+            {
+                if (!m_pressed && get_parent_screen()->get_sfx_for_element(m_type) != NULL)
                     get_parent_screen()->get_sfx_for_element(m_type)->play();
                 m_pressed = true;
             }
-        } 
-		else 
-		{
+        }
+        else
+        {
             m_pressed = false;
         }
     }
 
-	if (!m_tooltip.empty() && m_hovered)
-	{
+    if (!m_tooltip.empty() && m_hovered)
+    {
         if (m_hover_start == 0)
-		{
+        {
             m_hover_start = SDL_GetTicks();
         }
     }
-	else
-	{
+    else
+    {
         if (m_hover_start != 0)
-		{
+        {
             m_hover_start = 0;
             get_parent_screen()->set_active_tooltip(NULL, 0, 0);
             m_tooltip_shown = false;
@@ -158,8 +161,8 @@ void Button::handle_events(SDL_Event *event)
 
 void Button::close(void)
 {
-	m_tooltip.clear();
-	m_text.clear();
-	m_type = 0;
-	m_hover_start = 0;
+    m_tooltip.clear();
+    m_text.clear();
+    m_type = 0;
+    m_hover_start = 0;
 }

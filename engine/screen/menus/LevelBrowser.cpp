@@ -3,15 +3,15 @@
 
 LevelBrowser::LevelBrowser()
 {
-	m_border = NULL;
+    m_border = NULL;
 }
 
 
 LevelBrowser::~LevelBrowser()
 {
-	delete m_border;
-	
-	m_border = NULL;
+    delete m_border;
+
+    m_border = NULL;
 }
 
 void LevelBrowser::init(Resources * r)
@@ -52,7 +52,7 @@ void LevelBrowser::draw_foreground(void)
 
 void LevelBrowser::draw_background(void)
 {
-	m_border->draw(m_resources->sdl_renderer(), m_resources->origin());
+    m_border->draw(m_resources->sdl_renderer(), m_resources->origin());
 
     std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
 
@@ -72,14 +72,14 @@ void LevelBrowser::handle_events(void)
 
 Sfx * LevelBrowser::get_sfx_for_element(uint8_t element_type)
 {
-	switch (element_type)
-	{
-	default:
-	case BTN_MEDIUM_CANCEL:
-		return NULL;
-	case BTN_MEDIUM_ACCEPT:
-		return NULL;
-	}
+    switch (element_type)
+    {
+        default:
+        case BTN_MEDIUM_CANCEL:
+            return NULL;
+        case BTN_MEDIUM_ACCEPT:
+            return NULL;
+    }
 }
 
 void LevelBrowser::close(void)

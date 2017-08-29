@@ -65,7 +65,7 @@ void SpSetupScreen::draw_foreground(void)
 {
 	if (!m_in_file_browser)
 		m_tooltip->draw();
-    
+
 	std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
 
     for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
@@ -112,7 +112,7 @@ void SpSetupScreen::init(Resources* r)
 	// Current Puzzle Pack
 	m_current_puzzle = new Puzzle();
 	m_resources->set_puzzle(m_current_puzzle);
-	
+
 	m_level_folder = m_resources->util_res_dir("lvl");
 
 	m_selected_level_path = m_level_folder + "/mmr.PZL";
@@ -124,11 +124,11 @@ void SpSetupScreen::init(Resources* r)
     m_screen_elements.emplace_back(new Label(13, 53, 91, LABEL_GOLD, LANG_GROUP_SP, this));
 
 	m_level_label = new Label(14, 365, 92, LABEL_GOLD, m_selected_level_string.c_str(), this);
-	
-	std::string* name = m_current_puzzle->get_level_name(m_level_number - 1);
+
+	std::string *name = m_current_puzzle->get_level_name(m_level_number - 1);
 	std::transform(name->begin(), name->end(), name->begin(), ::toupper);
 	m_level_name_label = new Label(15, 407, 92, LABEL_GOLD, name->c_str(), this);
-	
+
 	m_screen_elements.emplace_back(m_level_label);
 	m_screen_elements.emplace_back(m_level_name_label);
 
@@ -210,7 +210,7 @@ void SpSetupScreen::action_performed(int8_t action_id)
 			if (m_level_number > 1)
 				m_level_number--;
 			select_level(m_level_number);
-			
+
             break;
         case 9:
             m_level_number = 1;
@@ -242,8 +242,9 @@ void SpSetupScreen::select_level(uint16_t id)
 	std::string name = *m_current_puzzle->get_level_name(id - 1);
     std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 	SDL_Rect dim = m_resources->renderer()->util_text_default_dim(&name, FONT_LODE);
-	
-	while (dim.w > 169) {
+
+	while (dim.w > 169)
+	{
 		name = name.substr(0, name.size() - 1);
 		dim = m_resources->renderer()->util_text_default_dim(&name, FONT_LODE);
 	}
@@ -279,15 +280,19 @@ void SpSetupScreen::handle_events(void)
 	{
 		std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
 
-		for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
+		for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++)
+		{
 			iterator->get()->handle_events(m_resources->input_event());
 		}
 
-		if (m_resources->input_event()->type == SDL_MOUSEWHEEL) {
-			if (m_resources->input_event()->wheel.y > 0) {
+		if (m_resources->input_event()->type == SDL_MOUSEWHEEL)
+		{
+			if (m_resources->input_event()->wheel.y > 0)
+			{
 				action_performed(ACTION_SCROLL_UP);
 			}
-			else {
+			else
+			{
 				action_performed(ACTION_SCROLL_DOWN);
 			}
 		}

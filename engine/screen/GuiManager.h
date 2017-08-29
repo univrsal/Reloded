@@ -48,8 +48,8 @@ public:
     int8_t m_next_screen;
     Texture *m_bg;
     Screen *m_current_screen;
-	Resources* m_resources;
-	Layout* m_layout;
+	Resources *m_resources;
+	Layout *m_layout;
 private:
 	void set_screen(uint8_t gui_id);
 

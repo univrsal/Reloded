@@ -27,23 +27,26 @@ class Puzzle
 {
 public:
 	Puzzle();
+
 	~Puzzle();
 
 	uint16_t get_level_count(void);
+
 	void read_from_file(std::string path);
 
-	BYTE read_byte(std::ifstream* file);
-	void read_level(std::ifstream* file, int* header_offset);
+	BYTE read_byte(std::ifstream *file);
 
-	std::string* get_level_name(uint16_t id);
+	void read_level(std::ifstream *file, int *header_offset);
+
+	std::string *get_level_name(uint16_t id);
 
 	void close(void);
 private:
-	std::string read_run_length_string(std::ifstream* file);
-	
+	std::string read_run_length_string(std::ifstream *file);
+
 	bool m_file_is_ok;
 	uint16_t m_level_count;
-	
+
 	std::string m_invalid_file;
 
 	std::vector<std::string> m_level_names;

@@ -23,14 +23,14 @@ public:
 
     ~Input();
 
-	void init(bool* flag, Resources* r);
+	void init(bool *flag, Resources *r);
     void handle_input(void);
 
     SDL_Event m_event;
 	bool m_unfocused;
 
 private:
-	Resources* m_resources;
+	Resources *m_resources;
 	bool *m_run_flag;
 };
 

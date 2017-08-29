@@ -12,8 +12,8 @@ bool Audio::init(void)
     }
     Mix_AllocateChannels(2);
 
-	m_channel_music_finished = true;
-	m_channel_sfx_finished = true;
+    m_channel_music_finished = true;
+    m_channel_sfx_finished = true;
     return true;
 }
 
@@ -57,21 +57,21 @@ void Audio::unpause_sfx(void)
 
 void Audio::channel_finished(uint8_t channel)
 {
-	switch (channel)
-	{
-	case AUDIO_CHANNEL_MUSIC:
-		m_channel_music_finished = true;
-		break;
-	case AUDIO_CHANNEL_SFX:
-		m_channel_sfx_finished = true;
-		break;
-	default:
-		break;
-	}
+    switch (channel)
+    {
+        case AUDIO_CHANNEL_MUSIC:
+            m_channel_music_finished = true;
+            break;
+        case AUDIO_CHANNEL_SFX:
+            m_channel_sfx_finished = true;
+            break;
+        default:
+            break;
+    }
 }
 
 bool Audio::get_is_sound_finished(void)
 {
-	
-	return m_channel_music_finished && m_channel_sfx_finished;
+
+    return m_channel_music_finished && m_channel_sfx_finished;
 }

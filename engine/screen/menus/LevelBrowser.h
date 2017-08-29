@@ -12,13 +12,14 @@ class Resources;
 class Label;
 
 class LevelBrowser :
-	public Screen
+		public Screen
 {
 public:
 	LevelBrowser();
+
 	~LevelBrowser();
 
-	void init(Resources* r);
+	void init(Resources *r);
 
 	void draw_background(void);
 

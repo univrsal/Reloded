@@ -3,7 +3,7 @@
 GuiManager::GuiManager()
 {
     m_current_screen = NULL;
-	m_resources = NULL;
+    m_resources = NULL;
     m_bg = NULL;
     m_next_screen = GUI_NONE;
 }
@@ -22,9 +22,9 @@ GuiManager::~GuiManager()
 
 void GuiManager::init(Resources* r)
 {
-	m_resources = r;
+    m_resources = r;
     m_layout = new Layout(m_resources->window());
-	m_resources->set_layout(m_layout);
+    m_resources->set_layout(m_layout);
     m_bg = new Texture(CONST_PATH_BG, m_resources->sdl_renderer());
 }
 
@@ -62,13 +62,13 @@ void GuiManager::set_screen(uint8_t gui_id)
         case GUI_SP:
             m_current_screen = new SpSetupScreen();
             break;
-		case GUI_LB:
+        case GUI_LB:
             m_current_screen = new LevelBrowser();
-			break;
+            break;
     }
 
     m_current_screen->init(m_resources);
-	m_current_screen->action_performed(ACTION_RESIZE);
+    m_current_screen->action_performed(ACTION_RESIZE);
 }
 
 void GuiManager::queue_screen(uint8_t gui_id)

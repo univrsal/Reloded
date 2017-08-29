@@ -17,7 +17,7 @@ Puzzle::Puzzle()
 
 Puzzle::~Puzzle()
 {
-	
+
 }
 
 uint16_t Puzzle::get_level_count(void)
@@ -68,10 +68,10 @@ BYTE Puzzle::read_byte(std::ifstream* file)
 
 void Puzzle::read_level(std::ifstream * file, int* header_offset)
 {
-	// First read in the level name 
+	// First read in the level name
 	// It's 11 Bytes after the header
 	file->seekg(*header_offset + LEVEL_NAME);
-	
+
 	m_level_names.push_back(read_run_length_string(file));
 
 	// Then go back to the header to read in the other values
@@ -125,7 +125,7 @@ std::string Puzzle::read_run_length_string(std::ifstream * file)
 	for (int i = 0; i < 255; i++)
 	{
 		b = file->get();
-		
+
 		if (b == 0xff) // 0xff starts an uncompressed part
 		{
 			c = read_byte(file);

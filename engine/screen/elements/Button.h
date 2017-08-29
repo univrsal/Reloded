@@ -21,8 +21,8 @@ class Button : public GuiElement
 {
 public:
 	Button(int8_t id, uint8_t type, int x, int y, const char *texure, const char *tooltip, Screen *parent);
-	
-	Button(int8_t id, int x, int y, const char* text, Screen* parent);
+
+	Button(int8_t id, int x, int y, const char *text, Screen *parent);
 
     ~Button();
 

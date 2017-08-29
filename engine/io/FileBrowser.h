@@ -55,18 +55,25 @@ class FileBrowser
 {
 public:
 	FileBrowser();
-	FileBrowser(uint8_t type, std::string start_folder, std::string filter, Screen* parent);
+
+	FileBrowser(uint8_t type, std::string start_folder, std::string filter, Screen *parent);
 
 	~FileBrowser();
-	
+
 	void init(void);
+
 	void refresh(void);
+
 	void close(void);
 
     bool is_dir(std::string file);
+
 	void get_files_in_directory(std::string directory);
+
 	void go_up();
+
 	void go_to(std::string dir);
+
 	void update_dir(void);
 
 	bool matches_filter(std::string file);
@@ -75,20 +82,22 @@ public:
 	std::wstring utf8toUtf16(const std::string & str);
 #endif
 
-	void handle_event(SDL_Event* e);
-	void draw(Renderer* r, Layout* l);
+	void handle_event(SDL_Event *e);
+
+	void draw(Renderer *r, Layout *l);
 
 	std::string get_file(void);
+
 	std::string get_path(void);
 
 private:
 	std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
-	std::vector<std::string>* m_file_list;
+	std::vector<std::string> *m_file_list;
 
 	std::string m_title;
 	std::string m_current_path;
 	std::string m_selected_file;
-	
+
 	std::string m_filter;
 
     Textbox *m_path_text;

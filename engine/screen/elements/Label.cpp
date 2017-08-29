@@ -55,7 +55,7 @@ void Label::draw_background(void)
 		if (m_type == LABEL_DEFAULT)
 		{
 			get_resources()->renderer()->util_text_default(&m_text, o->x + m_dimensions.x * scale,
-														   o->y + m_dimensions.y  * scale, m_color);
+														   o->y + m_dimensions.y * scale, m_color);
 		}
 		else
 		{

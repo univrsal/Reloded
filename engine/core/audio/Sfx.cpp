@@ -9,7 +9,7 @@ Sfx::Sfx(uint8_t type, Audio* audio, std::string path)
 {
     m_music = NULL;
     m_effect = NULL;
-	m_audio = audio;
+    m_audio = audio;
     m_type = type;
     switch (type) {
         default:
@@ -42,11 +42,11 @@ void Sfx::play(void)
         default:
         case SFX_EFFECT:
             Mix_PlayChannel(m_channel, m_effect, 0);
-			m_audio->m_channel_sfx_finished = false;
+            m_audio->m_channel_sfx_finished = false;
             break;
         case SFX_MUSIC:
             Mix_PlayMusic(m_music, 0);
-			break;
+            break;
     }
 }
 

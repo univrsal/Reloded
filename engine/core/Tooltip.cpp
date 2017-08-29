@@ -4,8 +4,8 @@
 Tooltip::Tooltip(Screen *parent_screen)
 {
     m_parent_screen = parent_screen;
-	m_bg_color = m_parent_screen->m_resources->palette()->get_tooltip_body();
-	m_fg_color = m_parent_screen->m_resources->palette()->black();
+    m_bg_color = m_parent_screen->m_resources->palette()->get_tooltip_body();
+    m_fg_color = m_parent_screen->m_resources->palette()->black();
     m_is_visible = false;
     m_line_height = 0;
 }
@@ -16,7 +16,7 @@ Tooltip::~Tooltip()
     close();
     m_formatted_text.clear();
     m_bg_color = NULL;
-	m_fg_color = NULL;
+    m_fg_color = NULL;
     m_parent_screen = NULL;
     m_dimensions = {0, 0, 0, 0};
 }
@@ -24,10 +24,10 @@ Tooltip::~Tooltip()
 void Tooltip::draw(void)
 {
     if (m_is_visible) {
-		m_parent_screen->m_resources->renderer()->util_fill_rect_shadow(&m_dimensions, m_bg_color);
+        m_parent_screen->m_resources->renderer()->util_fill_rect_shadow(&m_dimensions, m_bg_color);
         int i = 0;
         for (std::vector<std::string *>::iterator it = m_formatted_text.begin(); it != m_formatted_text.end(); ++it) {
-			m_parent_screen->m_resources->renderer()->util_text_default(*it, m_dimensions.x + TOOLTIP_BORDER,
+            m_parent_screen->m_resources->renderer()->util_text_default(*it, m_dimensions.x + TOOLTIP_BORDER,
                                                                 m_dimensions.y + TOOLTIP_BORDER +
                                                                 ((TOOLTIP_LINE_SPACE + m_line_height) * i), m_fg_color);
             i++;

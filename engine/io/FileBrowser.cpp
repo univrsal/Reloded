@@ -22,8 +22,8 @@ FileBrowser::FileBrowser(uint8_t type, std::string start_folder, std::string fil
 	m_type = type;
 	m_current_path = start_folder;
 	m_parent = parent;
-	m_dim = { 0, 0, 400, 300 };
-	m_title_bar = { 2, 2, m_dim.w - 4, 22};
+	m_dim = {0, 0, 400, 300};
+	m_title_bar = {2, 2, m_dim.w - 4, 22};
 	m_dragging = false;
 	m_path_text = NULL;
 	m_accept = NULL;
@@ -35,19 +35,19 @@ FileBrowser::FileBrowser(uint8_t type, std::string start_folder, std::string fil
 
     switch (m_type)
 	{
-	case FILETYPE_SAVE:
-		m_title = "Save file";
-		break;
-	default:
-	case FILETYPE_OPEN:
-		m_title = "Open file";
-		break;
+		case FILETYPE_SAVE:
+			m_title = "Save file";
+			break;
+		default:
+		case FILETYPE_OPEN:
+			m_title = "Open file";
+			break;
 	}
 }
 
 void FileBrowser::init(void)
 {
-	SDL_Rect* temp = m_parent->m_resources->layout()->get_window_size();
+	SDL_Rect *temp = m_parent->m_resources->layout()->get_window_size();
 
 	m_dim.x = temp->w / 2 - m_dim.w / 2;
 	m_dim.y = temp->h / 2 - m_dim.h / 2;
@@ -56,7 +56,7 @@ void FileBrowser::init(void)
 
     m_path_text = new Textbox(30, m_title_bar.x + 2, m_title_bar.y + m_title_bar.h + 2, m_dim.w - 8, 20, m_current_path, m_parent);
 	m_list_box = new ListBox(31, m_dim.x + 4, m_path_text->get_bottom() + 2, m_dim.w - 8, FILE_LIST_SPACE, m_parent);
-    
+
 	m_accept = new Button(ACTION_LIST_ITEM_CLICKED, m_dim.x + 4, m_list_box->get_bottom() + 2, LANG_FB_OPEN, m_parent);
 	m_cancel = new Button(ACTION_CANCEL, m_accept->get_right() + 2, m_accept->get_top(), LANG_FB_CANCEL, m_parent);
 
@@ -87,41 +87,43 @@ void FileBrowser::get_files_in_directory(std::string directory)
 {
 #ifdef _WIN32
 
-	HANDLE hFind;
-	WIN32_FIND_DATA data;
-	std::wstring path = utf8toUtf16(directory.c_str());
-	path.append(L"/*.*");
-	char def_char = ' ';
-	hFind = FindFirstFile(path.c_str() , &data);
-	
-	if (hFind == INVALID_HANDLE_VALUE)
-	{
-		printf("Error while reading directory %s! File Handle was invalid\n", path.c_str());
-		// We still need the option to go back
-		m_list_box->add("./");
-		m_list_box->add("../");
-		return;
-	}
-	else
-	{
-		do {
-			std::wstring file_name(data.cFileName);
-			std::string std_string(file_name.begin(), file_name.end());
-			if (is_dir(std_string))
-				std_string.append("/");
-			m_list_box->add(std_string);
-		} while (FindNextFile(hFind, &data));
+    HANDLE hFind;
+    WIN32_FIND_DATA data;
+    std::wstring path = utf8toUtf16(directory.c_str());
+    path.append(L"/*.*");
+    char def_char = ' ';
+    hFind = FindFirstFile(path.c_str() , &data);
 
-		FindClose(hFind);
-	}
+    if (hFind == INVALID_HANDLE_VALUE)
+    {
+        printf("Error while reading directory %s! File Handle was invalid\n", path.c_str());
+        // We still need the option to go back
+        m_list_box->add("./");
+        m_list_box->add("../");
+        return;
+    }
+    else
+    {
+        do {
+            std::wstring file_name(data.cFileName);
+            std::string std_string(file_name.begin(), file_name.end());
+            if (is_dir(std_string))
+                std_string.append("/");
+            m_list_box->add(std_string);
+        } while (FindNextFile(hFind, &data));
+
+        FindClose(hFind);
+    }
 #else
 	DIR *dir;
 	struct dirent *dirent;
 
 	dir = opendir(directory.c_str());
 	std::string name;
-	if (dir != NULL) {
-		while ((dirent = readdir(dir))) {
+	if (dir != NULL)
+	{
+		while ((dirent = readdir(dir)))
+		{
 			name = std::string(dirent->d_name);
 			if (is_dir(name))
 				name.append("/");
@@ -129,7 +131,8 @@ void FileBrowser::get_files_in_directory(std::string directory)
 		}
 		// Linux doesn't return the file list ordered
 		std::sort(m_file_list->begin(), m_file_list->end());
-	} else {
+	} else
+	{
 		printf("Error DIR* for %s was null!\n", directory.c_str());
 		//We'll still need these
 		m_list_box->add("./");
@@ -145,7 +148,8 @@ void FileBrowser::go_up()
 	auto pos = m_current_path.rfind('/');
 	if (pos != std::string::npos)
 	{
-		if (pos == m_current_path.length() - 1) // Paths can look like this: /path/to/ so to get to /path we'll have to cut twice
+		if (pos == m_current_path.length() -
+				   1) // Paths can look like this: /path/to/ so to get to /path we'll have to cut twice
 		{
 			m_current_path.erase(pos);
 			pos = m_current_path.rfind('/');
@@ -191,21 +195,21 @@ void FileBrowser::update_dir(void)
 #ifdef _WIN32
 std::wstring FileBrowser::utf8toUtf16(const std::string & str)
 {
-	if (str.empty())
-		return std::wstring();
+    if (str.empty())
+        return std::wstring();
 
-	size_t charsNeeded = ::MultiByteToWideChar(CP_UTF8, 0,
-		str.data(), (int)str.size(), NULL, 0);
-	if (charsNeeded == 0)
-		throw std::runtime_error("Failed converting UTF-8 string to UTF-16");
+    size_t charsNeeded = ::MultiByteToWideChar(CP_UTF8, 0,
+        str.data(), (int)str.size(), NULL, 0);
+    if (charsNeeded == 0)
+        throw std::runtime_error("Failed converting UTF-8 string to UTF-16");
 
-	std::vector<wchar_t> buffer(charsNeeded);
-	int charsConverted = ::MultiByteToWideChar(CP_UTF8, 0,
-		str.data(), (int)str.size(), &buffer[0], buffer.size());
-	if (charsConverted == 0)
-		throw std::runtime_error("Failed converting UTF-8 string to UTF-16");
+    std::vector<wchar_t> buffer(charsNeeded);
+    int charsConverted = ::MultiByteToWideChar(CP_UTF8, 0,
+        str.data(), (int)str.size(), &buffer[0], buffer.size());
+    if (charsConverted == 0)
+        throw std::runtime_error("Failed converting UTF-8 string to UTF-16");
 
-	return std::wstring(&buffer[0], charsConverted);
+    return std::wstring(&buffer[0], charsConverted);
 }
 #endif
 
@@ -246,10 +250,11 @@ void FileBrowser::handle_event(SDL_Event * e)
 			m_cancel->set_pos(m_accept->get_right() + 2, m_accept->get_top());
 		}
 	}
-	
+
 	std::vector<std::unique_ptr<GuiElement>>::iterator iterator;
 
-	for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++) {
+	for (iterator = m_screen_elements.begin(); iterator != m_screen_elements.end(); iterator++)
+	{
 		iterator->get()->handle_events(m_parent->m_resources->input_event());
 	}
 }
@@ -282,19 +287,19 @@ bool FileBrowser::is_dir(std::string file)
 	std::string temp_path = m_current_path + "/" + file;
 	bool result = false;
 #ifdef _WIN32
-	struct stat s;
-	
-	if (temp_path[temp_path.size() - 1] == '/')
-		temp_path = temp_path.substr(0, temp_path.size() - 1);
+    struct stat s;
 
-	if (stat(temp_path.c_str(), &s) == 0)
-	{
-		result = (s.st_mode & S_IFDIR) > 0 ? true : false;
-	}
-	else
-	{
-		printf("Error while checking %s for file type!\n", temp_path.c_str());
-	}
+    if (temp_path[temp_path.size() - 1] == '/')
+        temp_path = temp_path.substr(0, temp_path.size() - 1);
+
+    if (stat(temp_path.c_str(), &s) == 0)
+    {
+        result = (s.st_mode & S_IFDIR) > 0 ? true : false;
+    }
+    else
+    {
+        printf("Error while checking %s for file type!\n", temp_path.c_str());
+    }
 #else
     DIR *d = opendir(temp_path.c_str());
     result = d != NULL;
@@ -318,5 +323,5 @@ bool FileBrowser::matches_filter(std::string file)
 {
 	std::transform(file.begin(), file.end(), file.begin(), ::tolower);
 	return m_filter.empty() || file.size() >= m_filter.size() &&
-		file.compare(file.size() - m_filter.size(), m_filter.size(), m_filter) == 0;
+							   file.compare(file.size() - m_filter.size(), m_filter.size(), m_filter) == 0;
 }

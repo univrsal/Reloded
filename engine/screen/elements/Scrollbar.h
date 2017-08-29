@@ -47,7 +47,7 @@ public:
 
 	void end_pos(void);
 
-	void set_pos(const int& x, const int& y);
+	void set_pos(const int &x, const int &y);
 
     void resize(void);
 
@@ -56,7 +56,7 @@ public:
 	float get_progress(void);
 
 	void close(void);
-	
+
 	uint16_t get_offset(void);
 
     SDL_Rect *get_handle_dim(void);

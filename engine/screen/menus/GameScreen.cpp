@@ -9,12 +9,12 @@
 
 GameScreen::GameScreen()
 {
-	m_border = NULL;
-	m_logo = NULL;
-	m_tooltip = NULL;
-	m_rock = NULL;
-	m_soft_rock = NULL;
-	m_resources = NULL;
+    m_border = NULL;
+    m_logo = NULL;
+    m_tooltip = NULL;
+    m_rock = NULL;
+    m_soft_rock = NULL;
+    m_resources = NULL;
 }
 
 GameScreen::~GameScreen()
@@ -23,15 +23,15 @@ GameScreen::~GameScreen()
     delete m_tooltip;
     delete m_logo;
     delete m_border;
-	delete m_rock;
-	delete m_soft_rock;
+    delete m_rock;
+    delete m_soft_rock;
 
-	m_tooltip = NULL;
-	m_logo = NULL;
-	m_border = NULL;
-	m_soft_rock = NULL;
-	m_rock = NULL;
-	m_resources = NULL;
+    m_tooltip = NULL;
+    m_logo = NULL;
+    m_border = NULL;
+    m_soft_rock = NULL;
+    m_rock = NULL;
+    m_resources = NULL;
 }
 
 void GameScreen::draw_background(void)
@@ -61,7 +61,7 @@ void GameScreen::draw_foreground(void)
 
 void GameScreen::init(Resources* r)
 {
-	m_resources = r;
+    m_resources = r;
 
     m_logo = new Texture(CONST_PATH_LOGO, m_resources->sdl_renderer(), m_resources->scalef());
     m_border = new Texture(CONST_PATH_MENU_BORDER, m_resources->sdl_renderer(), m_resources->scalef());

@@ -9,15 +9,15 @@
 
 Engine::Engine()
 {
-	m_run_flag = true;
-	m_return_value = 0;
-	
-	m_renderer = Renderer();
+    m_run_flag = true;
+    m_return_value = 0;
+
+    m_renderer = Renderer();
     m_input = Input();
     m_gui_manager = GuiManager();
     m_audio = Audio();
-	m_resources = Resources();
-	
+    m_resources = Resources();
+
     m_frame_timer = Timer();
     m_frame_cap_timer = Timer();
 }
@@ -32,7 +32,7 @@ Engine::~Engine()
 void Engine::init(void)
 {
     m_renderer.init(&m_gui_manager);
-	m_input.init(&m_run_flag, &m_resources);
+    m_input.init(&m_run_flag, &m_resources);
 
     if (!m_renderer.m_init_success) {
         m_return_value = -1;
@@ -40,11 +40,11 @@ void Engine::init(void)
         if (!m_audio.init()) {
             m_return_value = -1;
         } else {
-			m_resources.init(&m_renderer, &m_audio, &m_input, m_gui_manager.m_layout, this);
+            m_resources.init(&m_renderer, &m_audio, &m_input, m_gui_manager.m_layout, this);
             m_gui_manager.init(&m_resources);
             m_gui_manager.queue_screen(GUI_GAME);
             m_frame_timer.start();
-		}
+        }
     }
 }
 
@@ -89,6 +89,6 @@ void Engine::close(void)
     m_renderer.~Renderer();
     m_gui_manager.~GuiManager();
     m_input.~Input();
-	m_audio.~Audio();
-	m_resources.~Resources();
+    m_audio.~Audio();
+    m_resources.~Resources();
 }

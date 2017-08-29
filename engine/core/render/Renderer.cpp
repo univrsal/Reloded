@@ -151,9 +151,9 @@ void Renderer::util_fill_rect(int x, int y, int w, int h, const SDL_Color *color
 
 void Renderer::util_fill_rect_scaled(const SDL_Rect * r, const SDL_Color * color)
 {
-	int scale = *m_gui_mgr->m_layout->get_scale_factor();
-	SDL_Rect temp_rect = SDL_Rect{ r->x * scale, r->y * scale, r->w * scale, r->h * scale };
-	util_fill_rect(&temp_rect, color);
+    int scale = *m_gui_mgr->m_layout->get_scale_factor();
+    SDL_Rect temp_rect = SDL_Rect{r->x * scale, r->y * scale, r->w * scale, r->h * scale};
+    util_fill_rect(&temp_rect, color);
 }
 
 void Renderer::util_text_lode(std::string *text, int x, int y, const SDL_Color *color)
@@ -165,8 +165,8 @@ void Renderer::util_text_lode(std::string *text, int x, int y, const SDL_Color *
 
 void Renderer::util_text_lode_shadow(std::string * text, int x, int y, const SDL_Color * color)
 {
-	util_text_lode(text, x + 3, y + 3, m_palette->black());
-	util_text_lode(text, x, y, color);
+    util_text_lode(text, x + 3, y + 3, m_palette->black());
+    util_text_lode(text, x, y, color);
 }
 
 void Renderer::util_text_default(std::string *text, int x, int y, const SDL_Color *color)

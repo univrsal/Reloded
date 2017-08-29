@@ -45,7 +45,7 @@ public:
 
     void draw_foreground(void);
 
-	void init(Resources* r);
+	void init(Resources *r);
 
 	void set_active_tooltip(std::string *text, uint16_t x, uint16_t y);
 
@@ -66,7 +66,7 @@ private:
 
 	uint16_t m_level_number;
 	char m_selected_level_format[3];
-	
+
 	std::string m_selected_level_string;
 	std::string m_selected_level_path;
 	std::string m_level_folder;
@@ -82,8 +82,8 @@ private:
 	Sfx *m_alarm;
 	Sfx *m_portal;
 
-	FileBrowser* m_file_browser;
-	Puzzle* m_current_puzzle;
+	FileBrowser *m_file_browser;
+	Puzzle *m_current_puzzle;
 
 	bool m_in_file_browser;
 };
