@@ -30,7 +30,7 @@ void GuiManager::init(Resources* r)
 
 void GuiManager::draw_gui(void)
 {
-    m_bg->draw_tiling(m_resources->sdl_renderer(), m_layout->get_window_size());
+    m_bg->draw_tiling(m_resources->sdl_renderer(), m_layout->get_window_size(), 1);
 
     if (m_current_screen) {
         m_current_screen->draw_background();

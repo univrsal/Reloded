@@ -107,13 +107,13 @@ void Resources::set_puzzle(Puzzle * p)
 	m_puzzle = p;
 }
 
-bool Resources::util_is_in_rect(SDL_Rect * r, SDL_Point * p)
+bool Resources::util_is_in_rect(const SDL_Rect *r, SDL_Point *p)
 {
 	return p->x >= r->x && p->x <= r->x + r->w 
 		&& p->y >= r->y && p->y <= r->y + r->h;
 }
 
-bool Resources::util_is_in_rect(SDL_Rect * r, int x, int y)
+bool Resources::util_is_in_rect(const SDL_Rect *r, int x, int y)
 {
 	return x >= r->x && x <= r->x + r->w
 		&& y >= r->y && y <= r->y + r->h;
@@ -179,4 +179,18 @@ std::string Resources::get_current_level_name(void)
     std::string name = *m_puzzle->get_level_name(m_selected_level);
     std::transform(name.begin(), name.end(), name.begin(), ::toupper);
     return name;
+}
+
+SDL_Rect Resources::util_resize_rect(SDL_Rect r, int8_t v)
+{
+    r.x -= v;
+    r.y -= v;
+    r.w += v;
+    r.h += v;
+    return r;
+}
+
+SDL_Rect Resources::util_scale_rect(const SDL_Rect *r, int8_t v)
+{
+    return SDL_Rect {r->x * v, r->y * v, r->w * v, r->h * v};
 }

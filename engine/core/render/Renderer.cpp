@@ -171,7 +171,10 @@ void Renderer::util_text_lode_shadow(std::string * text, int x, int y, const SDL
 
 void Renderer::util_text_default(std::string *text, int x, int y, const SDL_Color *color)
 {
-    m_font_helper->draw(text, x, y, m_default_font, color == NULL ? m_palette->white() : color);
+    if (color == NULL)
+        m_font_helper->draw(text, x, y, m_default_font, m_palette->white());
+    else
+        m_font_helper->draw(text, x, y, m_default_font, color);
 }
 
 SDL_Rect Renderer::util_text_default_dim(std::string *text, int type)

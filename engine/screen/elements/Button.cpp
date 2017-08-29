@@ -90,7 +90,7 @@ void Button::draw_background(void)
 
 void Button::draw_foreground(void)
 {
-
+    GuiElement::draw_foreground();
 }
 
 void Button::handle_events(SDL_Event *event)

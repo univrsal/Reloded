@@ -60,25 +60,32 @@ void Texture::draw(SDL_Renderer *renderer)
     SDL_RenderCopy(renderer, m_sdl_texture, NULL, NULL);
 }
 
-void Texture::draw_tiling(SDL_Renderer *renderer, SDL_Rect *target)
+void Texture::draw_tiling(SDL_Renderer *renderer, const SDL_Rect *target, int scale_f)
 {
     int x_tiles, y_tiles;
+    SDL_Rect dim_temp = {0, 0, m_dimensions.w * scale_f, m_dimensions.h * scale_f};
 
     if (target->w % m_dimensions.w > 0)
-        x_tiles = (target->w / m_dimensions.w) + 1;
+        x_tiles = (target->w / dim_temp.w) + 1;
     else
-        x_tiles = target->w / m_dimensions.w;
+        x_tiles = target->w / dim_temp.w;
 
-    if (target->h % m_dimensions.h > 0)
-        y_tiles = (target->h / m_dimensions.h) + 1;
+    if (target->h % dim_temp.h > 0)
+        y_tiles = (target->h / dim_temp.h) + 1;
     else
-        y_tiles = target->h / m_dimensions.h;
+        y_tiles = target->h / dim_temp.h;
 
     for (int x = 0; x < x_tiles; x++) {
         for (int y = 0; y < y_tiles; y++) {
-            draw(renderer, x * m_dimensions.w, y * m_dimensions.h);
+            draw(renderer, target->x + x * dim_temp.w, target->y + y * dim_temp.h);
         }
     }
+}
+
+
+void Texture::draw_tiling_scaled(SDL_Renderer *renderer, const SDL_Rect *target)
+{
+    draw_tiling(renderer, target, *m_scale);
 }
 
 void Texture::draw(SDL_Renderer *renderer, int x, int y)
@@ -93,7 +100,7 @@ void Texture::draw(SDL_Renderer *renderer, int x, int y)
     SDL_RenderCopy(renderer, m_sdl_texture, NULL, &temp_rect);
 }
 
-void Texture::draw(SDL_Renderer *renderer, SDL_Point *p)
+void Texture::draw(SDL_Renderer *renderer, const SDL_Point *p)
 {
     SDL_Rect temp_rect = {p->x, p->y, m_dimensions.w, m_dimensions.h};
 
@@ -105,7 +112,7 @@ void Texture::draw(SDL_Renderer *renderer, SDL_Point *p)
     SDL_RenderCopy(renderer, m_sdl_texture, NULL, &temp_rect);
 }
 
-void Texture::draw(SDL_Renderer *renderer, SDL_Point *p, int scaled_offset_x, int scaled_offset_y)
+void Texture::draw(SDL_Renderer *renderer, const SDL_Point *p, int scaled_offset_x, int scaled_offset_y)
 {
     SDL_Rect temp_rect = {p->x, p->y, m_dimensions.w, m_dimensions.h};
 
@@ -119,7 +126,8 @@ void Texture::draw(SDL_Renderer *renderer, SDL_Point *p, int scaled_offset_x, in
     SDL_RenderCopy(renderer, m_sdl_texture, NULL, &temp_rect);
 }
 
-void Texture::draw(SDL_Renderer *renderer, SDL_Rect *target_dim, SDL_Rect *cutout)
+void Texture::draw(SDL_Renderer *renderer, const SDL_Rect *target_dim, const SDL_Rect *cutout)
 {
     SDL_RenderCopy(renderer, m_sdl_texture, cutout, target_dim);
 }
+

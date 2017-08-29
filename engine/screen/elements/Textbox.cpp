@@ -31,6 +31,8 @@ void Textbox::close(void)
 
 void Textbox::draw_foreground(void)
 {
+    GuiElement::draw_foreground();
+
     if (m_cut_text.size() > 0)
         get_resources()->renderer()->util_text_default(&m_cut_text, m_dimensions.x + 2, m_dimensions.y + 2,
                                                        get_resources()->palette()->black());

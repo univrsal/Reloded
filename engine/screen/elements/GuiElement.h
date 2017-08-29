@@ -34,21 +34,23 @@ public:
 
 	virtual void draw_background(void) = 0;
 
-    void draw_foreground(void);
+	virtual void draw_foreground(void);
 
 	virtual void close(void);
 
 	virtual void handle_events(SDL_Event *event) = 0;
 
-    void resize(void);
+	virtual void resize(void);
 
     Screen *get_parent_screen(void);
 
 	Resources* get_resources();
 
-    SDL_Rect *get_scaled_dimensions(void);
+	const SDL_Rect *get_scaled_dimensions(void);
 
-    SDL_Rect *get_dimensions(void);
+	const SDL_Rect *get_dimensions(void);
+
+	void set_dim(SDL_Rect r);
 
 	int8_t get_id(void);
 

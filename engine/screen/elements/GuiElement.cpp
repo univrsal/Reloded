@@ -39,12 +39,12 @@ Resources * GuiElement::get_resources()
 	return get_parent_screen()->m_resources;
 }
 
-SDL_Rect *GuiElement::get_scaled_dimensions()
+const SDL_Rect *GuiElement::get_scaled_dimensions()
 {
     return &m_scaled_dimensions;
 }
 
-SDL_Rect *GuiElement::get_dimensions()
+const SDL_Rect *GuiElement::get_dimensions()
 {
     return &m_dimensions;
 }
@@ -103,5 +103,14 @@ int GuiElement::get_bottom()
 void GuiElement::draw_foreground(void)
 {
     if (DEBUG_DRAW_OUTLINE)
-        get_resources()->renderer()->util_draw_rect(get_scaled_dimensions());
+    {
+        SDL_Rect r = get_resources()->util_resize_rect(*get_scaled_dimensions(), 1);
+        get_resources()->renderer()->util_draw_rect(&r);
+    }
+}
+
+void GuiElement::set_dim(SDL_Rect r)
+{
+    m_dimensions = r;
+    resize();
 }

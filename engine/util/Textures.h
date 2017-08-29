@@ -27,6 +27,9 @@
 #define CONST_PATH_BTN_LOCAL_MP "./res/textures/gui/btn_local_mp.jpg"
 #define CONST_PATH_BTN_NET_MP "./res/textures/gui/btn_net_mp.jpg"
 
+#define CONST_PATH_BTN_SCROLL_BTN "./res/textures/gui/scroll_handle.png"
+#define CONST_PATH_BTN_SCROLL_BODY "./res/textures/gui/scroll_body.png"
+
 #define CONST_PATH_BTN_MAP_EDITOR "./res/textures/gui/btn_map_editor.jpg"
 #define CONST_PATH_BTN_SETTINGS "./res/textures/gui/btn_config.jpg"
 

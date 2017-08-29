@@ -18,6 +18,10 @@
 #include <memory>
 #include <stdio.h>
 #include <algorithm>
+#include "../screen/elements/GuiElement.h"
+#include "../screen/elements/Button.h"
+#include "../screen/elements/ListBox.h"
+#include "../screen/elements/Textbox.h"
 
 #ifdef _WIN32
 #include <Windows.h>

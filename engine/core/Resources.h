@@ -62,9 +62,14 @@ public:
 	void set_level_id(int i);
     std::string get_current_level_name();
 
-	bool util_is_in_rect(SDL_Rect* r, SDL_Point* p);
-	bool util_is_in_rect(SDL_Rect* r, int x, int y);
+    bool util_is_in_rect(const SDL_Rect *r, SDL_Point *p);
+
+    bool util_is_in_rect(const SDL_Rect *r, int x, int y);
 	bool util_is_in_rect(int x, int y, int w, int h, int x2, int y2);
+
+    SDL_Rect util_scale_rect(const SDL_Rect *r, int8_t v);
+
+    SDL_Rect util_resize_rect(SDL_Rect r, int8_t v);
 
 	void util_cut_string(std::string& s, int max_width, bool front);
 

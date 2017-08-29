@@ -82,13 +82,14 @@ void Label::handle_events(SDL_Event *event)
 
 void Label::draw_foreground(void)
 {
-
+    GuiElement::draw_foreground();
 }
 
 void Label::set_text(std::string text)
 {
     m_text = text;
-    SDL_Rect temp = get_resources()->renderer()->util_text_default_dim(&m_text, FONT_LODE);
+    SDL_Rect temp = get_resources()->renderer()->util_text_default_dim(&text, FONT_LODE);
     m_dimensions.w = temp.w;
     m_dimensions.h = temp.h;
+    resize();
 }
