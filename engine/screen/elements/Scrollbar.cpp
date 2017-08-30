@@ -114,8 +114,8 @@ void Scrollbar::handle_events(SDL_Event *e)
     {
         if (m_scroll_handle_used)
         {
-            int t = e->button.y - get_dimensions()->y - m_scroll_handle_offset;
-            set_progress(((float) t) / (get_dimensions()->h - m_scroll_button_dim.h));
+            int t = e->button.y - get_body_dim()->y - m_scroll_handle_offset;
+            set_progress(((float) t) / (get_body_dim()->h - get_handle_dim()->h));
         }
     }
 }
@@ -192,7 +192,10 @@ void Scrollbar::resize(void)
     GuiElement::resize();
     if (m_type == SCROLL_TYPE_INGAME)
     {
+        SDL_Point *offset = get_resources()->origin();
         m_scroll_button_dim_scaled = get_resources()->util_scale_rect(&m_scroll_button_dim, *get_resources()->scalef());
+        m_scroll_button_dim_scaled.x += offset->x;
+        m_scroll_button_dim_scaled.y += offset->y;
     }
 }
 
