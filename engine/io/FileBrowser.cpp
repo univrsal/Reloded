@@ -73,7 +73,7 @@ void FileBrowser::refresh(void)
 	printf("CURRENT PATH %s\n", m_current_path.c_str());
 
 	m_list_box->clear();
-	get_files_in_directory(m_current_path);
+	load_directory(m_current_path);
 	m_path_text->set_text(m_current_path);
 }
 
@@ -83,10 +83,9 @@ void FileBrowser::close(void)
 	m_parent = NULL;
 }
 
-void FileBrowser::get_files_in_directory(std::string directory)
+void FileBrowser::load_directory(std::string directory)
 {
 #ifdef _WIN32
-
     HANDLE hFind;
     WIN32_FIND_DATA data;
     std::wstring path = utf8toUtf16(directory.c_str());

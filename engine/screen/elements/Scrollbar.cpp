@@ -99,9 +99,17 @@ void Scrollbar::handle_events(SDL_Event *e)
     else if (e->type == SDL_MOUSEBUTTONDOWN && e->button.button == SDL_BUTTON_LEFT)
     {
         bool flag = get_resources()->util_is_in_rect(get_handle_dim(), e->button.x, e->button.y);
-        if (flag && !m_scroll_handle_used)
+        if (flag && !m_scroll_handle_used) // Grabbing the scroll handle
         {
             m_scroll_handle_offset = (uint16_t) (e->button.y - (get_handle_dim()->y));
+        }
+        else if (!flag && get_resources()->util_is_in_rect(get_body_dim(), e->button.x,
+                                                           e->button.y)) // Clicking on the scroll bar makes the handle jump to cursor position
+        {
+            flag = true;
+            m_scroll_handle_offset = (uint16_t) (get_handle_dim()->h / 2);
+            int t = e->button.y - get_body_dim()->y - m_scroll_handle_offset;
+            set_progress(((float) t) / (get_body_dim()->h - get_handle_dim()->h));
         }
 
         m_scroll_handle_used = flag;
@@ -182,14 +190,15 @@ uint16_t Scrollbar::get_offset(void)
 void Scrollbar::set_progress(float f)
 {
     m_progress = (uint16_t) SDL_max(SDL_min((m_max_scroll * f), m_max_scroll), 0);
-    m_scroll_button_dim.y = (int) (get_dimensions()->y +
-                                   (get_dimensions()->h - m_scroll_button_dim.h) * get_progress());
     resize();
 }
 
 void Scrollbar::resize(void)
 {
     GuiElement::resize();
+    m_scroll_button_dim.y = (int) (get_dimensions()->y +
+                                   (get_dimensions()->h - m_scroll_button_dim.h) * get_progress());
+
     if (m_type == SCROLL_TYPE_INGAME)
     {
         SDL_Point *offset = get_resources()->origin();
@@ -209,3 +218,8 @@ SDL_Rect *Scrollbar::get_body_dim(void)
     return m_type == SCROLL_TYPE_DIALOG ? &m_dimensions : &m_scaled_dimensions;
 }
 
+void Scrollbar::set_offset(int p)
+{
+    m_progress = (uint16_t) SDL_max(SDL_min(m_max_scroll, p), 0);
+    resize();
+}

@@ -42,6 +42,8 @@ public:
 
 	void set_list(std::vector<std::string> items);
 
+	bool is_mouse_over(const int &x, const int &y);
+
 	void set_pos(const int &x, const int &y);
 
 	bool is_empty(void);

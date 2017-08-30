@@ -64,6 +64,7 @@ void GuiManager::set_screen(uint8_t gui_id)
             break;
         case GUI_LB:
             m_current_screen = new LevelBrowser();
+
             break;
     }
 

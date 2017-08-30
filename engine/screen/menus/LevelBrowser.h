@@ -5,11 +5,14 @@
 #include "../../core/Resources.h"
 #include "../elements/Label.h"
 #include "../elements/Button.h"
+#include "../elements/Scrollbar.h"
 #include "../elements/Panel.h"
 
 class Resources;
 
 class Label;
+
+class Scrollbar;
 
 class LevelBrowser :
 		public Screen
@@ -38,6 +41,7 @@ private:
 	std::vector<std::unique_ptr<GuiElement>> m_screen_elements;
 
     Label *m_level_name;
+    Scrollbar *m_scrollbar;
 	Texture *m_border;
 };
 

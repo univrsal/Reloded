@@ -47,11 +47,13 @@ public:
 
 	void end_pos(void);
 
-	void set_pos(const int &x, const int &y);
+    void set_pos(const int &x, const int &y);
 
     void resize(void);
 
     void set_progress(float f);
+
+    void set_offset(int p);
 
 	float get_progress(void);
 

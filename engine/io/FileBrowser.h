@@ -68,7 +68,7 @@ public:
 
     bool is_dir(std::string file);
 
-	void get_files_in_directory(std::string directory);
+	void load_directory(std::string directory);
 
 	void go_up();
 

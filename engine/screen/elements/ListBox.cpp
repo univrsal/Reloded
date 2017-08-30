@@ -195,3 +195,9 @@ float ListBox::get_coverage(void)
 {
     return (is_empty() || get_max_scroll() == 0) ? 1.f : (((float) m_max_items) / get_item_count());
 }
+
+bool ListBox::is_mouse_over(const int &x, const int &y)
+{
+    return x > get_dimensions()->x && x < get_dimensions()->x + get_dimensions()->w - m_scroll_bar->get_dimensions()->w
+           && y > get_dimensions()->y && y < get_dimensions()->y + get_dimensions()->h;
+}

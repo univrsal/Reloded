@@ -58,9 +58,9 @@ public:
 
     bool is_mouse_over_scaled(const int &x, const int &y);
 
-	bool is_mouse_over(const int &x, const int &y);
+	virtual bool is_mouse_over(const int &x, const int &y);
 
-	void set_pos(const int &x, const int &y);
+	virtual void set_pos(const int &x, const int &y);
 
 	int get_left(void);
 
